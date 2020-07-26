@@ -1,0 +1,61 @@
+{% include 'header.html' %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+    <div>
+        <div class="container">
+            <h2 class="display-5" style="text-align: center">メールフォーム</h2>
+            <div>
+                <form method="post" action="">{% csrf_token %}
+                    <table class="table table-form">
+                        <tbody>
+                            <tr>
+                                <th>お名前 <span class="badge badge-danger">必須</span></th>
+                                <td><input type="text" name="name" class="form-control" placeholder="例）山田 太郎" value="" required></td>
+                            </tr>
+                            <tr>
+                                <th>メールアドレス</th>
+                                <td><input type="text" name="email" class="form-control" placeholder="例）info@example.com" value=""></td>
+                            </tr>
+                            <tr>
+                                <th>ご職業</th>
+                                <td>
+                                    <select name="work" class="form-control">
+                                        <option value="">選択してください</option>
+                                        <option value="学生">学生</option>
+                                        <option value="主婦">主婦</option>
+                                        <option value="会社員">会社員</option>
+                                        <option value="会社役員">会社役員</option>
+                                        <option value="自営業">自営業</option>
+                                        <option value="公務員">公務員</option>
+                                        <option value="パート・アルバイト">パート・アルバイト</option>
+                                        <option value="その他">その他</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>ご利用用途</th>
+                                <td>
+                                  <label class="checkbox inline"><input type="checkbox" name="use[]" value="お問い合わせフォーム">
+                                    お問い合わせフォーム</label>
+                                  <label class="checkbox inline"><input type="checkbox" name="use[]" value="求人募集フォーム">
+                                    求人募集フォーム</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>お問い合わせ内容</th>
+                                <td>
+                                    <textarea name="comment" class="form-control" rows="3"></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align: center"><input type="submit" class="btn btn-primary" value="確認画面へ"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% include 'footer.html' %}
