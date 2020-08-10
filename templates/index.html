@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         {% if css_list %}
             {% for c in css_list %}
-                <link rel="stylesheet" href="{% static 'app_js/my-app/build/static/css/' %}{{ c }}">
+                <link rel="stylesheet" href="{% static 'app_js/my-app/build_g/static/css/' %}{{ c }}">
             {% endfor %}
         {% endif %}
         <link rel="icon" href="{% static 'img/favicon.ico' %}">
@@ -22,7 +22,7 @@
         <div id="root"></div>
         {% if js_list %}
             {% for i in js_list %}
-                <script src="{% static 'app_js/my-app/build/static/js/' %}{{ i }}"></script>
+                <script src="{% static 'app_js/my-app/build_g/static/js/' %}{{ i }}"></script>
             {% endfor %}
         {% endif %}
     </body>
