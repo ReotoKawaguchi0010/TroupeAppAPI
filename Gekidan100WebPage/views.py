@@ -97,3 +97,12 @@ def send_mail(request):
         return HttpResponse('1')
     except:
         return HttpResponse('0')
+
+def youtube(request):
+    url = ''
+    if 'iPhone' in request.headers['User-Agent']:
+        url = 'youtube://'
+    if request.GET:
+        req = request.GET['url']
+        return redirect(url + req)
+    return HttpResponse('test')

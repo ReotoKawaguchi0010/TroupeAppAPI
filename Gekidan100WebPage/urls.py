@@ -25,14 +25,15 @@ private_member = [
 
 urlpatterns = [
     path('', views.init_page, name='index'),
-    path('menu', views.init_page),
+    path('menu', views.init_page, name='menu'),
     path('overview', views.init_page, name='overview'),
-    path('member/', include(member)),
     path('schedule', views.init_page, name='schedule'),
     path('ticket', views.init_page, name='ticket'),
     path('mailform', views.init_page, name='mailform'),
+    path('youtube', views.youtube, name='youtube'),
+    path('mail', views.send_mail, name='mail'),
+    path('member/', include(member)),
     path('json/', include(json)),
-    path('mail', views.send_mail),
     path(MEMBERURI, include(private_member)),
 ]
 
