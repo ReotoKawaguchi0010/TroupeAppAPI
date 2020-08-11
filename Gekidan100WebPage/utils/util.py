@@ -14,7 +14,7 @@ def encode_sha256(encode_letter):
     return s256
 
 def import_js():
-    path = os.getcwd() + '/Gekidan100WebPage/static/app_js/my-app/build/static/js'
+    path = os.getcwd() + '/Gekidan100WebPage/static/app_js/my-app/build_g/static/js'
     read_js = os.listdir(path)
     result = []
     for i in read_js:
@@ -23,7 +23,7 @@ def import_js():
     return result
 
 def import_css():
-    path = os.getcwd() + '/Gekidan100WebPage/static/app_js/my-app/build/static/css'
+    path = os.getcwd() + '/Gekidan100WebPage/static/app_js/my-app/build_g/static/css'
     read_js = os.listdir(path)
     result = []
     for i in read_js:
