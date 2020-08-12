@@ -4,7 +4,7 @@ from email.utils import formatdate
 import smtplib
 import logging
 
-from Gekidan100WebPage.utils.config import FROM_ADDR, PASSWORD, SMTP_SERVER, SMTP_PORT
+from Gekidan100WebPage.config.config import FROM_ADDR, PASSWORD, SMTP_SERVER, SMTP_PORT
 
 def body_from_dict(dict):
     name = '名前:' + dict['secondName'] + ' ' + dict['firstName'] + '\n'

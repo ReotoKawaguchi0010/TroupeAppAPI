@@ -1,10 +1,8 @@
-from Gekidan100.settings import BASE_DIR
-
 import os
 import configparser
 conf = configparser.ConfigParser()
 
-READ_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/utils/utils.ini'
+READ_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/config/config.ini'
 conf.read(READ_PATH)
 
 
@@ -17,6 +15,10 @@ FROM_ADDR = conf['mail']['from_addr']
 PASSWORD = conf['mail']['password']
 SMTP_SERVER = conf['mail']['smtp_addr']
 SMTP_PORT = conf['mail']['smtp_port']
+
+ISG_API_KEY = conf['instagram']['api_key']
+
+YTB_API_KEY = conf['youtube']['api_key']
 
 if __name__ == '__main__':
     print(TWT_API_KEY)
