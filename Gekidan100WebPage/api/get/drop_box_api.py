@@ -29,6 +29,7 @@ class DropboxApi(dropbox.Dropbox):
 
     def get_link_list(self, path):
         links = self.sharing_list_shared_links(path).links
+        print(links)
 
 
 
