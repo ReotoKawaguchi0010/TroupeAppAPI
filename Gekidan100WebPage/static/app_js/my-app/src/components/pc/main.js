@@ -1,6 +1,16 @@
 import React from 'react';
+import {connect} from "react-redux";
+
+import {readTopMessage} from "../actions/readApi";
 
 class Main extends React.Component {
+    componentDidMount() {
+        this.props.readTopMessage()
+    }
+
+    renderEvents(){
+        return <div>{this.props.topMessage.message}</div>
+    }
     render() {
         return (
             <div className="main">
@@ -19,8 +29,8 @@ class Main extends React.Component {
                         <div className="top-main-title"><h2>Recruitment</h2></div>
                         <div className="top-main-text"><p>団員募集は<b>こちら</b>から</p>
                             <div>
-                                <h4>主宰からのお言葉</h4>
-                                責任感をもって一緒に作品を創っていける俳優、スタッフを募集します。「たくさんの人を元気にするのがエンタメの役割」と信じて作品を創っています。まだ生まれたばかりのこの劇団を一緒に大きくしていきましょう。
+                                <h4>主宰から</h4>
+                                {this.renderEvents()}
                             </div>
                         </div>
                     </div>
@@ -35,10 +45,20 @@ class Main extends React.Component {
                         <div className="top-main-text">Coming Soon</div>
                     </div>
                     <div className="line"></div>
+                    <div className="top-main">
+                        <div className="top-main-title"><h2>Twitter</h2></div>
+                        <div className="top-main-text">Coming Soon</div>
+                    </div>
+                    <div className="line"></div>
                 </main>
             </div>
         )
     }
 }
 
-export default Main
+const mapStateToProps = state => ({ topMessage: state.axios })
+const mapDispatchToProps = dispatch => ({
+    readTopMessage: () => dispatch(readTopMessage()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)

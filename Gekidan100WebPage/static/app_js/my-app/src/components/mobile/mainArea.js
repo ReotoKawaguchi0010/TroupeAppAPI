@@ -2,14 +2,14 @@ import React from 'react';
 import Header from "./header";
 import Footer from "./footer";
 import Main from "./main";
-import { ajax, toggle } from "../action";
+import { ajax, toggle } from "../actions/action";
 import { connect } from "react-redux";
 import {Route} from "react-router-dom";
-import Member from "../individuals/mobile/member";
-import Contact from "../individuals/mobile/contact";
-import Overview from "../individuals/mobile/overview";
-import Schedule from "../individuals/mobile/schedule";
-import Ticket from "../individuals/mobile/ticket";
+import Member from "./individuals/member";
+import Contact from "./individuals/contact";
+import Overview from "./individuals/overview";
+import Schedule from "./individuals/schedule";
+import Ticket from "./individuals/ticket";
 import '../../css/mobile-area.css'
 
 class MainArea extends React.Component {

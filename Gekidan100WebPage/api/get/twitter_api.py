@@ -20,7 +20,21 @@ class TwitterApi():
             return json.loads(res.text)
         return 0
 
+    def account(self, query):
+        url = f'https://api.twitter.com/1.1/collections/list.json?user_id={query}'
+        res = self.twitter.get(url)
+        print(res.text)
+
+    def user_timeline(self):
+        user_id = '1158411714280296449'
+        url = f'https://api.twitter.com/1.1/statuses/user_timeline.json?user_id={user_id}&count=5'
+        res = self.twitter.get(url)
+        json_res = json.loads(res.text)
+        data = [{'text': json_res[i]['text']} for i in range(len(json_res))]
+        return data
+
 if __name__ == '__main__':
-    #twt_api = TwitterApi()
+    twt_api = TwitterApi()
     #print(twt_api.search('ハリーポッター', 5))
-    print(bool(1))
+    tweet = twt_api.user_timeline()
+    print(tweet)

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ajax, toggle} from "../action";
+import {ajax, toggle} from "../actions/action";
 import {connect} from "react-redux";
 import { Link } from "react-router-dom";
 import Icon from '../../img/100logo.png'

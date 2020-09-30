@@ -1,5 +1,7 @@
 import os
 import configparser
+
+from Gekidan100WebPage.utils.util import encode_sha256
 conf = configparser.ConfigParser()
 
 READ_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/config/config.ini'
@@ -20,5 +22,12 @@ ISG_API_KEY = conf['instagram']['api_key']
 
 YTB_API_KEY = conf['youtube']['api_key']
 
+REOTO_USER = conf['member']['reoto']
+REOTO_PASS = encode_sha256(conf['member']['reoto_pass'])
+
+DROPBOX_KEY = conf['dropbox']['api_key']
+DROPBOX_TOKEN = conf['dropbox']['access_token']
+DROPBOX_SECRET_KEY = conf['dropbox']['secret_key']
+
 if __name__ == '__main__':
-    print(TWT_API_KEY)
+    print(REOTO_PASS)

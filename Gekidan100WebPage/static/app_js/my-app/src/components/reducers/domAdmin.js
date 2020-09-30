@@ -1,4 +1,4 @@
-import {TOGGLE} from '../action'
+import {TOGGLE} from '../actions/action'
 
 
 const initialStateToggle = { show: '', hide: 'hidden' }

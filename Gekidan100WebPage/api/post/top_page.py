@@ -1,4 +1,4 @@
-
+from Gekidan100WebPage.api.get import twitter_api
 
 class TopPage(object):
 
@@ -9,4 +9,8 @@ class TopPage(object):
         self.blog = ''
         self.twitter = ''
         self.youtube = ''
+
+    def get_my_top_page(self):
+
+        return
 

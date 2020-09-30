@@ -8,10 +8,8 @@ class App extends React.Component {
         return (
             <React.Fragment>
                 <div className="wrap">
-                    <div>
-                        <PcArea />
-                        <MobileArea />
-                    </div>
+                    <PcArea />
+                    <MobileArea />
                 </div>
             </React.Fragment>
         )
