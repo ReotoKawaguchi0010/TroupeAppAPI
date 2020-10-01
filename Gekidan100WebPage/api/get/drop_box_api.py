@@ -2,10 +2,10 @@ import json
 import os
 import zipfile
 import io
-import xmltodict
 
 import dropbox
 import requests
+import xmltodict
 
 from Gekidan100WebPage.config.config import DROPBOX_TOKEN
 from Gekidan100WebPage.utils.read_word import ReadWordFiles
