@@ -31,5 +31,9 @@ DROPBOX_SECRET_KEY = conf['dropbox']['secret_key']
 
 PRO_SECRET_KEY = conf['project']['secret_key']
 
+PSQL_NAME = conf['psql']['name']
+PSQL_USER = conf['psql']['user']
+PSQL_PASS = conf['psql']['password']
+
 if __name__ == '__main__':
     print(REOTO_PASS)

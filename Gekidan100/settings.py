@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from Gekidan100WebPage.config.config import PRO_SECRET_KEY
+from Gekidan100WebPage.config.config import PRO_SECRET_KEY, PSQL_NAME, PSQL_PASS, PSQL_USER
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -92,9 +92,9 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myapp',
-        'USER': 'reoto',
-        'PASSWORD': 'Azmp2014',
+        'NAME': PSQL_NAME,
+        'USER': PSQL_USER,
+        'PASSWORD': PSQL_PASS,
         'HOST': 'localhost',
         'PORT': '',
     }
