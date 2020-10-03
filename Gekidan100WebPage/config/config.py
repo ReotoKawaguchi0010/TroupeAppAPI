@@ -29,5 +29,7 @@ DROPBOX_KEY = conf['dropbox']['api_key']
 DROPBOX_TOKEN = conf['dropbox']['access_token']
 DROPBOX_SECRET_KEY = conf['dropbox']['secret_key']
 
+PRO_SECRET_KEY = conf['project']['secret_key']
+
 if __name__ == '__main__':
     print(REOTO_PASS)
