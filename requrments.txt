@@ -4,3 +4,4 @@ Django == 3.0.8
 django-cors-headers == 3.4.0
 dropbox == 10.4.1
 requests == 2.22.0
+Python == 3.7.6
