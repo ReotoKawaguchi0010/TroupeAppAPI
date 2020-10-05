@@ -2,6 +2,8 @@ import json
 import os
 import zipfile
 import io
+import lxml.etree
+import re
 
 import dropbox
 import requests
@@ -38,15 +40,13 @@ class DropboxApi(dropbox.Dropbox):
 
 
 if __name__ == '__main__':
-    # dbx = dropbox.Dropbox(DROPBOX_TOKEN)
-    # folder_path = '/test/'
-    # file_name = 'test.txt'
-    # with open(test_file_name, 'r') as f:
-    #     test_folder_lists = dbx.files_list_folder('/test').entries
-    #     for test_folder_list in test_folder_lists:
-    #         if test_folder_list.name == file_name:
-    #             dbx.files_delete_v2(folder_path+file_name)
-    #     dbx.files_upload(bytes(f.read().encode('utf-8')), '/test/test.txt')
+    def extract_text(node):
+        text = lxml.etree.tostring(node, encoding='utf-8').decode('utf-8')
+        text = re.sub('<w:rt>.*?</w:rt>', '', text)
+        text = re.sub('<.*?>', '', text)
+
+        return text
+
 
     dbx = DropboxApi(DROPBOX_TOKEN)
     # for file_folder_list in dbx.file_folder_lists('/test'):
@@ -57,26 +57,52 @@ if __name__ == '__main__':
     word_in_dbx = dbx.sharing_list_shared_links('/test/Document.docx').links[0].url.replace('www.dropbox.com', 'dl.dropboxusercontent.com').split('?')[0]
     req = requests.get(word_in_dbx)
     z = zipfile.ZipFile(io.BytesIO(req.content))
-    print(z.filelist)
-    for i in z.filelist:
-        with z.open(i.filename) as myfile:
-            myfile_dict = xmltodict.parse(myfile.read().decode('utf-8'))
-    with z.open('word/document2.xml') as myfile:
-        test_file = xmltodict.parse(myfile.read().decode('utf-8'))
-        for k, v in json.loads(json.dumps(test_file))['w:document']['w:body'].items():
-            print(k)
-            print(v)
+    xmlns = {'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
+    xml_str = z.read('word/document2.xml')
+    xml_str_style = z.read('word/styles.xml')
+
+    styles = xmltodict.parse(xml_str_style.decode('utf-8'))
+    default_font_size = int(styles['w:styles']['w:docDefaults']['w:rPrDefault']['w:rPr']['w:sz']['@w:val'])/2
 
 
 
 
 
-    #dbx.files_create_folder_v2('/test2')
-    #dbx.files_delete_v2('/test2')
+    dom = lxml.etree.fromstring(xml_str)
+    text_nodes = dom.xpath('//w:p', namespaces=xmlns)
+    text_list = []
+    for text_node in text_nodes:
+        xml_dicts = dict(xmltodict.parse(lxml.etree.tostring(text_node, encoding='utf-8').decode('utf-8'))['w:p'])
+        font_size = default_font_size
 
-    # test = bytes('test'.encode('utf-8'))
-    # bin_code = bin(int(test.hex()))
-    # print(int(bin_code, 2))
+        for i in xml_dicts.keys():
+            if i == 'w:r':
+                if xml_dicts['w:r']['w:rPr'] is not None:
+                    font_size = int(xml_dicts['w:r']['w:rPr']['w:sz']['@w:val'])/2
+                break
+        print(font_size)
+        text = extract_text(text_node)
+        text_list.append({text: font_size})
+    print(text_list)
+
+
+
+
+
+    # for i in z.filelist:
+    #     with z.open(i.filename) as myfile:
+    #         myfile_dict = xmltodict.parse(myfile.read().decode('utf-8'))
+    # with z.open('word/document2.xml') as myfile:
+    #     test_file = xmltodict.parse(myfile.read().decode('utf-8'))
+    #     document_file = json.loads(json.dumps(test_file))['w:document']['w:body']
+    #     for k, v in document_file.items():
+    #         print(k)
+    #         print(v)
+    z.close()
+
+
+
+
 
 
 

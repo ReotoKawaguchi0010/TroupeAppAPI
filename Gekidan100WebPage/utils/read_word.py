@@ -24,6 +24,7 @@ class ReadWordFiles(object):
 
 if __name__ == '__main__':
     test = ReadWordFiles(test_file_name)
+    print(test.read_word_file())
     for i in test.read_word_file():
         print(i.text)
         for v in i.runs:
