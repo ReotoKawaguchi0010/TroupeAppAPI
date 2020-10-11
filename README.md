@@ -6,7 +6,7 @@ docker build -t $image_name .
 # Imageをrunする
  
 ```
-docker run --name $container_name -it -d -p 80:80 $image_name 
+docker run -v $PWD/:/Gekidan100/ --name $container_name -it -d -p 80:80 $image_name 
 ```
 
 #djangoのサーバーを動かす
