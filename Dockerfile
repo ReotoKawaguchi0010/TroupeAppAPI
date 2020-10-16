@@ -14,7 +14,7 @@ WORKDIR /code
 ADD requrments.txt /code
 RUN pip install -r requrments.txt
 #WORKDIR /Gekidan100
-WORKDIR /
+WORKDIR /Gekidan100/
 
 
 #docker run -v $PWD/:/Gekidan100/ --name test -it --rm -p 8000:8000 django

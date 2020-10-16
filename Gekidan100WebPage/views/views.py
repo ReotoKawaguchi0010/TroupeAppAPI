@@ -21,10 +21,10 @@ def init_page(request):
     twitter_text = tweet.user_timeline()
     recruitment_text = ''
 
-    for i in TopPage.objects.all():
-        if i.id == 1:
-            about_us_text = i.about_us_text
-            recruitment_text = i.recruitment_text
+    # for i in TopPage.objects.all():
+    #     if i.id == 1:
+    #         about_us_text = i.about_us_text
+    #         recruitment_text = i.recruitment_text
     output = {'request': 'init', 'message': 'message', 'texts': {'news': news_text, 'about_us': about_us_text, 'blog': blog_text,
                                            'youtube': youtube_text, 'twitter': twitter_text, 'recruitment': recruitment_text}}
     response = HttpResponse(json.dumps(output), content_type='application/json')

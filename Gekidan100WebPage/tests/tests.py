@@ -1,5 +1,7 @@
 from django.test import TestCase
 
+from PIL import ImageFont
+
 import requests
 
 HOST = 'http://localhost:8000'
@@ -13,9 +15,11 @@ if __name__ == '__main__':
     #     req2 = requests.post(url2)
     #     print(req2.status_code)
     import os
-    file_name =  __file__.replace(os.path.basename(__file__), '')+'test.txt'
+    file_name =  __file__.replace(os.path.basename(__file__), '')+'kinari-gothic-mini.otf'
     print()
 
-    with open(file_name, 'w') as f:
-        f.write('test')
+
+    font = ImageFont.truetype(file_name, 100)
+    print(font)
+
 
