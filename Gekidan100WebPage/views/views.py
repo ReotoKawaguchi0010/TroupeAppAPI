@@ -4,13 +4,12 @@ from django.shortcuts import HttpResponse
 
 from Gekidan100WebPage.views.personal import routing_in_member
 from Gekidan100WebPage.views.menu import routing_in_menu
-from Gekidan100WebPage.api.get import ameba_api
+from Gekidan100WebPage.api import ameba_api
 from Gekidan100WebPage.utils.mail import info_send_mail, info_response_mail
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
-from Gekidan100WebPage.api.get.member_page_api import is_login_check
-from Gekidan100WebPage.api.get.twitter_api import TwitterApi
-from Gekidan100WebPage.api.get.youtube_api import youtube_get_videos
-from Gekidan100WebPage.models.models import User, TopPage
+from Gekidan100WebPage.api.member_page_api import is_login_check
+from Gekidan100WebPage.api.twitter_api import TwitterApi
+from Gekidan100WebPage.api.youtube_api import youtube_get_videos
 
 def init_page(request):
     tweet = TwitterApi()

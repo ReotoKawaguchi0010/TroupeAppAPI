@@ -1,5 +1,3 @@
-from Gekidan100WebPage.api.get import twitter_api
-
 class TopPage(object):
 
     def __init__(self):
