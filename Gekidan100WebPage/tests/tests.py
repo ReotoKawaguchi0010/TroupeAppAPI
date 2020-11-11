@@ -1,10 +1,22 @@
 from django.test import TestCase
 
-from PIL import ImageFont
+import asyncio
 
-import requests
+loop = asyncio.get_event_loop()
 
-HOST = 'http://localhost:8000'
+async def get_content(n):
+    print(n)
+    await asyncio.sleep(2)
+    print(n*5)
+    return n + 1
+
+async def f(n):
+    content = await get_content(n)
+    print(content)
+    return content
+
+
+
 
 if __name__ == '__main__':
     # url = HOST + '/api/auth/'
@@ -14,12 +26,5 @@ if __name__ == '__main__':
     #     url2 = HOST + '/api/auth/reoto'
     #     req2 = requests.post(url2)
     #     print(req2.status_code)
-    import os
-    file_name =  __file__.replace(os.path.basename(__file__), '')+'kinari-gothic-mini.otf'
-    print()
-
-
-    font = ImageFont.truetype(file_name, 100)
-    print(font)
-
+    loop.run_until_complete(asyncio.wait([f(2)]))
 

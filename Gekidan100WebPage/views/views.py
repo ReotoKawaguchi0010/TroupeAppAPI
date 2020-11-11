@@ -9,15 +9,13 @@ from Gekidan100WebPage.utils.mail import info_send_mail, info_response_mail
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.member_page_api import is_login_check
 from Gekidan100WebPage.api.twitter_api import TwitterApi
-from Gekidan100WebPage.api.youtube_api import youtube_get_videos
 
 def init_page(request):
     tweet = TwitterApi()
     news_text = 'Coming Soon'
     about_us_text = ''
-    blog_text = 'Coming Soon'
-    youtube_text = youtube_get_videos()[0]
-    twitter_text = tweet.user_timeline()
+    blog_text = ameba_api.get_ameba_content()
+    twitter_text = tweet.user_timeline(5)
     recruitment_text = ''
 
     # for i in TopPage.objects.all():
@@ -25,7 +23,7 @@ def init_page(request):
     #         about_us_text = i.about_us_text
     #         recruitment_text = i.recruitment_text
     output = {'request': 'init', 'message': 'message', 'texts': {'news': news_text, 'about_us': about_us_text, 'blog': blog_text,
-                                           'youtube': youtube_text, 'twitter': twitter_text, 'recruitment': recruitment_text}}
+                                          'twitter': twitter_text, 'recruitment': recruitment_text}}
     response = HttpResponse(json.dumps(output), content_type='application/json')
     response['Access-Control-Allow-Credentials'] = 'true'
     return response
@@ -61,8 +59,6 @@ def youtube(request):
         return HttpResponse(url + req)
     return HttpResponse('test')
 
-def get_ameba(request):
-    return HttpResponse(ameba_api.ameba_json_api(), content_type='application/json')
 
 def auth(request):
     if request.POST:

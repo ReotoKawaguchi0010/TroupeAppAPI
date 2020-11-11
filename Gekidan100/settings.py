@@ -26,7 +26,7 @@ SECRET_KEY = PRO_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'http://localhost:3000']
 
 
 # Application definition

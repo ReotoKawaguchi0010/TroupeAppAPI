@@ -5,11 +5,12 @@ token = YTB_API_KEY
 
 def req_youtube():
     #url = f'https://www.googleapis.com/youtube/v3/channels?&part=contentDetails&id=UC0R-BcwISaK3qUC4a8pJThg&v=2&key={token}'
-    url = f'https://www.googleapis.com/youtube/v3/channels?&part=contentDetails&id=UC2avfYxoYQZxchEmVxypnrg&v=2&key={token}'
+    #url = f'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=UC2avfYxoYQZxchEmVxypnrg&v=2&key={token}'
+    url = f'https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key={token}&part=snippet'
     req = requests.get(url)
     if '20' in str(req.status_code):
         return req.text
-    return 0
+    return req.text
 
 def youtube_get_videos():
     get_id = json.loads(req_youtube())
@@ -23,7 +24,5 @@ def youtube_get_videos():
     return None
 
 if __name__ == '__main__':
-
-    for i in range(4, 5):
-        print(i)
+    print(req_youtube())
 

@@ -25,16 +25,29 @@ class TwitterApi():
         res = self.twitter.get(url)
         print(res.text)
 
-    def user_timeline(self):
+    def user_timeline(self, limit_count: int):
         user_id = '1158411714280296449'
-        url = f'https://api.twitter.com/1.1/statuses/user_timeline.json?user_id={user_id}&count=5'
+        url = f'https://api.twitter.com/1.1/statuses/user_timeline.json?user_id={user_id}&count={limit_count}'
         res = self.twitter.get(url)
         json_res = json.loads(res.text)
-        data = [{'text': json_res[i]['text']} for i in range(len(json_res))]
-        return data
+        data_list = []
+        print(json_res)
+        for i in range(len(json_res)):
+            urls = [json_res[i]['entities']['urls'][j]['url'] for j in range(len(json_res[i]['entities']['urls']))]
+            text = json_res[i]['text']
+            for url in urls:
+                text = json_res[i]['text'].replace(url, '')
+            data = {
+                'text': text,
+                'urls': urls,
+            }
+            data_list.append(data)
+
+        return data_list
 
 if __name__ == '__main__':
     twt_api = TwitterApi()
     #print(twt_api.search('ハリーポッター', 5))
-    tweet = twt_api.user_timeline()
+    tweet = twt_api.user_timeline(5)
+
     print(tweet)
