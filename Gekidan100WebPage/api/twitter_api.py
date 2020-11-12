@@ -3,7 +3,6 @@ from Gekidan100WebPage.config.config import TWT_ACCESS_SECRET, TWT_ACCESS_TOKEN,
 from requests_oauthlib import OAuth1Session
 import json
 
-
 class TwitterApi():
     def __init__(self):
         API_KEY = TWT_API_KEY
@@ -31,7 +30,6 @@ class TwitterApi():
         res = self.twitter.get(url)
         json_res = json.loads(res.text)
         data_list = []
-        print(json_res)
         for i in range(len(json_res)):
             urls = [json_res[i]['entities']['urls'][j]['url'] for j in range(len(json_res[i]['entities']['urls']))]
             text = json_res[i]['text']
@@ -45,9 +43,16 @@ class TwitterApi():
 
         return data_list
 
+    def get_id_content(self, id):
+        url = f'https://api.twitter.com/1.1/statuses/show.json?id={id}'
+        res = self.twitter.get(url)
+        return res
+
+
 if __name__ == '__main__':
     twt_api = TwitterApi()
     #print(twt_api.search('ハリーポッター', 5))
-    tweet = twt_api.user_timeline(5)
+    id = 1323233049971052549
 
-    print(tweet)
+    print(twt_api.get_id_content(id).json())
+

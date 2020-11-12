@@ -23,7 +23,6 @@ urlpatterns = [
     path('ticket', views.menu, name='ticket'),
     path('youtube', views.youtube, name='youtube'),
     path('mail', views.send_mail, name='mail'),
-    path('ameba', views.get_ameba, name='ameba_json'),
     path('auth/', include(member)),
 ]
 
