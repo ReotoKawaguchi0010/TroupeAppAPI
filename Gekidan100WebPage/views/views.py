@@ -9,6 +9,7 @@ from Gekidan100WebPage.utils.mail import info_send_mail, info_response_mail
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.member_page_api import is_login_check
 from Gekidan100WebPage.api.twitter_api import TwitterApi
+from Gekidan100WebPage.models.models import User
 
 def init_page(request):
     tweet = TwitterApi()
@@ -17,6 +18,10 @@ def init_page(request):
     blog_text = ameba_api.get_ameba_content()
     twitter_text = tweet.user_timeline(5)
     recruitment_text = ''
+
+    for i in User.objects.all():
+        print(i.mail_address)
+        print(i.password)
 
     # for i in TopPage.objects.all():
     #     if i.id == 1:
@@ -38,6 +43,7 @@ def send_mail(request):
     try:
         req_body = request.body.decode(encoding='utf-8')
         req_body = json.loads(req_body)
+        print(req_body)
         info_send_mail(req_body['mailAddress'], req_body, req_body['content'])
         info_response_mail(req_body['mailAddress'], req_body, req_body['content'])
         output = {'bool': 1}

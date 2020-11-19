@@ -29,5 +29,9 @@ DROPBOX_KEY = conf['dropbox']['api_key']
 DROPBOX_TOKEN = conf['dropbox']['access_token']
 DROPBOX_SECRET_KEY = conf['dropbox']['secret_key']
 
+PAYPAL_SANDBOX_ACCOUNT = conf['paypal']['sandbox_account']
+PAYPAL_CLIENT_ID = conf['paypal']['client_id']
+PAYPAL_CLIENT_SECRET = conf['paypal']['client_secret']
+
 if __name__ == '__main__':
-    print(REOTO_PASS)
+    print(PAYPAL_SANDBOX_ACCOUNT)

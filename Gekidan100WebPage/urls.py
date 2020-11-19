@@ -18,10 +18,6 @@ member = [
 
 urlpatterns = [
     path('', views.init_page, name='index'),
-    path('overview', views.menu, name='overview'),
-    path('schedule', views.menu, name='schedule'),
-    path('ticket', views.menu, name='ticket'),
-    path('youtube', views.youtube, name='youtube'),
     path('mail', views.send_mail, name='mail'),
     path('auth/', include(member)),
 ]

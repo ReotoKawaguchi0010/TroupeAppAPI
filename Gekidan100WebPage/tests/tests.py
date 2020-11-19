@@ -26,5 +26,9 @@ if __name__ == '__main__':
     #     url2 = HOST + '/api/auth/reoto'
     #     req2 = requests.post(url2)
     #     print(req2.status_code)
-    loop.run_until_complete(asyncio.wait([f(2)]))
+    #loop.run_until_complete(asyncio.wait([f(2)]))
+    from Gekidan100WebPage.utils.util import encode_sha256
+    print(encode_sha256('futsu100'))
+    #4240f9ad608c1b1ffDf
+
 
