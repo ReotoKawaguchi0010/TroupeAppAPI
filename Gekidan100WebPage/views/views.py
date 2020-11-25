@@ -9,7 +9,8 @@ from Gekidan100WebPage.utils.mail import info_send_mail, info_response_mail
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.member_page_api import is_login_check
 from Gekidan100WebPage.api.twitter_api import TwitterApi
-from Gekidan100WebPage.models.models import User
+#from Gekidan100WebPage.models.models import User
+from Gekidan100WebPage.views import gets
 
 def init_page(request):
     tweet = TwitterApi()
@@ -18,20 +19,17 @@ def init_page(request):
     blog_text = ameba_api.get_ameba_content()
     twitter_text = tweet.user_timeline(5)
     recruitment_text = ''
-
-    for i in User.objects.all():
-        print(i.mail_address)
-        print(i.password)
-
-    # for i in TopPage.objects.all():
-    #     if i.id == 1:
-    #         about_us_text = i.about_us_text
-    #         recruitment_text = i.recruitment_text
-    output = {'request': 'init', 'message': 'message', 'texts': {'news': news_text, 'about_us': about_us_text, 'blog': blog_text,
+    if request.method == 'GET':
+        if request.GET.get('video_ticket'):
+            output = gets.video_ticket(request)
+        elif request.GET.get('paymentId') and request.GET.get('PayerID'):
+            output = gets.pay_out(request, request.GET.get('paymentId'), request.GET.get('PayerID'))
+        else:
+            output = {'request': 'init', 'message': 'message', 'texts': {'news': news_text, 'about_us': about_us_text, 'blog': blog_text,
                                           'twitter': twitter_text, 'recruitment': recruitment_text}}
-    response = HttpResponse(json.dumps(output), content_type='application/json')
-    response['Access-Control-Allow-Credentials'] = 'true'
-    return response
+        response = HttpResponse(json.dumps(output), content_type='application/json')
+        response['Access-Control-Allow-Credentials'] = 'true'
+        return response
 
 def menu(request):
     output = routing_in_menu(request)
