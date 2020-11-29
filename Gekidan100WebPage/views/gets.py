@@ -11,5 +11,7 @@ def video_ticket(request: WSGIRequest):
 def pay_out(request: WSGIRequest, pay_id, payer_id):
     pay_client = PayPAlClient()
     exec = pay_client.get_execute_payment(pay_id, payer_id)
+    if exec:
+        out = {'bool': 'true', 'status': 'success'}
     out = {'exec': exec}
     return out

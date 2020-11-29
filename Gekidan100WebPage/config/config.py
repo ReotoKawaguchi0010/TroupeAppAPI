@@ -33,5 +33,8 @@ PAYPAL_SANDBOX_ACCOUNT = conf['paypal']['sandbox_account']
 PAYPAL_CLIENT_ID = conf['paypal']['client_id']
 PAYPAL_CLIENT_SECRET = conf['paypal']['client_secret']
 
+CIPHER_HASH_COUNT = conf['cipher']['hash_count']
+CIPHER_KEY = conf['cipher']['key']
+
 if __name__ == '__main__':
-    print(PAYPAL_SANDBOX_ACCOUNT)
+    print(CIPHER_KEY)

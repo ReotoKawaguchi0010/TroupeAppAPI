@@ -53,7 +53,7 @@ class PayPAlClient(object):
     def get_execute_payment(self, pay_id, payer_id):
         exec_payment = paypalrestsdk.Payment.find(pay_id)
         if exec_payment.execute({'payer_id': payer_id}):
-            return f"Payment{exec_payment.id} execute successfully"
+            return True
         else:
             return exec_payment.error
 

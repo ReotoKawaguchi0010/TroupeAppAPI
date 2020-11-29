@@ -68,6 +68,7 @@ class DropboxApi(dropbox.Dropbox):
 
 if __name__ == '__main__':
     dbx = DropboxApi(DROPBOX_TOKEN)
-    print(dbx.get_word_file('/test/Document.docx'))
-    # for file_folder_list in dbx.file_folder_lists('/test'):
-    #     print(file_folder_list)
+    #print(dbx.get_word_file('/test/Document.docx'))
+    # for file_meta in dbx.file_folder_lists('/test'):
+    #    print(file_meta)
+    dbx.get_link_list('/test')

@@ -14,7 +14,7 @@ from Gekidan100WebPage.views import gets
 
 def init_page(request):
     tweet = TwitterApi()
-    news_text = 'Coming Soon'
+    news_text = ''
     about_us_text = ''
     blog_text = ameba_api.get_ameba_content()
     twitter_text = tweet.user_timeline(5)
@@ -30,6 +30,12 @@ def init_page(request):
         response = HttpResponse(json.dumps(output), content_type='application/json')
         response['Access-Control-Allow-Credentials'] = 'true'
         return response
+
+
+
+
+
+
 
 def menu(request):
     output = routing_in_menu(request)
