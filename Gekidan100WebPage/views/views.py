@@ -24,15 +24,27 @@ def init_page(request):
             output = gets.video_ticket(request)
         elif request.GET.get('paymentId') and request.GET.get('PayerID'):
             output = gets.pay_out(request, request.GET.get('paymentId'), request.GET.get('PayerID'))
+        elif request.GET.get('videoId'):
+            if request.session.get('video_ticket') is None:
+                request.session['video_ticket'] = 'video_id'
+                if not request.session.session_key:
+                    request.session.create()
+                status = json.dumps({'success': {'status_code': OK}, 'bool': 1})
+                response = HttpResponse(status, content_type='application/json')
+                response['Access-Control-Allow-Credentials'] = 'true'
+                response.set_cookie('sessionid', request.session.session_key)
+                return response
+            output = {}
         else:
             output = {'request': 'init', 'message': 'message', 'texts': {'news': news_text, 'about_us': about_us_text, 'blog': blog_text,
                                           'twitter': twitter_text, 'recruitment': recruitment_text}}
         response = HttpResponse(json.dumps(output), content_type='application/json')
         response['Access-Control-Allow-Credentials'] = 'true'
         return response
-
-
-
+    response = HttpResponse('', content_type='application/json')
+    response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    response['Access-Control-Allow-Credentials'] = 'true'
+    return response
 
 
 

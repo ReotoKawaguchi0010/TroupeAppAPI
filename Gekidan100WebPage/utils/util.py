@@ -60,3 +60,4 @@ if __name__ == '__main__':
     decode = my_cipher_decode(encode)
     print(decode == encode_sha256(str1))
 
+
