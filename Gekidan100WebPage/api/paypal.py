@@ -66,14 +66,8 @@ class PayPAlClient(object):
 
 if __name__ == '__main__':
     client = PayPAlClient()
-    payment = paypalrestsdk.Payment.find('PAYID-L7DZ24Y1FG42637B41223214')
-    try:
-        if payment.execute({'payer_id': 'ZQFR8L8CNFDC6'}):
-            print("Payment[%s] execute successfully" % (payment.id))
-        else:
-            print(payment.error)
-    except:
-        print('error')
+
+
 
 
 

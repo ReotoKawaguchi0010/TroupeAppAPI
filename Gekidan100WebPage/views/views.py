@@ -63,11 +63,12 @@ def send_mail(request):
         info_send_mail(req_body['mailAddress'], req_body, req_body['content'])
         info_response_mail(req_body['mailAddress'], req_body, req_body['content'])
         output = {'bool': 1}
-        response = HttpResponse(json.dumps(output), content_type='application/json')
-        return response
     except:
         output = {'error': {'status_code': OK}, 'bool': 0}
-        return HttpResponse(json.dumps(output), content_type='application/json')
+    response = HttpResponse(json.dumps(output), content_type='application/json')
+    response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    response['Access-Control-Allow-Credentials'] = 'true'
+    return response
 
 def youtube(request):
     url = 'https://youtube.com/'
@@ -105,6 +106,8 @@ def auth(request):
     status = json.dumps({'error': {'status_code': UNAUTHORIZED, 'type': 'auth_error'}, 'bool': 0})
     response = HttpResponse(status, content_type='application/json', status=UNAUTHORIZED)
     response['Access-Control-Allow-Credentials'] = 'true'
+    response['Access-Control-Allow-Methods'] = "POST, OPTIONS"
+    response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
     return response
 
 def member(request, user):
