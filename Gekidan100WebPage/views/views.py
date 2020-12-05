@@ -13,12 +13,6 @@ from Gekidan100WebPage.api.twitter_api import TwitterApi
 from Gekidan100WebPage.views import gets
 
 def init_page(request):
-    tweet = TwitterApi()
-    news_text = ''
-    about_us_text = ''
-    blog_text = ameba_api.get_ameba_content()
-    twitter_text = tweet.user_timeline(5)
-    recruitment_text = ''
     if request.method == 'GET':
         if request.GET.get('video_ticket'):
             output = gets.video_ticket(request)
@@ -29,13 +23,23 @@ def init_page(request):
                 request.session['video_ticket'] = 'video_id'
                 if not request.session.session_key:
                     request.session.create()
-                status = json.dumps({'success': {'status_code': OK}, 'bool': 1})
+                status = json.dumps({'fail': {'status_code': UNAUTHORIZED}, 'bool': 0})
                 response = HttpResponse(status, content_type='application/json')
                 response['Access-Control-Allow-Credentials'] = 'true'
                 response.set_cookie('sessionid', request.session.session_key)
                 return response
-            output = {}
+            else:
+                status = json.dumps({'success': {'status_code': OK}, 'bool': 1})
+                response = HttpResponse(status, content_type='application/json')
+                response['Access-Control-Allow-Credentials'] = 'true'
+                return response
         else:
+            tweet = TwitterApi()
+            news_text = ''
+            about_us_text = ''
+            blog_text = ameba_api.get_ameba_content()
+            twitter_text = tweet.user_timeline(5)
+            recruitment_text = ''
             output = {'request': 'init', 'message': 'message', 'texts': {'news': news_text, 'about_us': about_us_text, 'blog': blog_text,
                                           'twitter': twitter_text, 'recruitment': recruitment_text}}
         response = HttpResponse(json.dumps(output), content_type='application/json')

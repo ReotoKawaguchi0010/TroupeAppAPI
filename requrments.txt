@@ -22,3 +22,4 @@ wheel==0.35.1
 xmltodict==0.12.0
 paypalhttp==1.0.0
 paypal-payouts-sdk==1.0.0
+paypalrestsdk==1.13.1
