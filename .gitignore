@@ -5,3 +5,4 @@ __pycache__
 mongo
 migrations/
 .idea/
+venv
