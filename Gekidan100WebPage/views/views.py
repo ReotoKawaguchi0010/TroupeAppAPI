@@ -1,6 +1,8 @@
 import json
 
 from django.shortcuts import HttpResponse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 from Gekidan100WebPage.views.personal import routing_in_member
 from Gekidan100WebPage.views.menu import routing_in_menu
@@ -9,10 +11,15 @@ from Gekidan100WebPage.utils.mail import info_send_mail, info_response_mail
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.member_page_api import is_login_check
 from Gekidan100WebPage.api.twitter_api import TwitterApi
-#from Gekidan100WebPage.models.models import User
 from Gekidan100WebPage.views import gets
 
+@api_view(['GET', 'POST'])
 def init_page(request):
+    if int(request.get_port()) == 8000:
+        content_type = 'text/html'
+    else:
+        content_type = 'application/json'
+    response = Response({}, content_type=content_type)
     if request.method == 'GET':
         if request.GET.get('video_ticket'):
             output = gets.video_ticket(request)
@@ -23,15 +30,13 @@ def init_page(request):
                 request.session['video_ticket'] = 'video_id'
                 if not request.session.session_key:
                     request.session.create()
-                status = json.dumps({'fail': {'status_code': UNAUTHORIZED}, 'bool': 0})
-                response = HttpResponse(status, content_type='application/json')
-                response['Access-Control-Allow-Credentials'] = 'true'
+                status = {'fail': {'status_code': UNAUTHORIZED}, 'bool': 0}
+                response.data = status
                 response.set_cookie('sessionid', request.session.session_key)
                 return response
             else:
-                status = json.dumps({'success': {'status_code': OK}, 'bool': 1})
-                response = HttpResponse(status, content_type='application/json')
-                response['Access-Control-Allow-Credentials'] = 'true'
+                status = {'success': {'status_code': OK}, 'bool': 1}
+                response.data = status
                 return response
         else:
             tweet = TwitterApi()
@@ -42,15 +47,9 @@ def init_page(request):
             recruitment_text = ''
             output = {'request': 'init', 'message': 'message', 'texts': {'news': news_text, 'about_us': about_us_text, 'blog': blog_text,
                                           'twitter': twitter_text, 'recruitment': recruitment_text}}
-        response = HttpResponse(json.dumps(output), content_type='application/json')
-        response['Access-Control-Allow-Credentials'] = 'true'
+        response.data = output
         return response
-    response = HttpResponse('', content_type='application/json')
-    response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-    response['Access-Control-Allow-Credentials'] = 'true'
     return response
-
-
 
 
 def menu(request):
@@ -60,18 +59,16 @@ def menu(request):
     return response
 
 def send_mail(request):
+    response = Response({}, content_type='application/json')
     try:
         req_body = request.body.decode(encoding='utf-8')
         req_body = json.loads(req_body)
-        print(req_body)
         info_send_mail(req_body['mailAddress'], req_body, req_body['content'])
         info_response_mail(req_body['mailAddress'], req_body, req_body['content'])
         output = {'bool': 1}
     except:
         output = {'error': {'status_code': OK}, 'bool': 0}
-    response = HttpResponse(json.dumps(output), content_type='application/json')
-    response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-    response['Access-Control-Allow-Credentials'] = 'true'
+    response.data = output
     return response
 
 def youtube(request):
@@ -88,6 +85,7 @@ def youtube(request):
 
 
 def auth(request):
+    response = Response({}, content_type='application/json')
     if request.POST:
         username = request.POST['username']
         password = request.POST['password']
@@ -96,31 +94,26 @@ def auth(request):
                 request.session['name'] = username
                 if not request.session.session_key:
                     request.session.create()
-                status = json.dumps({'success': {'status_code': OK}, 'bool': 1})
-                response = HttpResponse(status, content_type='application/json')
-                response['Access-Control-Allow-Credentials'] = 'true'
+                status = {'success': {'status_code': OK}, 'bool': 1}
+                response.data = status
                 response.set_cookie('sessionid', request.session.session_key)
                 return response
         else:
             status = json.dumps({'success': {'status_code': OK}, 'bool': 1})
-            print(request.session.get('name'))
-            response = HttpResponse(status, content_type='application/json')
-            response['Access-Control-Allow-Credentials'] = 'true'
+            response.data = status
             return response
     status = json.dumps({'error': {'status_code': UNAUTHORIZED, 'type': 'auth_error'}, 'bool': 0})
-    response = HttpResponse(status, content_type='application/json', status=UNAUTHORIZED)
-    response['Access-Control-Allow-Credentials'] = 'true'
-    response['Access-Control-Allow-Methods'] = "POST, OPTIONS"
-    response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    response.data = status
+    response.status_code = UNAUTHORIZED
     return response
 
 def member(request, user):
+    response = Response({}, content_type='application/json')
     if request.session.has_key('name'):
         output = routing_in_member(request, user)
-        response = HttpResponse(json.dumps(output), content_type='application/json')
-        response['Access-Control-Allow-Credentials'] = 'true'
+        response.data = output
         return response
     status = json.dumps({'error': {'status_code': UNAUTHORIZED, 'type': 'auth_error'}, 'bool': 0})
-    response = HttpResponse(status, content_type='application/json', status=UNAUTHORIZED)
-    response['Access-Control-Allow-Credentials'] = 'true'
+    response.data = status
+    response.status_code = UNAUTHORIZED
     return response

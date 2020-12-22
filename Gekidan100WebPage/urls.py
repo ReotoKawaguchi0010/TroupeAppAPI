@@ -4,11 +4,6 @@ from Gekidan100WebPage.views import views
 
 member_page = [
     path('', views.member),
-    path('script', views.member),
-    path('schedule', views.member),
-    path('accounting', views.member),
-    path('contents', views.member),
-    path('priority_page', views.member),
 ]
 
 member = [
