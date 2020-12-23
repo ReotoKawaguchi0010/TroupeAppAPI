@@ -9,6 +9,7 @@ module.exports = {
     output: {
         filename: 'main.js',
         path: outputPath,
+        publicPath: '/',
     },
     module: {
         rules: [

@@ -8,20 +8,15 @@ const useStyles = {
 }
 
 
-
-
-
-export default class Login extends React.Component{
-    render(){
-        return (
-            <React.Fragment>
-                <main>
-                    <form>
-                        <div style={useStyles.wrapField}><TextField label="Username" /></div>
-                        <div style={useStyles.wrapField}><TextField label="Password" type="password" /></div>
-                    </form>
-                </main>
-            </React.Fragment>
-        )
-    }
+export const Login = () => {
+    return (
+        <React.Fragment>
+            <main>
+                <form>
+                    <div style={useStyles.wrapField}><TextField label="Username" /></div>
+                    <div style={useStyles.wrapField}><TextField label="Password" type="password" /></div>
+                </form>
+            </main>
+        </React.Fragment>
+    )
 }

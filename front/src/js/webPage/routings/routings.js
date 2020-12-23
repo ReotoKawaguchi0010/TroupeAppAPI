@@ -3,10 +3,10 @@ import {RouteWithSubRoutes} from "../../routings/routings";
 import {Switch} from "react-router-dom";
 import _ from "lodash"
 
-import Main from "../components/main";
-import Member from "../containers/member";
-import Ticket from "../containers/ticket";
-import Contact from "../containers/contact";
+import {Main} from "../components/main";
+import {Member} from "../containers/member";
+import {Ticket} from "../containers/ticket";
+import {Contact} from "../containers/contact";
 import ScrollToTop from "../../routings/scroll";
 
 import "../../../css/style.scss"

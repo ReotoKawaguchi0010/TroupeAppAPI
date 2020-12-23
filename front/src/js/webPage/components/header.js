@@ -1,12 +1,8 @@
 import React from "react";
-import { connect } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
-import { CircularProgress } from "@material-ui/core";
 
-import { test } from "../actions/action"
 import mainGif from "../../../../images/main_gif.gif";
-import MenuIcon from "./menu";
-
+import {MenuIcon} from "./menu";
 
 const pcStyles = {
     mainHeader: {
@@ -71,21 +67,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.between('xs', 'md')]: mobStyles,
 }));
 
-function HeaderFunc(props){
+const HeaderFunc = () => {
     const classes = useStyles();
-
-    const Loading = (bool) => {
-        if(bool.bool){
-            return (
-                <CircularProgress />
-            )
-        }else{
-            return '';
-        }
-    }
     return (
         <header className={classes.mainHeader}>
-            <Loading bool={props.data.isLoading} />
             <figure className={classes.figure}>
                 <div><img src={mainGif} alt={"mainGif"} className={classes.img} /></div>
                 <MenuIcon />
@@ -99,26 +84,10 @@ function HeaderFunc(props){
 }
 
 
-class Header extends React.Component{
-    componentDidMount() {
-        if(!Object.keys(this.props.data).length){
-            this.props.test()
-        }
-    }
-
-    render(){
-        return (
-            <React.Fragment>
-                <HeaderFunc data={this.props.data} />
-            </React.Fragment>
-        )
-    }
+export const Header = () => {
+    return (
+        <React.Fragment>
+            <HeaderFunc />
+        </React.Fragment>
+    )
 }
-
-const mapStateToProps = state => {
-    return {data: state.http}
-}
-
-const mapDispatchToProps = ({ test })
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header)

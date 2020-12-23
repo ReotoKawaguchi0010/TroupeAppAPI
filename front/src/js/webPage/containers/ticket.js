@@ -1,7 +1,7 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 
-import MenuIcon from "../components/menu";
+import {MenuIcon} from "../components/menu";
 import Footer from "../components/footer";
 
 
@@ -41,20 +41,19 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function Ticket(){
+export const Ticket = () => {
     const classes = useStyles();
     return (
         <React.Fragment>
             <div className={classes.body}>
-                <MenuIcon />
+                <MenuIcon/>
                 <div style={{padding: 100}}>
                     <h3 className={classes.title}>TICKET</h3>
                     <div className={classes.content}>COMING SOON</div>
                 </div>
-                <Footer />
+                <Footer/>
             </div>
         </React.Fragment>
     )
 }
 
-export default Ticket

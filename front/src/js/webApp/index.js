@@ -4,7 +4,7 @@ import React from "react";
 
 import Main from "./components/main";
 import reducer from "./reducers"
-import Routings from "./routings/routings";
+import {Routings} from "./routings/routings";
 
 //const store = createStore(reducer)
 

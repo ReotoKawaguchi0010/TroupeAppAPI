@@ -4,13 +4,12 @@ import _ from "lodash";
 import { makeStyles } from '@material-ui/core/styles';
 
 import Footer from "../components/footer";
-import MenuIcon from "../components/menu"
+import {MenuIcon} from "../components/menu"
 import Tatsuya from "../../../../images/members/takayuki_square_image.jpg"
 import Dai from "../../../../images/members/dai_square_image.jpg"
 import Hayate from "../../../../images/members/hayate_saito_square_image.jpg"
 import Reoto from "../../../../images/members/reoto_kawaguchi_square_image.jpg"
 import Ritsu from "../../../../images/members/ritsu_alkanuma_square_image.jpg"
-import Rie from "../../../../images/members/rie_square_image.jpg"
 import Sayaka from "../../../../images/members/sayaka_kanzaki_square_image.jpg"
 import Yukako from "../../../../images/members/yukako_yasuda_square_image.jpg"
 
@@ -45,20 +44,26 @@ const members = {
         message: '',
         image: Dai,
     },
-    'narimiya': {
+    'bakamura': {
         id: 6,
+        name: '中村 香音',
+        message: '',
+        image: '',
+    },
+    'narimiya': {
+        id: 7,
         name: '城月 まこ',
         message: '',
         image: '',
     },
     'yasuda': {
-        id: 7,
+        id: 8,
         name: '安田 有香子',
         message: '',
         image: Yukako,
     },
     'yamamoto': {
-        id: 8,
+        id: 9,
         name: '山本 竜也',
         message: '',
         image: Tatsuya,
@@ -142,7 +147,7 @@ const MemberList = () =>{
     ))
 }
 
-function MemberFunc(){
+const MemberFunc = () => {
     const classes = useStyles();
     return (
         <div className={classes.wrapMember}>
@@ -160,12 +165,11 @@ function MemberFunc(){
     )
 }
 
-export default class Member extends React.Component{
-    render(){
-        return (
-            <React.Fragment>
-                <MemberFunc />
-            </React.Fragment>
-        )
-    }
+export const Member = () =>{
+    return (
+        <React.Fragment>
+            <MemberFunc />
+        </React.Fragment>
+    )
+
 }

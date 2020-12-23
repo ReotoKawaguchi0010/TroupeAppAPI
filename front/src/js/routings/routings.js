@@ -14,6 +14,10 @@ const routes = [
         path: '/',
         component: webPage,
     },
+    {
+        path: '*',
+        component: <div>not found</div>,
+    },
 ]
 
 

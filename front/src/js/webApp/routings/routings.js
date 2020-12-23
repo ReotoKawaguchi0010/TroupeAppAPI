@@ -1,20 +1,37 @@
 import React from "react";
+import _ from "lodash";
+import {Switch} from "react-router";
 
-import Main from "../components/main";
-import Login from "../containers/login";
-import { Route } from "react-router-dom";
+import { Main } from "../components/main";
+import { Login } from "../containers/login";
 import ScrollToTop from "../../routings/scroll";
+import {RouteWithSubRoutes} from "../../routings/routings";
+
+const routes = [
+    {
+        path: '/app/login',
+        component: Login,
+    },
+    {
+        path: '/app',
+        component: Main,
+    },
+];
 
 
-export default class Routings extends React.Component{
 
-    render(){
+
+
+
+export const Routings = () => {
         return (
             <React.Fragment>
                 <ScrollToTop />
-                <Route exact path='/auth' component={Login} />
-                <Route exact path='/auth/top_page' component={Main} />
+                <Switch>
+                    {_.map(routes, (route, i) => (
+                        <RouteWithSubRoutes key={i} {...route} />
+                    ))}
+                </Switch>
             </React.Fragment>
         )
-    }
 }

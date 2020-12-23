@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import Header from "./header";
+import {Header} from "./header";
 import Footer from "./footer";
 import { makeStyles } from '@material-ui/core/styles';
 import { Redirect } from "react-router";
-
 
 import { test } from "../actions/action"
 import Twitter from "../containers/twitter"
@@ -11,8 +10,6 @@ import AmeBlo from "../containers/ameba_blog";
 import History from "../containers/history";
 import News from "../containers/news";
 import AboutUs from "../containers/about_us";
-import {connect} from "react-redux";
-import MenuIcon from "./menu";
 import {paramObj} from "../../utils/utils";
 import { Video } from "../containers/video";
 import {VideoTicket} from "../containers/video_ticket";
@@ -99,15 +96,15 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.between('xs', 'md')]: mobStyles,
 }));
 
-function MainFunc(props){
+const MainFunc = () => {
     const classes = useStyles()
     const searchObj = paramObj(location.search)
     if (searchObj.video_ticket){
-        return (<React.Fragment><VideoTicket data={props.data} /><Footer /></React.Fragment>)
+        return (<React.Fragment><VideoTicket data={{}} /><Footer /></React.Fragment>)
     }else if(searchObj.paymentId){
         return (<React.Fragment><VideoTicketDone /></React.Fragment>)
     }else if(searchObj.videoId){
-        return (<React.Fragment><Video data={props.data} /></React.Fragment>)
+        return (<React.Fragment><Video data={{}} /></React.Fragment>)
     }else{
         return (
             <React.Fragment>
@@ -118,14 +115,14 @@ function MainFunc(props){
                             <AboutUs />
                         </div>
                         <div className={classes.news}>
-                            <News data={props.data.texts} />
+                            <News data={{}} />
                         </div>
                         <div className={classes.blogTwt}>
                             <div className={classes.blog}>
-                                <AmeBlo data={props.data.texts} />
+                                <AmeBlo data={{}} />
                             </div>
                             <div className={classes.twt}>
-                                <Twitter data={props.data.texts} />
+                                <Twitter data={{}} />
                             </div>
                         </div>
                     </div>
@@ -141,27 +138,10 @@ function MainFunc(props){
 
 }
 
-
-class Main extends React.Component{
-    componentDidMount() {
-        if(!Object.keys(this.props.data).length){
-            this.props.test()
-        }
-    }
-
-    render(){
-        return (
-            <React.Fragment>
-                <MainFunc data={this.props.data} />
-            </React.Fragment>
-        )
-    }
+export const Main = () => {
+    return (
+        <React.Fragment>
+            <MainFunc />
+        </React.Fragment>
+    )
 }
-
-const mapStateToProps = state => {
-    return {data: state.http}
-}
-
-const mapDispatchToProps = ({ test })
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main)

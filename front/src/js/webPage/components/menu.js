@@ -245,12 +245,10 @@ function HeadIcon(){
     )
 }
 
-export default class MenuIcon extends React.Component{
-    render() {
-        return (
-            <React.Fragment>
-               <HeadIcon />
-            </React.Fragment>
-        )
-    }
+export const MenuIcon = () => {
+    return (
+        <React.Fragment>
+           <HeadIcon />
+        </React.Fragment>
+    )
 }

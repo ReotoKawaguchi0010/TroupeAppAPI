@@ -12,11 +12,9 @@ import {
 import {makeStyles} from "@material-ui/core/styles";
 import SendIcon from '@material-ui/icons/Send';
 import _ from "lodash";
-import axios from "axios";
 
-import MenuIcon from "../components/menu";
+import {MenuIcon} from "../components/menu";
 import Footer from "../components/footer";
-import { API_PATH } from "../configs/config";
 import {create} from "../actions/action";
 
 const japanCity = ['北海道', '青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県',
@@ -175,25 +173,17 @@ const Loading = (bool) =>{
     }
 }
 
-const Contact = () => {
+export const Contact = () => {
     const classes = useStyles()
     const [state, setState] = React.useState({city: '', isLoading: false, formObj: formObj})
 
-    const selectChange = (e) =>{
+    const selectChange = (e) => {
         const city = e.target.value
         formObj.address = city;
         setState({...state, city: city, formObj: formObj})
     }
 
-    const sendMail = () =>{
-        const create = axios.create({
-            baseURL: API_PATH,
-            responseType: 'json',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-        });
+    const sendMail = () => {
         setState({...state, isLoading: true})
         create.post('/mail', state.formObj)
 
@@ -205,50 +195,60 @@ const Contact = () => {
         setState({...state, formObj: formObj})
     }
 
-    return(
+    return (
         <React.Fragment>
-            <Loading bool={state.isLoading} />
+            <Loading bool={state.isLoading}/>
             <div className="contact">
-                <MenuIcon />
+                <MenuIcon/>
                 <div style={{padding: 100}}>
                     <h3 className={classes.title}>CONTACT</h3>
                     <form>
                         <div className={classes.wrapForm}>
-                            <TextField id="secondName" label="性" variant="outlined" className={classes.dabbleTextField} onChange={inTextChange} />
-                            <TextField id="firstName" label="名" variant="outlined" className={classes.dabbleTextField} onChange={inTextChange} />
+                            <TextField id="secondName" label="性" variant="outlined" className={classes.dabbleTextField}
+                                       onChange={inTextChange}/>
+                            <TextField id="firstName" label="名" variant="outlined" className={classes.dabbleTextField}
+                                       onChange={inTextChange}/>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="secondPhonetic" label="セイ" variant="outlined" className={classes.dabbleTextField} onChange={inTextChange} />
-                            <TextField id="firstPhonetic" label="メイ" variant="outlined" className={classes.dabbleTextField} onChange={inTextChange} />
+                            <TextField id="secondPhonetic" label="セイ" variant="outlined"
+                                       className={classes.dabbleTextField} onChange={inTextChange}/>
+                            <TextField id="firstPhonetic" label="メイ" variant="outlined"
+                                       className={classes.dabbleTextField} onChange={inTextChange}/>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="mailAddress" label="メールアドレス" variant="outlined" className={classes.singleTextField} onChange={inTextChange} />
+                            <TextField id="mailAddress" label="メールアドレス" variant="outlined"
+                                       className={classes.singleTextField} onChange={inTextChange}/>
                         </div>
                         <div className={classes.wrapForm}>
                             <FormControl variant="outlined">
                                 <InputLabel id="address-place" className={classes.selectInLabel}>都道府県</InputLabel>
-                                <Select id="address" label="都道府県" labelId="address-place" className={classes.selectField} value={state.city} onChange={selectChange}>
-                                    { renderJapanCity() }
+                                <Select id="address" label="都道府県" labelId="address-place"
+                                        className={classes.selectField} value={state.city} onChange={selectChange}>
+                                    {renderJapanCity()}
                                 </Select>
                             </FormControl>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="cities" label="市区町村" variant="outlined" className={classes.singleTextField} onChange={inTextChange} />
+                            <TextField id="cities" label="市区町村" variant="outlined" className={classes.singleTextField}
+                                       onChange={inTextChange}/>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="houseNumber" label="番地・建物名" variant="outlined" className={classes.singleTextField} onChange={inTextChange} />
+                            <TextField id="houseNumber" label="番地・建物名" variant="outlined"
+                                       className={classes.singleTextField} onChange={inTextChange}/>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="profession" label="職業" variant="outlined" className={classes.singleTextField} onChange={inTextChange} />
+                            <TextField id="profession" label="職業" variant="outlined" className={classes.singleTextField}
+                                       onChange={inTextChange}/>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="textArea" label="その他お問い合わせ" variant="outlined" multiline rowsMax={5} rows={5} className={classes.singleTextField} onChange={inTextChange} />
+                            <TextField id="textArea" label="その他お問い合わせ" variant="outlined" multiline rowsMax={5} rows={5}
+                                       className={classes.singleTextField} onChange={inTextChange}/>
                         </div>
                         <div className={classes.button}>
                             <Button
                                 variant="contained"
                                 color="secondary"
-                                endIcon={<SendIcon className={classes.btnIcon} />}
+                                endIcon={<SendIcon className={classes.btnIcon}/>}
                                 className={classes.btnContent}
                                 onClick={sendMail}
                             >
@@ -257,10 +257,9 @@ const Contact = () => {
                         </div>
                     </form>
                 </div>
-                <Footer />
+                <Footer/>
             </div>
         </React.Fragment>
     )
 }
 
-export default Contact
