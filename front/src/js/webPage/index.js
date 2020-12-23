@@ -3,7 +3,7 @@ import { Provider } from "react-redux"
 import React from "react";
 import thunk from "redux-thunk";
 
-import Routings from "./routings/routings";
+import { Routings } from "./routings/routings";
 import reducer from "./reducers"
 
 const store = createStore(reducer, applyMiddleware(thunk))
