@@ -63,12 +63,6 @@ const members = {
         message: '',
         image: Tatsuya,
     },
-    'rie': {
-        id: 9,
-        name: 'ライ',
-        message: '',
-        image: Rie,
-    },
     'wada': {
         id: 10,
         name: '和田 拓省',

@@ -1,11 +1,9 @@
 import json
 
-from django.shortcuts import HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from Gekidan100WebPage.views.personal import routing_in_member
-from Gekidan100WebPage.views.menu import routing_in_menu
 from Gekidan100WebPage.api import ameba_api
 from Gekidan100WebPage.utils.mail import info_send_mail, info_response_mail
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
@@ -52,12 +50,6 @@ def init_page(request):
     return response
 
 
-def menu(request):
-    output = routing_in_menu(request)
-    response = HttpResponse(json.dumps(output), content_type='application/json')
-    response['Access-Control-Allow-Credentials'] = 'true'
-    return response
-
 def send_mail(request):
     response = Response({}, content_type='application/json')
     try:
@@ -80,8 +72,8 @@ def youtube(request):
         req = req.replace('https://youtube.com/', '')
         req = req.replace('https://www.youtube.com/', '')
         print(url + req)
-        return HttpResponse(url + req)
-    return HttpResponse('test')
+        return Response(url + req)
+    return Response('test')
 
 
 def auth(request):
