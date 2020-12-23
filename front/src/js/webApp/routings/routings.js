@@ -19,10 +19,6 @@ const routes = [
 ];
 
 
-
-
-
-
 export const Routings = () => {
         return (
             <React.Fragment>
