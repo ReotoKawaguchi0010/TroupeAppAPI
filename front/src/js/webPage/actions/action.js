@@ -17,25 +17,10 @@ export const create = axios.create({
 
 export const test = () => async dispatch =>{
     try {
-        const searchObj = location.search
-        let res;
-        if(searchObj){
-            res =  await create.get(`/${searchObj}`, null)
-        }else{
-            res =  await create.get('/', null)
-        }
+        const res =  await create.get(`/`, null)
         dispatch({type: TEST, res})
     }catch (e) {
        console.log(e)
     }
 }
 
-export const get_special = () => async dispatch => {
-    try {
-        const url = location.pathname;
-        const res = await create.get(url);
-        dispatch({type: GET_SPECIAL, res})
-    }catch (e){
-        console.log(e)
-    }
-}

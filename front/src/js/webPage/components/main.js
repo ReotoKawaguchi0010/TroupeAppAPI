@@ -4,7 +4,6 @@ import Footer from "./footer";
 import { makeStyles } from '@material-ui/core/styles';
 import { Redirect } from "react-router";
 
-import { test } from "../actions/action"
 import Twitter from "../containers/twitter"
 import AmeBlo from "../containers/ameba_blog";
 import History from "../containers/history";
@@ -99,6 +98,8 @@ const useStyles = makeStyles((theme) => ({
 const MainFunc = () => {
     const classes = useStyles()
     const searchObj = paramObj(location.search)
+
+
     if (searchObj.video_ticket){
         return (<React.Fragment><VideoTicket data={{}} /><Footer /></React.Fragment>)
     }else if(searchObj.paymentId){
