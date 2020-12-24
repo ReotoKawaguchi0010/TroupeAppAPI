@@ -1,10 +1,9 @@
-import { TEST } from "../actions/action"
+import { GET_ROOT_PATH } from "../actions/action"
 
 export default (state={}, action) => {
     switch (action.type){
-        case TEST:
-            action.res.data.isLoading = false;
-            return action.res.data
+        case GET_ROOT_PATH:
+            return {...action.data}
         default:
             return state
     }

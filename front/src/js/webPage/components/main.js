@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {Header} from "./header";
 import Footer from "./footer";
 import { makeStyles } from '@material-ui/core/styles';
-import { Redirect } from "react-router";
+import { Redirect, useLocation } from "react-router";
 
+import { PageStoreContext } from "../contexts/PageStoreContext";
 import Twitter from "../containers/twitter"
 import AmeBlo from "../containers/ameba_blog";
 import History from "../containers/history";
 import News from "../containers/news";
 import AboutUs from "../containers/about_us";
-import {paramObj} from "../../utils/utils";
-import { Video } from "../containers/video";
-import {VideoTicket} from "../containers/video_ticket";
-import {VideoTicketDone} from "../containers/ticket_done";
+import {GET_ROOT_PATH} from "../actions/action";
+import {getRootPath} from "../actions/action";
+import {Parameters} from "../containers/querys";
 
 
 const pcStyles = {
@@ -96,34 +96,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainFunc = () => {
+    const {state, dispatch} = useContext(PageStoreContext)
     const classes = useStyles()
-    const searchObj = paramObj(location.search)
+
+    const query = new URLSearchParams(String(useLocation().search))
+
+    const handleClick = () =>{
+        getRootPath({type: GET_ROOT_PATH}, dispatch)
+    }
 
 
-    if (searchObj.video_ticket){
-        return (<React.Fragment><VideoTicket data={{}} /><Footer /></React.Fragment>)
-    }else if(searchObj.paymentId){
-        return (<React.Fragment><VideoTicketDone /></React.Fragment>)
-    }else if(searchObj.videoId){
-        return (<React.Fragment><Video data={{}} /></React.Fragment>)
+    if(query.toString() !== ''){
+        return <Parameters />
     }else{
         return (
             <React.Fragment>
                 <Header />
+                <button onClick={handleClick}>get root</button>
             <main className={classes.main}>
                     <div className={classes.typography}>
                         <div className={classes.aboutUs}>
                             <AboutUs />
                         </div>
                         <div className={classes.news}>
-                            <News data={{}} />
+                            <News />
                         </div>
                         <div className={classes.blogTwt}>
                             <div className={classes.blog}>
-                                <AmeBlo data={{}} />
+                                <AmeBlo />
                             </div>
                             <div className={classes.twt}>
-                                <Twitter data={{}} />
+                                <Twitter />
                             </div>
                         </div>
                     </div>
@@ -136,7 +139,6 @@ const MainFunc = () => {
             </React.Fragment>
         )
     }
-
 }
 
 export const Main = () => {
