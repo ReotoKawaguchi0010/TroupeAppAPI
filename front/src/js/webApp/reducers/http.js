@@ -8,9 +8,9 @@ const initialState = {
 export const reducerFunc = (state=initialState, action) =>{
     switch (action.type){
         case 'increment':
-            return {test: 'test'}
+            return {...state, test: 'test'}
         default:
-            return {}
+            return state
     }
 }
 
