@@ -43,7 +43,7 @@ def init_page(request):
             blog_text = ameba_api.get_ameba_content()
             twitter_text = tweet.user_timeline(5)
             recruitment_text = ''
-            output = {'request': 'init', 'message': 'message', 'texts': {'news': news_text, 'about_us': about_us_text, 'blog': blog_text,
+            output = {'status': OK, 'texts': {'news': news_text, 'about_us': about_us_text, 'blog': blog_text,
                                           'twitter': twitter_text, 'recruitment': recruitment_text}}
         response.data = output
         return response

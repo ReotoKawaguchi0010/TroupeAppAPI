@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {
     TextField,
     Select,
@@ -16,10 +16,8 @@ import _ from "lodash";
 import {MenuIcon} from "../components/menu";
 import Footer from "../components/footer";
 import {create} from "../actions/action";
-
-const japanCity = ['北海道', '青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県',
-    '福井県','山梨県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県',
-    '香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'];
+import {sendContactMail} from "../actions/action";
+import {PageStoreContext} from "../contexts/PageStoreContext";
 
 const pcStyles = (theme) => ({
     wrapForm: {
@@ -149,6 +147,9 @@ let formObj = {
 
 const renderJapanCity = () =>{
     const classes = useStyles()
+    const japanCity = ['北海道', '青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県',
+    '福井県','山梨県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県',
+    '香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'];
     return _.map(japanCity, (value, key) => (
         <MenuItem key={`city${key}`} value={value} className={classes.menuItem}>{value}</MenuItem>
     ))
@@ -174,17 +175,19 @@ const Loading = (bool) =>{
 }
 
 export const Contact = () => {
+    const {state, dispatch} = useContext(PageStoreContext)
     const classes = useStyles()
-    const [state, setState] = React.useState({city: '', isLoading: false, formObj: formObj})
+    const [contactState, setContactState] = React.useState({city: '', isLoading: false, formObj: formObj})
 
     const selectChange = (e) => {
         const city = e.target.value
         formObj.address = city;
-        setState({...state, city: city, formObj: formObj})
+        setContactState({...contactState, city: city, formObj: formObj})
     }
 
     const sendMail = () => {
-        setState({...state, isLoading: true})
+        sendContactMail(state.formObj, dispatch)
+        setContactState({...contactState, isLoading: true})
         create.post('/mail', state.formObj)
 
     }
@@ -192,12 +195,12 @@ export const Contact = () => {
     const inTextChange = (e) => {
         let targetId = e.target.id
         formObj[targetId] = e.target.value
-        setState({...state, formObj: formObj})
+        setContactState({...contactState, formObj: formObj})
     }
 
     return (
         <React.Fragment>
-            <Loading bool={state.isLoading}/>
+            <Loading bool={contactState.isLoading}/>
             <div className="contact">
                 <MenuIcon/>
                 <div style={{padding: 100}}>
@@ -223,7 +226,7 @@ export const Contact = () => {
                             <FormControl variant="outlined">
                                 <InputLabel id="address-place" className={classes.selectInLabel}>都道府県</InputLabel>
                                 <Select id="address" label="都道府県" labelId="address-place"
-                                        className={classes.selectField} value={state.city} onChange={selectChange}>
+                                        className={classes.selectField} value={contactState.city} onChange={selectChange}>
                                     {renderJapanCity()}
                                 </Select>
                             </FormControl>

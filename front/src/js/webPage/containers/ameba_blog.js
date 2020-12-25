@@ -1,17 +1,8 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Paper } from "@material-ui/core";
 import _ from "lodash"
 import { makeStyles } from '@material-ui/core/styles';
-
-const blog = [
-    {'text': 'testtesttesttesttesttesttest'},
-    {'text': 'testtesttesttesttesttesttest'},
-    {'text': 'testtesttesttesttesttesttest'},
-    {'text': 'testtesttesttesttesttesttest'},
-    {'text': 'testtesttesttesttesttesttest'},
-    {'text': 'testtesttesttesttesttesttest'},
-]
-
+import {PageStoreContext} from "../contexts/PageStoreContext";
 
 const pcStyles = (theme) => ({
     title: {},
@@ -60,18 +51,19 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.between('sm', 'md')]: mobStyles(theme),
 }));
 
-export default function AmeBlo(props) {
+export default function AmeBlo() {
+    const value = useContext(PageStoreContext)
     const classes = useStyles();
-    const blogData = {data: ''}
-    if(props.data !== undefined) blogData.data = props.data.blog
     return (
         <React.Fragment>
             <h2 className={classes.title}>Blog</h2>
             <Paper elevation={3} className={classes.paper}>
                 <ul className={classes.ul}>
-                    {_.map(blogData.data, (value, key)=>{
+                    {value.state.http ? (
+                        _.map(value.state.http.texts.blog, (value, key)=>{
                         return (<li key={key}><a href={value.link} target="_blank" rel="noopener norefferer" className={classes.link}>{value.title}</a><hr style={{color: '#f5f5f5'}} /></li>)
-                    })}
+                    })
+                    ) : ''}
                 </ul>
             </Paper>
         </React.Fragment>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {Header} from "./header";
 import Footer from "./footer";
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,6 +13,7 @@ import AboutUs from "../containers/about_us";
 import {GET_ROOT_PATH} from "../actions/action";
 import {getRootPath} from "../actions/action";
 import {Parameters} from "../containers/querys";
+import {Loading} from "../containers/loading";
 
 
 const pcStyles = {
@@ -97,13 +98,17 @@ const useStyles = makeStyles((theme) => ({
 
 const MainFunc = () => {
     const {state, dispatch} = useContext(PageStoreContext)
+    const [mainState, setMainState] = useState({isLoading: true})
     const classes = useStyles()
 
     const query = new URLSearchParams(String(useLocation().search))
 
-    const handleClick = () =>{
-        getRootPath({type: GET_ROOT_PATH}, dispatch)
-    }
+    useEffect(() => {
+        setMainState({...mainState, isLoading: true})
+        getRootPath({type: GET_ROOT_PATH}, dispatch).then(() => {
+            setMainState({...mainState, isLoading: true})
+        })
+    }, [])
 
 
     if(query.toString() !== ''){
@@ -111,9 +116,11 @@ const MainFunc = () => {
     }else{
         return (
             <React.Fragment>
+                {
+                    mainState.isLoading ? <Loading /> : <></>
+                }
                 <Header />
-                <button onClick={handleClick}>get root</button>
-            <main className={classes.main}>
+                <main className={classes.main}>
                     <div className={classes.typography}>
                         <div className={classes.aboutUs}>
                             <AboutUs />

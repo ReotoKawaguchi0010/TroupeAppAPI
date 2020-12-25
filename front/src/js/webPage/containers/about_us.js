@@ -31,8 +31,8 @@ const mobStyles = (theme) => ({
 })
 
 const useStyles = makeStyles((theme) => ({
-    [theme.breakpoints.between('md', 'xl')]: pcStyles(theme),
-    [theme.breakpoints.between('sm', 'md')]: mobStyles(theme),
+    [theme.breakpoints.between('sm', 'xl')]: pcStyles(theme),
+    [theme.breakpoints.between('xs', 'sm')]: mobStyles(theme),
 }));
 
 
