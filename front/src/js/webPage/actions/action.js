@@ -4,6 +4,8 @@ import { API_PATH } from "../configs/config";
 
 export const GET_ROOT_PATH = 'GET_ROOT_PATH';
 
+export const SEND_MAIL = 'SEND_MAIL';
+
 export const create = axios.create({
     baseURL: API_PATH,
     headers: {

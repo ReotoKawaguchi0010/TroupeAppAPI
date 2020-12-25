@@ -6,8 +6,6 @@ import {
     InputLabel,
     FormControl,
     Button,
-    CircularProgress,
-    Modal,
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import SendIcon from '@material-ui/icons/Send';
@@ -15,9 +13,10 @@ import _ from "lodash";
 
 import {MenuIcon} from "../components/menu";
 import Footer from "../components/footer";
-import {create} from "../actions/action";
 import {sendContactMail} from "../actions/action";
 import {PageStoreContext} from "../contexts/PageStoreContext";
+import {Loading} from "./loading";
+import {SEND_MAIL} from "../actions/action";
 
 const pcStyles = (theme) => ({
     wrapForm: {
@@ -155,25 +154,6 @@ const renderJapanCity = () =>{
     ))
 }
 
-const Loading = (bool) =>{
-    if(bool.bool){
-        return (
-            <Modal
-                disablePortal
-                disableEnforceFocus
-                disableAutoFocus
-                open={bool.bool}
-                aria-labelledby="server-modal-title"
-                aria-describedby="server-modal-description"
-            >
-                <div><CircularProgress /></div>
-            </Modal>
-        )
-    }else{
-        return '';
-    }
-}
-
 export const Contact = () => {
     const {state, dispatch} = useContext(PageStoreContext)
     const classes = useStyles()
@@ -186,10 +166,10 @@ export const Contact = () => {
     }
 
     const sendMail = () => {
-        sendContactMail(state.formObj, dispatch)
         setContactState({...contactState, isLoading: true})
-        create.post('/mail', state.formObj)
-
+        sendContactMail({sendData: contactState.formObj, type: SEND_MAIL, state: state}, dispatch).then(() => {
+            setContactState({...contactState ,isLoading: false})
+        })
     }
 
     const inTextChange = (e) => {
@@ -200,7 +180,9 @@ export const Contact = () => {
 
     return (
         <React.Fragment>
-            <Loading bool={contactState.isLoading}/>
+            {
+                contactState.isLoading ? <Loading /> : <></>
+            }
             <div className="contact">
                 <MenuIcon/>
                 <div style={{padding: 100}}>

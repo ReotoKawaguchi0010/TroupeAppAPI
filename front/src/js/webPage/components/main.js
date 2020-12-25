@@ -98,15 +98,15 @@ const useStyles = makeStyles((theme) => ({
 
 const MainFunc = () => {
     const {state, dispatch} = useContext(PageStoreContext)
-    const [mainState, setMainState] = useState({isLoading: true})
+    const [mainState, setMainState] = useState({isLoading: false})
     const classes = useStyles()
 
     const query = new URLSearchParams(String(useLocation().search))
 
     useEffect(() => {
         setMainState({...mainState, isLoading: true})
-        getRootPath({type: GET_ROOT_PATH}, dispatch).then(() => {
-            setMainState({...mainState, isLoading: true})
+        getRootPath({type: GET_ROOT_PATH, state: state}, dispatch).then(() => {
+            setMainState({...mainState, isLoading: false})
         })
     }, [])
 

@@ -1,3 +1,5 @@
+import datetime
+
 import json
 
 from rest_framework.response import Response
@@ -49,17 +51,20 @@ def init_page(request):
         return response
     return response
 
-
+@api_view(['POST'])
 def send_mail(request):
     response = Response({}, content_type='application/json')
     try:
         req_body = request.body.decode(encoding='utf-8')
         req_body = json.loads(req_body)
+        print(req_body)
         info_send_mail(req_body['mailAddress'], req_body, req_body['content'])
         info_response_mail(req_body['mailAddress'], req_body, req_body['content'])
-        output = {'bool': 1}
+        output = {'status_code': OK, 'bool': 'true',
+                  'timestamp': datetime.datetime.now().timestamp()}
     except:
-        output = {'error': {'status_code': OK}, 'bool': 0}
+        output = {'status_code': 500, 'bool': 'false',
+                  'timestamp': datetime.datetime.now().timestamp()}
     response.data = output
     return response
 

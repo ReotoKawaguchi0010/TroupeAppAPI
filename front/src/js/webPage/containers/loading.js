@@ -7,13 +7,23 @@ import {makeStyles} from "@material-ui/core/styles";
 const pcStyles = (theme) => ({
     position: {
         padding: theme.spacing(2, 4, 3),
-    }
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 })
 
 const mobStyles = (theme) => ({
     position: {
         padding: theme.spacing(2, 4, 3),
-    }
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 })
 
 const useStyles = makeStyles((theme) => ({
@@ -27,8 +37,8 @@ export const Loading = () => {
 
     return (
         <>
-            <Modal open={true}>
-                <div>
+            <Modal open={true} className={classes.modal}>
+                <div tabIndex={'none'}>
                     <CircularProgress />
                 </div>
             </Modal>
