@@ -6,6 +6,7 @@ import {Container} from "@material-ui/core";
 import {Header} from "./header";
 import {Side} from "./side";
 import {Performance} from "../containers/performance";
+import {Idea} from "../containers/idea/idea";
 import {Footer} from "./footer";
 import {RouteWithSubRoutes} from "../../routings/routings";
 import _ from "lodash";
@@ -20,6 +21,10 @@ const routes = [
     {
         path: '/app/performance',
         component: Performance,
+    },
+    {
+        path: '/app/idea',
+        component: Idea,
     },
     {
         path: '/app',
