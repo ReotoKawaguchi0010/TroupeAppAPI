@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     },
 });
 
-function SimpleBottomNavigation() {
+const SimpleBottomNavigation = () => {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -32,12 +32,10 @@ function SimpleBottomNavigation() {
     );
 }
 
-export default class Footer extends React.Component{
-    render(){
-        return (
-            <React.Fragment>
-                <footer><SimpleBottomNavigation /></footer>
-            </React.Fragment>
-        )
-    }
+export const Footer = () =>{
+    return (
+        <React.Fragment>
+            <footer><SimpleBottomNavigation /></footer>
+        </React.Fragment>
+    )
 }

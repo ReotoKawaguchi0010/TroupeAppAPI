@@ -1,90 +1,74 @@
-import React from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import { makeStyles } from '@material-ui/core/styles';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import Divider from '@material-ui/core/Divider';
+import React from "react";
+import {Link} from "react-router-dom";
+import {Paper, List, ListItem, Button, Box} from "@material-ui/core";
+import {makeStyles} from '@material-ui/core/styles';
+import _ from "lodash";
 
-import bellIcon from "../../../../images/icons/bell2.png";
-import performanceIcon from "../../../../images/icons/performance2.png"
-import myTaskIcon from "../../../../images/icons/mytask2.png"
-import ideaIcon from "../../../../images/icons/ideas2.png"
-import contentIcon from "../../../../images/icons/contents2.png"
-import myPageIcon from "../../../../images/icons/mypage2.png"
-import manualIcon from "../../../../images/icons/manual2.png"
-import moneyIcon from "../../../../images/icons/money2.png"
-
-export const DrawerWidth = 240;
+import {PerformanceIcon, IdeaMan, NoteIcon, ContractIcon} from "../containers/icons";
 
 const useStyles = makeStyles((theme) => ({
-    drawerPaper: {
-        width: DrawerWidth,
+    paper: {
+        width: 240,
+        height: '100vh',
     },
-    drawerContainer: {
-        overflow: 'auto',
+    st: {
+        fill: '#4B4B4B',
+    },
+    link: {
+        textDecoration: 'none',
+        color: 'initial',
+        width: '100%',
+        display: 'inherit',
+        alignItems: 'inherit',
+        justifyContent: 'inherit',
     },
 }));
 
-const sideContent = [
-    {title: 'マイページ', img: myPageIcon},
-    {title: '公演', img: performanceIcon},
-    {title: 'マイタスク', img: myTaskIcon},
-    {title: 'お知らせ', img: bellIcon},
+const listItems = [
+    {
+        name: '公演',
+        iconComponent: PerformanceIcon,
+        link: 'performance',
+    },
+    {
+        name: '企画',
+        iconComponent: IdeaMan,
+        link: 'idea',
+    },
+    {
+        name: 'マニュアル',
+        iconComponent: NoteIcon,
+        link: 'manual',
+    },
+    {
+        name: '契約',
+        iconComponent: ContractIcon,
+        link: 'contract',
+    },
 ]
 
-const sideContentItems = [
-    {title: '企画', img: ideaIcon},
-    {title: 'コンテンツ', img: contentIcon},
-    {title: 'マニュアル', img: manualIcon},
-    {title: '予算', img: moneyIcon},
-]
 
 
-
-
-function SideBarDrawer() {
-    const classes = useStyles();
+export const Side = () => {
+    const classes = useStyles()
     return (
-        <Drawer
-            className={classes.drawer}
-            variant="permanent"
-            classes={{
-                paper: classes.drawerPaper,
-            }}
-        >
-            <Toolbar />
-            <div className={classes.drawerContainer}>
-                <List>
-                    {sideContent.map((content, index) => (
-                        <ListItem button key={content.title}>
-                            <ListItemIcon><img style={{background: '#000000', width: '60%'}} src={content.img} alt={content.title} /></ListItemIcon>
-                            <ListItemText primary={content.title} />
+        <Paper className={classes.paper}>
+            <List>
+                {
+                    _.map(listItems, (v, i) => {
+                        return (
+                        <ListItem key={i}>
+                            <Button>
+                                <Link className={classes.link} to={`/app/${v.link}`}>
+                                    <v.iconComponent />
+                                    <Box>{v.name}</Box>
+                                </Link>
+                            </Button>
                         </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    {sideContentItems.map((content, index) => (
-                        <ListItem button key={content.title}>
-                            <ListItemIcon><img style={{background: '#000000', width: '60%'}} src={content.img} alt={content.title} /></ListItemIcon>
-                            <ListItemText primary={content.title} />
-                        </ListItem>
-                    ))}
-                </List>
-            </div>
-        </Drawer>
-    );
-}
-
-export default class SideBar extends React.Component{
-    render(){
-        return (
-            <React.Fragment>
-                <SideBarDrawer />
-            </React.Fragment>
-        )
-    }
+                        )
+                    })
+                }
+            </List>
+        </Paper>
+    )
 }

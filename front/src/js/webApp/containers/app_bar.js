@@ -7,7 +7,6 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
-import SideBar from "../components/side";
 
 
 
@@ -71,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SearchAppBar(){
+export const SearchAppBar = () =>{
     const classes = useStyles();
 
     return (
@@ -104,7 +103,6 @@ export default function SearchAppBar(){
                     </div>
                 </Toolbar>
             </AppBar>
-            <SideBar />
         </div>
     );
 }

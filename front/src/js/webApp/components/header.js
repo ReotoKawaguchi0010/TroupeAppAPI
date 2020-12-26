@@ -1,13 +1,11 @@
 import React from "react";
 
-import SearchAppBar from "../containers/app_bar";
+import {SearchAppBar} from "../containers/app_bar";
 
-export default class Header extends React.Component{
-    render(){
-        return (
-            <React.Fragment>
-                <SearchAppBar />
-            </React.Fragment>
-        )
-    }
+export  const Header = () => {
+    return (
+        <React.Fragment>
+            <SearchAppBar />
+        </React.Fragment>
+    )
 }
