@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Switch} from "react-router";
-import {Link, useRouteMatch} from "react-router-dom";
-import {Grid, Paper, Box, Button, Modal} from "@material-ui/core";
+import {Link, Redirect ,useRouteMatch} from "react-router-dom";
+import {Grid, Paper, Box, Button, Modal, ButtonGroup, Fab} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -40,34 +40,38 @@ const data = [
 const IdeaRoot = () => {
     let { path, url } = useRouteMatch();
     const [ideaState, setIdeaState] = useState({
-        createModal: false
+        createModal: false,
+        create: false,
     })
 
     const handleAddBtnClick = (e) => {
         setIdeaState({...ideaState, createModal: true})
     }
 
-    const handleClose = () => {
-        setIdeaState({...ideaState, createModal: false})
+    const handleClose = (e) => {
+        return e.target.innerText === 'はい' ? setIdeaState({...ideaState, create: true, createModal: false}) : setIdeaState({...ideaState, createModal: false})
     }
 
     const classes = useStyles()
     return (
         <div className={classes.root}>
+            {ideaState.create ? <Redirect to={`${url}/create`} /> : <></>}
             <Modal open={ideaState.createModal}>
                 <Box tabIndex={'none'} className={classes.modalBox}>
                     <Paper className={classes.modalPaper}>
                         <Box>企画を提案しますか？</Box>
                         <Box>
-                            <Button onClick={handleClose}>はい</Button>
-                            <Button onClick={handleClose}>いいえ</Button>
+                            <ButtonGroup disableElevation variant="contained" color="secondary">
+                                <Button onClick={handleClose}>はい</Button>
+                                <Button onClick={handleClose}>いいえ</Button>
+                            </ButtonGroup>
                         </Box>
                     </Paper>
                 </Box>
             </Modal>
-            <Button onClick={handleAddBtnClick}>
+            <Fab onClick={handleAddBtnClick}>
                 <AddIcon />
-            </Button>
+            </Fab>
             <Grid container spacing={3}>
                 {_.map(data, (v, i) => {
                     return(
