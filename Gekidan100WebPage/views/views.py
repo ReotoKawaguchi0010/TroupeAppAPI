@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view
 
 from Gekidan100WebPage.views.personal import routing_in_member
 from Gekidan100WebPage.api import ameba_api
-from Gekidan100WebPage.utils.util import is_port_local_content_type
+from Gekidan100WebPage.utils.util import is_port_local_content_type, time_subtraction
 from Gekidan100WebPage.utils.mail import info_send_mail, info_response_mail
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.member_page_api import is_login_check
@@ -117,20 +117,30 @@ def member(request, user):
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def app(request):
     content_type = is_port_local_content_type(request)
-    response = Response({}, content_type=content_type)
+    response = Response({'status': OK, 'bool': 'false', 'login': 'fail'}, content_type=content_type)
     if request.method == 'POST':
         request_data = request.body.decode('utf-8')
         request_data = json.loads(request_data)
-        if 'username' in request_data and 'password' in request_data:
-            username = request_data['username']
-            password = request_data['password']
-            if request.session.get('username') is None:
-                user = User.objects.get(username=username)
-                if user is not None and user.check_password(password):
-                    request.session['username'] = username
-                    if not request.session.session_key:
-                        request.session.create()
-                    response.set_cookie('sessionid', request.session.session_key)
+        if request.session.get('username') is None and request.session.get('time') is None:
+            if 'username' in request_data and 'password' in request_data:
+                username = request_data['username']
+                password = request_data['password']
+                if User.objects.filter(username=username).exists():
+                    user = User.objects.get(username=username)
+                    if user is not None and user.check_password(password):
+                        request.session['username'] = username
+                        request.session['time'] = datetime.datetime.now()
+                        if not request.session.session_key:
+                            request.session.create()
+                        response.set_cookie('sessionid', request.session.session_key)
+                        response.data = {'status': OK, 'bool': 'true', 'login': 'success'}
+        else:
+            response.data = {'status': OK, 'bool': 'true', 'login': 'success'}
+            if time_subtraction(request.session.get('time')) > 8000:
+                request.session.delete('username')
+                request.session.delete('time')
+                response.delete_cookie('sessionid')
+                response.data = {'status': OK, 'bool': 'false', 'login': 'fail'}
     return response
 
 

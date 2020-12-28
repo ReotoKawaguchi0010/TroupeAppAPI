@@ -41,7 +41,6 @@ export const Main = () => {
         login({type: 'login'}, dispatch)
     }, [])
 
-
     return (
         <React.Fragment>
             {state.reducerFunc ? !state.reducerFunc.login ? <Redirect to="/app/login" /> : <></> : <></>}

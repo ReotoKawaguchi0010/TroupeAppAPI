@@ -1,5 +1,5 @@
 import hashlib
-import random
+import datetime
 
 
 def encode_sha256(encode_letter):
@@ -58,14 +58,26 @@ def is_port_local_content_type(request):
     return 'application/json'
 
 
+def time_subtraction(time: datetime.datetime):
+    time_subtraction = datetime.datetime.now() - time
+    return time_subtraction.seconds
+
+
 
 
 if __name__ == '__main__':
-    str1 = 'PAYID-L67255A76683099VG284801U'
-    str2 = 'ZQFR8L8CNFDC6'
+    # str1 = 'PAYID-L67255A76683099VG284801U'
+    # str2 = 'ZQFR8L8CNFDC6'
+    #
+    # encode = my_cipher_encode(str1)
+    # decode = my_cipher_decode(encode)
+    # print(decode == encode_sha256(str1))
 
-    encode = my_cipher_encode(str1)
-    decode = my_cipher_decode(encode)
-    print(decode == encode_sha256(str1))
+    date2 = datetime.datetime(2020, 12, 28, 20, 50, 12, 7721)
+    print(time_subtraction(date2))
+
+
+
+
 
 
