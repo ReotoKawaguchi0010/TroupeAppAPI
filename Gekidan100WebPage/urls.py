@@ -2,19 +2,14 @@ from django.urls import path, include
 
 from Gekidan100WebPage.views import views
 
-member_page = [
-    path('', views.member),
-]
-
-member = [
-    path('', views.auth, name='auth'),
-    path('<str:user>/', include(member_page)),
+app = [
+    path('', views.app),
 ]
 
 urlpatterns = [
-    path('', views.init_page, name='index'),
-    path('mail', views.send_mail, name='mail'),
-    path('auth/', include(member)),
+    path('', views.init_page),
+    path('mail', views.send_mail),
+    path('app/', include(app)),
 ]
 
 

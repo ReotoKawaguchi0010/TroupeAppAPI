@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import {CircularProgress} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {create} from "../actions/action";
 import {Redirect} from "react-router";
 
 
@@ -36,12 +35,6 @@ export const VideoTicketDone = () => {
     const classes = useStyles()
     const [state, setState] = React.useState({})
 
-    useEffect(() => {
-        create.get(location.search, null)
-            .then(e => {
-                console.log(e)
-            })
-    }, [])
 
 
     return (

@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Switch} from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
 import {Container} from "@material-ui/core";
 
+
+import {AppContext} from "../contexts/AppContext";
+import {login} from "../actions/actions";
 import {Header} from "./header";
 import {Side} from "./side";
 import {Performance} from "../containers/performance";
 import {Idea} from "../containers/idea/idea";
-import {Footer} from "./footer";
 import {RouteWithSubRoutes} from "../../routings/routings";
 import _ from "lodash";
 
@@ -33,6 +35,14 @@ const routes = [
 ];
 
 export const Main = () => {
+    const {state, dispatch} = useContext(AppContext)
+
+
+    login({type: 'login'}, dispatch)
+
+
+
+
     return (
         <React.Fragment>
             <Header />

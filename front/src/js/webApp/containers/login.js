@@ -4,8 +4,6 @@ import {Input} from '@material-ui/core';
 import reducers from "../reducers"
 import {AppContext} from "../contexts/AppContext";
 
-import {create} from "../../webPage/actions/action";
-
 const useStyles = {
     wrapField: {
         textAlign: 'center'
@@ -20,13 +18,6 @@ const Provider = ({children}) => {
 
 const Main = () => {
     const {state, dispatch} = useContext(AppContext)
-
-
-    const handleClick = () => {
-        create.get('/').then(resp => {
-            dispatch({type: 'respData', data: resp.data})
-        })
-    }
 
     return (
         <main>

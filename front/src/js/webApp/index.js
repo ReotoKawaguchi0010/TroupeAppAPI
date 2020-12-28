@@ -1,17 +1,24 @@
-import React from "react";
+import React, {useEffect, useReducer} from "react";
 
 import {Routings} from "./routings/routings";
+import reducers from "./reducers";
+import {AppContext} from "./contexts/AppContext";
 
-export default class webApp extends React.Component{
-    componentDidMount() {
+const Provider = ({children}) => {
+    const [state, dispatch] = useReducer(reducers, {});
+    return <AppContext.Provider value={{state, dispatch}}>{children}</AppContext.Provider>
+}
+
+export const webApp = () => {
+    useEffect(() => {
         document.title = '劇団沸管理App'
-    }
+    })
 
-    render(){
-        return (
-            <React.Fragment>
+    return (
+        <React.Fragment>
+            <Provider>
                 <Routings />
-            </React.Fragment>
-        )
-    }
+            </Provider>
+        </React.Fragment>
+    )
 }

@@ -2,11 +2,13 @@ import datetime
 
 import json
 
+from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from Gekidan100WebPage.views.personal import routing_in_member
 from Gekidan100WebPage.api import ameba_api
+from Gekidan100WebPage.utils.util import is_port_local_content_type
 from Gekidan100WebPage.utils.mail import info_send_mail, info_response_mail
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.member_page_api import is_login_check
@@ -15,10 +17,7 @@ from Gekidan100WebPage.views import gets
 
 @api_view(['GET', 'POST'])
 def init_page(request):
-    if int(request.get_port()) == 8000:
-        content_type = 'text/html'
-    else:
-        content_type = 'application/json'
+    content_type = is_port_local_content_type(request)
     response = Response({}, content_type=content_type)
     if request.method == 'GET':
         if request.GET.get('video_ticket'):
@@ -114,3 +113,24 @@ def member(request, user):
     response.data = status
     response.status_code = UNAUTHORIZED
     return response
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def app(request):
+    content_type = is_port_local_content_type(request)
+    response = Response({}, content_type=content_type)
+    if request.method == 'POST':
+        request_data = request.body.decode('utf-8')
+        request_data = json.loads(request_data)
+        if 'username' in request_data and 'password' in request_data:
+            username = request_data['username']
+            password = request_data['password']
+            if request.session.get('username') is None:
+                user = User.objects.get(username=username)
+                if user is not None and user.check_password(password):
+                    request.session['username'] = username
+                    if not request.session.session_key:
+                        request.session.create()
+                    response.set_cookie('sessionid', request.session.session_key)
+    return response
+
+

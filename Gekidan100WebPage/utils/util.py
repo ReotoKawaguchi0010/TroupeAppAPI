@@ -52,6 +52,14 @@ def my_cipher_decode(c: str):
         m_list.append(chr(int(m, 2)))
     return ''.join(m_list)
 
+def is_port_local_content_type(request):
+    if int(request.get_port()) == 8000:
+        return 'text/html'
+    return 'application/json'
+
+
+
+
 if __name__ == '__main__':
     str1 = 'PAYID-L67255A76683099VG284801U'
     str2 = 'ZQFR8L8CNFDC6'

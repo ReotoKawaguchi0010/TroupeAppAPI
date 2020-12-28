@@ -1,1 +1,1 @@
-from Gekidan100WebPage.models.models import User
+from Gekidan100WebPage.models.models import VideoTicket, Idea

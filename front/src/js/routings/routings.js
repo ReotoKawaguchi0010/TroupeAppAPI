@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import _ from "lodash"
 
 import {webPage} from "../webPage/index";
-import webApp from "../webApp/index";
+import {webApp} from "../webApp/index";
 
 const routes = [
     {
