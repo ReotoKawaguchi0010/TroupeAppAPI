@@ -11,9 +11,8 @@ from Gekidan100WebPage.api import ameba_api
 from Gekidan100WebPage.utils.util import is_port_local_content_type, time_subtraction
 from Gekidan100WebPage.utils.mail import info_send_mail, info_response_mail
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
-from Gekidan100WebPage.api.member_page_api import is_login_check
 from Gekidan100WebPage.api.twitter_api import TwitterApi
-from Gekidan100WebPage.views import gets
+from Gekidan100WebPage.views import gets, views_app
 
 @api_view(['GET', 'POST'])
 def init_page(request):
@@ -80,29 +79,6 @@ def youtube(request):
     return Response('test')
 
 
-def auth(request):
-    response = Response({}, content_type='application/json')
-    if request.POST:
-        username = request.POST['username']
-        password = request.POST['password']
-        if request.session.get('name') is None:
-            if is_login_check(username, password):
-                request.session['name'] = username
-                if not request.session.session_key:
-                    request.session.create()
-                status = {'success': {'status_code': OK}, 'bool': 1}
-                response.data = status
-                response.set_cookie('sessionid', request.session.session_key)
-                return response
-        else:
-            status = json.dumps({'success': {'status_code': OK}, 'bool': 1})
-            response.data = status
-            return response
-    status = json.dumps({'error': {'status_code': UNAUTHORIZED, 'type': 'auth_error'}, 'bool': 0})
-    response.data = status
-    response.status_code = UNAUTHORIZED
-    return response
-
 def member(request, user):
     response = Response({}, content_type='application/json')
     if request.session.has_key('name'):
@@ -119,28 +95,7 @@ def app(request):
     content_type = is_port_local_content_type(request)
     response = Response({'status': OK, 'bool': 'false', 'login': 'fail'}, content_type=content_type)
     if request.method == 'POST':
-        request_data = request.body.decode('utf-8')
-        request_data = json.loads(request_data)
-        if request.session.get('username') is None and request.session.get('time') is None:
-            if 'username' in request_data and 'password' in request_data:
-                username = request_data['username']
-                password = request_data['password']
-                if User.objects.filter(username=username).exists():
-                    user = User.objects.get(username=username)
-                    if user is not None and user.check_password(password):
-                        request.session['username'] = username
-                        request.session['time'] = datetime.datetime.now()
-                        if not request.session.session_key:
-                            request.session.create()
-                        response.set_cookie('sessionid', request.session.session_key)
-                        response.data = {'status': OK, 'bool': 'true', 'login': 'success'}
-        else:
-            response.data = {'status': OK, 'bool': 'true', 'login': 'success'}
-            if time_subtraction(request.session.get('time')) > 8000:
-                request.session.delete('username')
-                request.session.delete('time')
-                response.delete_cookie('sessionid')
-                response.data = {'status': OK, 'bool': 'false', 'login': 'fail'}
+        response = views_app.login(request, response)
     return response
 
 
