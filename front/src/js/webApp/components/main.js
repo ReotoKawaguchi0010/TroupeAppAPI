@@ -1,5 +1,5 @@
-import React, {useContext} from "react";
-import {Switch} from "react-router";
+import React, {useContext, useEffect} from "react";
+import {Switch, Redirect} from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
 import {Container} from "@material-ui/core";
 
@@ -37,14 +37,14 @@ const routes = [
 export const Main = () => {
     const {state, dispatch} = useContext(AppContext)
 
-
-    login({type: 'login'}, dispatch)
-
-
+    useEffect(() =>{
+        login({type: 'login'}, dispatch)
+    }, [])
 
 
     return (
         <React.Fragment>
+            {state.reducerFunc ? !state.reducerFunc.login ? <Redirect to="/app/login" /> : <></> : <></>}
             <Header />
             <div style={{display: 'flex'}}>
                 <Side />

@@ -1,8 +1,8 @@
-import React, {useState, useReducer, useContext} from "react";
+import React, {useState, useContext} from "react";
 import {Input} from '@material-ui/core';
 
-import reducers from "../reducers"
 import {AppContext} from "../contexts/AppContext";
+import {login} from "../actions/actions";
 
 const useStyles = {
     wrapField: {
@@ -10,10 +10,7 @@ const useStyles = {
     },
 }
 
-const Provider = ({children}) => {
-    const [state, dispatch] = useReducer(reducers, {});
-    return <AppContext.Provider value={{state, dispatch}}>{children}</AppContext.Provider>
-}
+
 
 
 const Main = () => {
@@ -25,7 +22,7 @@ const Main = () => {
             <form>
                 <div style={useStyles.wrapField}><Input label="Username" type="text" placeholder="username" /></div>
                 <div style={useStyles.wrapField}><Input label="Password" type="password" placeholder="password" /></div>
-                <button onClick={handleClick}>test</button>
+                <button>test</button>
             </form>
         </main>
     )
@@ -34,8 +31,8 @@ const Main = () => {
 
 export const Login = () => {
     return (
-        <Provider>
+        <>
             <Main />
-        </Provider>
+        </>
     )
 }

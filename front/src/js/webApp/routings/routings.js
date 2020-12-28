@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import _ from "lodash";
 import {Switch} from "react-router";
 
@@ -20,14 +20,15 @@ const routes = [
 
 
 export const Routings = () => {
-        return (
-            <React.Fragment>
-                <ScrollToTop />
-                <Switch>
-                    {_.map(routes, (route, i) => (
-                        <RouteWithSubRoutes key={i} {...route} />
-                    ))}
-                </Switch>
-            </React.Fragment>
-        )
+
+    return (
+        <React.Fragment>
+            <ScrollToTop />
+            <Switch>
+                {_.map(routes, (route, i) => (
+                    <RouteWithSubRoutes key={i} {...route} />
+                ))}
+            </Switch>
+        </React.Fragment>
+    )
 }
