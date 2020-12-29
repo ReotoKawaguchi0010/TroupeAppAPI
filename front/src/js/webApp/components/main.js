@@ -8,7 +8,7 @@ import {AppContext} from "../contexts/AppContext";
 import {login} from "../actions/actions";
 import {Header} from "./header";
 import {Side} from "./side";
-import {Performance} from "../containers/performance";
+import {Performances} from "../containers/performances/performances";
 import {Idea} from "../containers/idea/idea";
 import {RouteWithSubRoutes} from "../../routings/routings";
 import _ from "lodash";
@@ -22,7 +22,7 @@ const MainBody = () => {
 const routes = [
     {
         path: '/app/performance',
-        component: Performance,
+        component: Performances,
     },
     {
         path: '/app/idea',

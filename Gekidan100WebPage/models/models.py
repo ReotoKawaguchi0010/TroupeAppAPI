@@ -13,7 +13,13 @@ class VideoTicket(models.Model):
     token_hash = models.CharField(max_length=70)
 
 class Idea(models.Model):
-    name = models.CharField(max_length=256)
+    id = models.IntegerField(max_length=256, primary_key=True)
+    title = models.CharField(max_length=256)
     author = models.CharField(max_length=256)
-    content = models.TextField()
+
+
+class IdeaContents(models.Model):
+    name = models.CharField(max_length=256)
+    value = models.CharField(max_length=256)
+    idea_id = models.ForeignKey(Idea, on_delete=models.CASCADE)
 

@@ -95,7 +95,14 @@ def app(request):
     content_type = is_port_local_content_type(request)
     response = Response({'status': OK, 'bool': 'false', 'login': 'fail'}, content_type=content_type)
     if request.method == 'POST':
-        response = views_app.login(request, response)
+        request_data = request.body.decode('utf-8')
+        request_data = json.loads(request_data)
+        if 'type' in request_data:
+            type = request_data['type']
+            if type == 'login':
+                response = views_app.login(request, response, request_data)
+            elif type == 'idea':
+                response = views_app.idea(request, response, request_data)
     return response
 
 

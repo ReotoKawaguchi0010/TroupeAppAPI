@@ -1,7 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {Input, TextField, Box, Button, Modal, Paper} from "@material-ui/core";
 import _ from "lodash";
+
+import {AppContext} from "../../contexts/AppContext";
+import {idea} from "../../actions/actions";
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -23,16 +26,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const IdeaCreate = () => {
+    const {state, dispatch} = useContext(AppContext)
     const [fieldState, setFieldState] = useState({
         content: [
-            {name: 'タイトル'},
-            {name: '作成者'},
+            {name: 'タイトル', value: ''},
+            {name: '作成者', value: ''},
         ],
         addButton: false,
     })
     const [contentState, setContentState] = useState({
         name: '',
     })
+
+    const [sendState, setSendState] = useState({sendData: {}})
 
     const classes = useStyles()
 
@@ -43,13 +49,32 @@ export const IdeaCreate = () => {
     const handleCloseContent = (e) => {
         let content = fieldState.content
         if(e.target.innerText === '作成'){
-            content.push({name: contentState.name})
+            content.push({name: contentState.name, value: ''})
         }
         setFieldState({...fieldState, addButton: false, content: content})
     }
 
     const handleChangeContent = e => {
         setContentState({...contentState, name: e.target.value})
+    }
+
+    const handleChangeContentInput = e => {
+        let data = {
+            name: decodeURI(e.target.name),
+            value: e.target.value,
+        }
+        let sendData = sendState.sendData
+        let id = e.target.id
+        sendData[id] = data
+        setSendState({...sendState, sendData: sendData})
+    }
+
+    const handleClickSendBtn = e => {
+        if(Object.keys(sendState.sendData).length < fieldState.content.length){
+            alert('未入力の項目があります。')
+        }else{
+            idea({type: 'idea', sendData: sendState.sendData}, dispatch)
+        }
     }
 
     return (
@@ -74,12 +99,16 @@ export const IdeaCreate = () => {
                         return (
                             <Box key={i}>
                                 <Box>{v.name}</Box>
-                                <Box><TextField className={classes.wrapInput} multiline /></Box>
+                                <Box><TextField className={classes.wrapInput} multiline
+                                                onChange={handleChangeContentInput}
+                                                name={encodeURI(v.name)}
+                                                id={`content${i}`}
+                                /></Box>
                             </Box>
                         )
                     })
                 }
-                <Button>作成</Button>
+                <Button onClick={handleClickSendBtn}>作成</Button>
             </form>
         </>
     )
