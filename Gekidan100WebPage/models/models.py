@@ -17,7 +17,6 @@ class Idea(models.Model):
     title = models.CharField(max_length=256)
     author = models.CharField(max_length=256)
 
-
 class IdeaContents(models.Model):
     name = models.CharField(max_length=256)
     value = models.CharField(max_length=256)
