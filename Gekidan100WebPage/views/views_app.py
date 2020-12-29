@@ -37,18 +37,24 @@ def idea(request, response: Response, data: dict):
     data.pop('type')
     title = ''
     author = ''
-    for _, v in data.items():
+    in_idea_contents_data = {}
+    for i, v in data.items():
         if v['name'] == 'タイトル':
             title = v['value']
         elif v['name'] == '作成者':
             author = v['value']
-    idea_data = Idea.objects.filter(title=title)
+        else:
+            in_idea_contents_data = {i: v}
+    idea_data = Idea.objects.select_related().filter(title=title)
     if not bool(idea_data):
         idea = Idea(title=title, author=author)
         idea.save()
-    else:
-        idea_id = 0
-        for v in idea_data:
-            idea_id = v.id
-        print(idea_id)
+    for i in idea_data:
+        idea_data = i
+    if bool(in_idea_contents_data):
+        for _, v in in_idea_contents_data.items():
+            idea_contents_data = IdeaContents.objects.filter(name=v['name'])
+            if not bool(idea_contents_data):
+                idea_contents = IdeaContents(name=v['name'], value=v['value'], idea_id=idea_data)
+                idea_contents.save()
     return response

@@ -13,7 +13,7 @@ class VideoTicket(models.Model):
     token_hash = models.CharField(max_length=70)
 
 class Idea(models.Model):
-    id = models.IntegerField(max_length=256, primary_key=True)
+    id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=256)
     author = models.CharField(max_length=256)
 
