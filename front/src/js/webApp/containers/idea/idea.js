@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Switch} from "react-router";
 import {Link, Redirect ,useRouteMatch} from "react-router-dom";
 import {Grid, Paper, Box, Button, Modal, ButtonGroup, Fab} from "@material-ui/core";
@@ -8,7 +8,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {RouteWithSubRoutes} from "../../../routings/routings";
 import _ from "lodash";
 import {IdeaCreate} from "./create";
-
+import {create} from "../../../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,6 +52,11 @@ const IdeaRoot = () => {
         return e.target.innerText === 'はい' ? setIdeaState({...ideaState, create: true, createModal: false}) : setIdeaState({...ideaState, createModal: false})
     }
 
+    useEffect(() => {
+        create.get('/app/').then(resp => {
+            console.log(resp)
+        })
+    }, [])
     const classes = useStyles()
     return (
         <div className={classes.root}>

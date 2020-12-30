@@ -103,6 +103,8 @@ def app(request):
                 response = views_app.login(request, response, request_data)
             elif type == 'idea':
                 response = views_app.idea(request, response, request_data)
+    elif request.method == 'GET':
+        response.data = {'type': 'get'}
     return response
 
 
