@@ -10,6 +10,8 @@ import {Header} from "./header";
 import {Side} from "./side";
 import {Performances} from "../containers/performances/performances";
 import {Idea} from "../containers/idea/idea";
+import {Manual} from "../containers/manual";
+import {Contract} from "../containers/contract";
 import {RouteWithSubRoutes} from "../../routings/routings";
 import _ from "lodash";
 
@@ -27,6 +29,14 @@ const routes = [
     {
         path: '/app/idea',
         component: Idea,
+    },
+    {
+        path: '/app/manual',
+        component: Manual,
+    },
+    {
+        path: '/app/contract',
+        component: Contract,
     },
     {
         path: '/app',

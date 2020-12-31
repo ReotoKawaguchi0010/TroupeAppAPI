@@ -6,13 +6,13 @@ from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from Gekidan100WebPage.views.personal import routing_in_member
 from Gekidan100WebPage.api import ameba_api
-from Gekidan100WebPage.utils.util import is_port_local_content_type, time_subtraction
+from Gekidan100WebPage.utils.util import is_port_local_content_type, has_request_type
 from Gekidan100WebPage.utils.mail import info_send_mail, info_response_mail
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.twitter_api import TwitterApi
-from Gekidan100WebPage.views import gets, views_app
+from Gekidan100WebPage.views import gets
+from Gekidan100WebPage.views.post import post
 
 @api_view(['GET', 'POST'])
 def init_page(request):
@@ -49,6 +49,23 @@ def init_page(request):
         return response
     return response
 
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def app(request):
+    content_type = is_port_local_content_type(request)
+    response = Response({'status': OK, 'bool': 'false', 'login': 'fail'}, content_type=content_type)
+    if request.method == 'POST':
+        request_data = request.body.decode('utf-8')
+        request_data = json.loads(request_data)
+        if has_request_type(request_data, 'login'):
+            response = post.login(request, response, request_data)
+        elif has_request_type(request_data, 'idea'):
+            response = post.idea(request, response, request_data)
+    elif request.method == 'GET':
+        request_data = request.GET.dict()
+        if has_request_type(request_data, 'idea'):
+            response.data = {'data': 'test'}
+    return response
+
 @api_view(['POST'])
 def send_mail(request):
     response = Response({}, content_type='application/json')
@@ -77,34 +94,5 @@ def youtube(request):
         print(url + req)
         return Response(url + req)
     return Response('test')
-
-
-def member(request, user):
-    response = Response({}, content_type='application/json')
-    if request.session.has_key('name'):
-        output = routing_in_member(request, user)
-        response.data = output
-        return response
-    status = json.dumps({'error': {'status_code': UNAUTHORIZED, 'type': 'auth_error'}, 'bool': 0})
-    response.data = status
-    response.status_code = UNAUTHORIZED
-    return response
-
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def app(request):
-    content_type = is_port_local_content_type(request)
-    response = Response({'status': OK, 'bool': 'false', 'login': 'fail'}, content_type=content_type)
-    if request.method == 'POST':
-        request_data = request.body.decode('utf-8')
-        request_data = json.loads(request_data)
-        if 'type' in request_data:
-            type = request_data['type']
-            if type == 'login':
-                response = views_app.login(request, response, request_data)
-            elif type == 'idea':
-                response = views_app.idea(request, response, request_data)
-    elif request.method == 'GET':
-        response.data = {'type': 'get'}
-    return response
 
 

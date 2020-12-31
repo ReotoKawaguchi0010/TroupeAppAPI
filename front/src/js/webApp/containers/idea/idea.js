@@ -53,7 +53,12 @@ const IdeaRoot = () => {
     }
 
     useEffect(() => {
-        create.get('/app/').then(resp => {
+        create.get('/app/', {
+            params: {
+                type: 'idea',
+                data: 'all'
+            }
+        }).then(resp => {
             console.log(resp)
         })
     }, [])

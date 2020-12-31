@@ -63,6 +63,11 @@ def time_subtraction(time: datetime.datetime):
     return time_subtraction.seconds
 
 
+def has_request_type(request_data, has_data):
+    if 'type' in request_data:
+        request_type = request_data['type']
+        return has_data in request_type
+    return False
 
 
 if __name__ == '__main__':
