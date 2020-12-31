@@ -53,7 +53,7 @@ export const Main = () => {
 
     return (
         <React.Fragment>
-            {state.reducerFunc ? !state.reducerFunc.login ? <Redirect to="/app/login" /> : <></> : <></>}
+            {/*state.reducerFunc ? !state.reducerFunc.login ? <Redirect to="/app/login" /> : <></> : <></>*/}
             <Header />
             <div style={{display: 'flex'}}>
                 <Side />

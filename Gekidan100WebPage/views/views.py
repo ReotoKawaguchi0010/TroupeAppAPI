@@ -8,11 +8,11 @@ from rest_framework.decorators import api_view
 
 from Gekidan100WebPage.api import ameba_api
 from Gekidan100WebPage.utils.util import is_port_local_content_type, has_request_type
-from Gekidan100WebPage.utils.mail import info_send_mail, info_response_mail
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.twitter_api import TwitterApi
 from Gekidan100WebPage.views import gets
 from Gekidan100WebPage.views.post import post
+from Gekidan100WebPage.views.get import get
 
 @api_view(['GET', 'POST'])
 def init_page(request):
@@ -63,36 +63,9 @@ def app(request):
     elif request.method == 'GET':
         request_data = request.GET.dict()
         if has_request_type(request_data, 'idea'):
-            response.data = {'data': 'test'}
+            response = get.get_idea(request, response, request_data)
     return response
 
-@api_view(['POST'])
-def send_mail(request):
-    response = Response({}, content_type='application/json')
-    try:
-        req_body = request.body.decode(encoding='utf-8')
-        req_body = json.loads(req_body)
-        print(req_body)
-        info_send_mail(req_body['mailAddress'], req_body, req_body['content'])
-        info_response_mail(req_body['mailAddress'], req_body, req_body['content'])
-        output = {'status_code': OK, 'bool': 'true',
-                  'timestamp': datetime.datetime.now().timestamp()}
-    except:
-        output = {'status_code': 500, 'bool': 'false',
-                  'timestamp': datetime.datetime.now().timestamp()}
-    response.data = output
-    return response
 
-def youtube(request):
-    url = 'https://youtube.com/'
-    if request.GET:
-        if 'iPhone' in request.headers['User-Agent']:
-            url = 'youtube://'
-        req = request.GET['url']
-        req = req.replace('https://youtube.com/', '')
-        req = req.replace('https://www.youtube.com/', '')
-        print(url + req)
-        return Response(url + req)
-    return Response('test')
 
 

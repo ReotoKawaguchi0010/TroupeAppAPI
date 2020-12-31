@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from Gekidan100WebPage.views import views
+from Gekidan100WebPage.views import views, mail
 
 app = [
     path('', views.app),
@@ -8,7 +8,7 @@ app = [
 
 urlpatterns = [
     path('', views.init_page),
-    path('mail', views.send_mail),
+    path('mail', mail.send_mail),
     path('app/', include(app)),
 ]
 

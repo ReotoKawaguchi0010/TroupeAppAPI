@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import {Switch} from "react-router";
 import {Link, Redirect ,useRouteMatch} from "react-router-dom";
 import {Grid, Paper, Box, Button, Modal, ButtonGroup, Fab} from "@material-ui/core";
@@ -9,6 +9,7 @@ import {RouteWithSubRoutes} from "../../../routings/routings";
 import _ from "lodash";
 import {IdeaCreate} from "./create";
 import {create} from "../../../utils/utils";
+import {AppContext} from "../../contexts/AppContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,10 +39,18 @@ const data = [
 ]
 
 const IdeaRoot = () => {
+    const {state, dispatch} = useContext(AppContext)
+
+    console.log(state)
+
     let { path, url } = useRouteMatch();
     const [ideaState, setIdeaState] = useState({
         createModal: false,
         create: false,
+    })
+
+    const [dataState, setDataState] = useState({
+        data: []
     })
 
     const handleAddBtnClick = (e) => {
@@ -59,7 +68,8 @@ const IdeaRoot = () => {
                 data: 'all'
             }
         }).then(resp => {
-            console.log(resp)
+            let data = resp.data
+            setDataState({...dataState, data: data})
         })
     }, [])
     const classes = useStyles()
@@ -83,12 +93,21 @@ const IdeaRoot = () => {
                 <AddIcon />
             </Fab>
             <Grid container spacing={3}>
-                {_.map(data, (v, i) => {
+                {_.map(dataState.data, (v, i) => {
                     return(
                     <Grid key={i} item xs={3}>
                         <Paper>
-                            <Box><Link to={`${url}/${v.link}`}>タイトル: {v.title}</Link></Box>
+                            <Box><Link to={`${url}/${i}`}>タイトル: {v.title}</Link></Box>
                             <Box>作成者: {v.author}</Box>
+                            {
+                                _.map(v.contents, (content, n) => {
+                                    return(
+                                    <Box key={n}>
+                                        {content.name}:{content.value}
+                                    </Box>
+                                    )
+                                })
+                            }
                         </Paper>
                     </Grid>
                     )
