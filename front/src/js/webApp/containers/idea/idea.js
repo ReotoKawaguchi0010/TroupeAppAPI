@@ -30,18 +30,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const data = [
-    {
-        title: 'title',
-        author: 'author',
-        link: 'title',
-    },
-]
-
 const IdeaRoot = () => {
     const {state, dispatch} = useContext(AppContext)
-
-    console.log(state)
 
     let { path, url } = useRouteMatch();
     const [ideaState, setIdeaState] = useState({

@@ -60,6 +60,8 @@ def app(request):
             response = post.login(request, response, request_data)
         elif has_request_type(request_data, 'idea'):
             response = post.idea(request, response, request_data)
+        elif has_request_type(request_data, 'logout'):
+            response = post.logout(request, response, request_data)
     elif request.method == 'GET':
         request_data = request.GET.dict()
         if has_request_type(request_data, 'idea'):

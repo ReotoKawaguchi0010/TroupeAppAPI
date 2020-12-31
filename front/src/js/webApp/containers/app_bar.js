@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,6 +9,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 
+import {AppContext} from "../contexts/AppContext";
 
 
 const useStyles = makeStyles((theme) => ({

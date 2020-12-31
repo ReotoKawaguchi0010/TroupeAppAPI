@@ -1,11 +1,11 @@
 import React, {useContext, useEffect} from "react";
 import {Switch, Redirect} from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
-import {Container} from "@material-ui/core";
+import {Container, Button} from "@material-ui/core";
 
 
 import {AppContext} from "../contexts/AppContext";
-import {login} from "../actions/actions";
+import {login, logout} from "../actions/actions";
 import {Header} from "./header";
 import {Side} from "./side";
 import {Performances} from "../containers/performances/performances";
@@ -51,8 +51,13 @@ export const Main = () => {
         login({type: 'login'}, dispatch)
     }, [])
 
+    const handleClickLogout = () => {
+        logout({type: 'logout'}, dispatch)
+    }
+
     return (
         <React.Fragment>
+            <Button onClick={handleClickLogout}>logout</Button>
             {/*state.reducerFunc ? !state.reducerFunc.login ? <Redirect to="/app/login" /> : <></> : <></>*/}
             <Header />
             <div style={{display: 'flex'}}>

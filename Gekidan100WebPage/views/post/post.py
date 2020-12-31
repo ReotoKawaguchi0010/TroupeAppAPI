@@ -18,20 +18,43 @@ def login(request, response: Response, data: dict):
             if User.objects.filter(username=username).exists():
                 user = User.objects.get(username=username)
                 if user is not None and user.check_password(password):
+                    request.session['user'] = user
                     request.session['username'] = username
                     request.session['time'] = datetime.datetime.now()
                     if not request.session.session_key:
                         request.session.create()
                     response.set_cookie('sessionid', request.session.session_key)
-                    response.data = {'status': OK, 'bool': 'true', 'login': 'success'}
+                    response.data = {'status': OK, 'bool': 'true', 'login': 'success', 'user': {
+                        'username': user.username,
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                        'email': user.email,
+                    }}
+                    print(response.data)
     else:
-        response.data = {'status': OK, 'bool': 'true', 'login': 'success'}
+        user = request.session.get('user')
+        response.data = {'status': OK, 'bool': 'true', 'login': 'success', 'user': {
+                            'username': user.username,
+                            'first_name': user.first_name,
+                            'last_name': user.last_name,
+                            'email': user.email,
+                        }}
         if time_subtraction(request.session.get('time')) > 8000:
+            request.session.delete('user')
             request.session.delete('username')
             request.session.delete('time')
             response.delete_cookie('sessionid')
             response.data = {'status': OK, 'bool': 'false', 'login': 'fail'}
     return response
+
+def logout(request, response: Response, data: dict):
+    if not request.session.is_empty():
+        request.session.delete('user')
+        request.session.delete('username')
+        request.session.delete('time')
+        response.delete_cookie('sessionid')
+    return response
+
 
 def idea(request, response: Response, data: dict):
     data.pop('type')
