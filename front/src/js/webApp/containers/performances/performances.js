@@ -1,5 +1,6 @@
 import React from "react";
 import {Switch, useRouteMatch} from "react-router";
+import {Link} from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid, Paper, Box} from "@material-ui/core";
 import _ from "lodash";
@@ -11,26 +12,31 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
-        paper: {
+    paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
+    link: {
+        color: "initial",
+        textDecoration: 'none',
+    }
 }));
 
 const data = [
     {
+        id: 1,
         title: '快楽と健康',
-        date: '2019年4月',
     },
     {
+        id: 2,
         title: '海辺の墓場までハイキング',
-        date: '2020年1月',
     },
 ]
 
 const Main = () => {
     const classes = useStyles()
+    const {url, path} = useRouteMatch()
     return (
         <div className={classes.root}>
             <Grid container spacing={3}>
@@ -39,7 +45,7 @@ const Main = () => {
                         return (
                         <Grid item xs={3} key={i}>
                             <Paper>
-                                <Box>{v.title}</Box>
+                                <Box><Link to={`${path}/${v.id}`} className={classes.link}>{v.title}</Link></Box>
                                 <Box>{v.date}</Box>
                             </Paper>
                         </Grid>)

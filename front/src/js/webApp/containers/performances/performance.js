@@ -1,11 +1,36 @@
 import React from "react";
 import {useParams} from "react-router";
-import { Box } from "@material-ui/core";
+import { Box, Container } from "@material-ui/core";
+import _ from "lodash";
+
+
+const data = [
+    {
+        id: 1,
+        title: '快楽と健康',
+        script: '',
+    },
+    {
+        id: 2,
+        title: '海辺の墓場までハイキング',
+        script: '',
+    },
+]
+
+
+
+
+
 
 export const Performance = () => {
-    const { title } = useParams()
+    const { performance_id } = useParams()
+
+    const performance_data = _.find(data, performance_id)
+
     return (
-        <Box>{title}</Box>
+        <Container>
+            <Box>{performance_data.title}</Box>
+        </Container>
     )
 }
 
