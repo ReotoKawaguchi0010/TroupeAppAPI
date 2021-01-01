@@ -1,15 +1,13 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {Link} from "react-router-dom";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
+import {AppBar, Toolbar, IconButton, Typography,
+InputBase, Avatar, Menu, MenuItem} from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 
 import {AppContext} from "../contexts/AppContext";
+import {logout} from "../actions/actions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -73,9 +71,32 @@ const useStyles = makeStyles((theme) => ({
     link: {
         color: '#ffffff',
     },
+    menuAvatar: {
+        cursor: "pointer",
+    },
+    profileLink: {
+        color: 'initial',
+        textDecoration: 'none',
+    },
 }));
 
 export const SearchAppBar = () =>{
+    const {state, dispatch} = useContext(AppContext)
+
+    const [anchorEl, setAnchorEl] = useState(null)
+
+    const handleMenuClick = (e) => {
+        setAnchorEl(e.target)
+    }
+
+    const handleMenuClose = () => {
+        setAnchorEl(null)
+    }
+
+    const handleClickLogout = () => {
+        logout({type: 'logout'}, dispatch)
+    }
+
     const classes = useStyles();
 
     return (
@@ -95,6 +116,7 @@ export const SearchAppBar = () =>{
                     <Typography className={classes.title} variant="h6" noWrap>
                         劇団沸管理アプリ
                     </Typography>
+                    <Avatar onClick={handleMenuClick} className={classes.menuAvatar}>T</Avatar>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
@@ -109,6 +131,17 @@ export const SearchAppBar = () =>{
                         />
                     </div>
                 </Toolbar>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleMenuClose}
+                >
+                    <MenuItem><Link to="/app/profile"
+                                    className={classes.profileLink}
+                                    onClick={handleMenuClose}
+                    >プロフィール</Link></MenuItem>
+                    <MenuItem onClick={handleClickLogout}>ログアウト</MenuItem>
+                </Menu>
             </AppBar>
         </div>
     );

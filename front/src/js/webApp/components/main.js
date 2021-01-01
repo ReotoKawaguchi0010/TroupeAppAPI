@@ -12,6 +12,7 @@ import {Performances} from "../containers/performances/performances";
 import {Idea} from "../containers/idea/idea";
 import {Manual} from "../containers/manual";
 import {Contract} from "../containers/contract";
+import {Profile} from "../containers/profile";
 import {RouteWithSubRoutes} from "../../routings/routings";
 import _ from "lodash";
 
@@ -39,6 +40,10 @@ const routes = [
         component: Contract,
     },
     {
+        path: '/app/profile',
+        component: Profile,
+    },
+    {
         path: '/app',
         component: MainBody,
     },
@@ -51,13 +56,8 @@ export const Main = () => {
         login({type: 'login'}, dispatch)
     }, [])
 
-    const handleClickLogout = () => {
-        logout({type: 'logout'}, dispatch)
-    }
-
     return (
         <React.Fragment>
-            <Button onClick={handleClickLogout}>logout</Button>
             {/*state.reducerFunc ? !state.reducerFunc.login ? <Redirect to="/app/login" /> : <></> : <></>*/}
             <Header />
             <div style={{display: 'flex'}}>
