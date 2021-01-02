@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import {useParams} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import {Button} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -16,8 +17,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Calendar = () => {
-
-    const classes = useStyles()
 
     const events = [
         {
@@ -38,7 +37,7 @@ const Calendar = () => {
     const config = {
         locale: 'ja',
         plugins: [timeGridPlugin, dayGridPlugin, interactionPlugin],
-        initialView: 'timeGridWeek',
+        initialView: 'dayGridMonth',
         slotDuration: '00:30:00',
         selectable: true,
         businessHours: {
@@ -52,9 +51,8 @@ const Calendar = () => {
             month: 'short'
         },
         headerToolbar: {
-            start: 'title',
-            center: 'prev, next, today',
-            end: 'dayGridMonth,timeGridWeek'
+            start: '',
+            end: '',
         },
     }
 
@@ -66,8 +64,35 @@ const Calendar = () => {
         console.log(e.event.end)
     }
 
+    const calendarEl = useRef(null);
+
+    const handleNextClick = () => {
+        let calendarApi = calendarEl.current.getApi()
+        calendarApi.next()
+    }
+
+    const handleBackClick = () => {
+        let calendarApi = calendarEl.current.getApi()
+        calendarApi.prev()
+    }
+
+    const handleMonthClick = () => {
+        let calendarApi = calendarEl.current.getApi()
+        calendarApi.changeView('dayGridMonth')
+    }
+
+    const handleWeekClick = () => {
+        let calendarApi = calendarEl.current.getApi()
+        calendarApi.changeView('timeGridWeek')
+    }
+
     return (
         <>
+            <Button onClick={handleBackClick}>back</Button>
+            <Button onClick={handleNextClick}>next</Button>
+            <Button onClick={handleMonthClick}>month</Button>
+            <Button onClick={handleWeekClick}>week</Button>
+            <div>{Boolean(calendarEl.current) ? calendarEl.current.getApi().view.title : ''}</div>
             <FullCalendar
                 locale={config.locale}
                 plugins={config.plugins}
@@ -81,7 +106,7 @@ const Calendar = () => {
                 dateClick={handleDayClick}
                 events={events}
                 eventClick={handleEventsClick}
-                customButtons={{myCustomButton: {themeIcon: 'fa-chevron-right',}}}
+                ref={calendarEl}
             />
         </>
     )

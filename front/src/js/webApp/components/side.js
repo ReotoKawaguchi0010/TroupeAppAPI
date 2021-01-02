@@ -9,7 +9,8 @@ import {PerformanceIcon, IdeaMan, NoteIcon, ContractIcon} from "../containers/ic
 const useStyles = makeStyles((theme) => ({
     paper: {
         width: 240,
-        height: '100vh',
+        height: '100%',
+        minHeight: '100vh',
     },
     st: {
         fill: '#4B4B4B',
