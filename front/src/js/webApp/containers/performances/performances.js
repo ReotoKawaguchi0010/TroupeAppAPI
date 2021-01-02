@@ -2,7 +2,7 @@ import React from "react";
 import {Switch, useRouteMatch} from "react-router";
 import {Link} from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import {Grid, Paper, Box} from "@material-ui/core";
+import {Grid, Paper, Box, Container} from "@material-ui/core";
 import _ from "lodash";
 
 import {RouteWithSubRoutes} from "../../../routings/routings";
@@ -62,7 +62,7 @@ export const Performances = () => {
 
     const routes = [
         {
-            path: `${path}/:title`,
+            path: `${path}/:performance_id`,
             component: Performance,
         },
         {
@@ -74,12 +74,12 @@ export const Performances = () => {
 
 
     return (
-        <>
+        <Container>
             <Switch>
                 {_.map(routes, (route, i) => (
                     <RouteWithSubRoutes key={i} {...route} />
                 ))}
             </Switch>
-        </>
+        </Container>
     )
 }
