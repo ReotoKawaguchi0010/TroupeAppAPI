@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import {useParams} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
 import FullCalendar from "@fullcalendar/react";
@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Calendar = () => {
+    const [monthState, setMonthState] = useState({
+        month: ''
+    })
 
     const events = [
         {
@@ -24,11 +27,11 @@ const Calendar = () => {
             backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
         },
         {
-            id: 2, title: '公演', start: '2021-01-03T10:30:00', end: '2021-01-02T14:30:00',
+            id: 2, title: '公演', start: '2021-01-03T10:30:00', end: '2021-01-04T14:30:00',
             backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
         },
         {
-            id: 3, title: '撤収', start: '2021-01-04T10:30:00', end: '2021-01-02T14:30:00',
+            id: 3, title: '撤収', start: '2021-01-04T10:30:00', end: '2021-01-05T14:30:00',
             backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
         },
     ]
@@ -86,13 +89,19 @@ const Calendar = () => {
         calendarApi.changeView('timeGridWeek')
     }
 
+    useEffect(() => {
+        let calendarApi = calendarEl.current.getApi()
+        let month = calendarApi.view.title
+        setMonthState({...monthState, month: month})
+    }, [])
+
     return (
         <>
             <Button onClick={handleBackClick}>back</Button>
             <Button onClick={handleNextClick}>next</Button>
             <Button onClick={handleMonthClick}>month</Button>
             <Button onClick={handleWeekClick}>week</Button>
-            <div>{Boolean(calendarEl.current) ? calendarEl.current.getApi().view.title : ''}</div>
+            <div>{monthState.month}</div>
             <FullCalendar
                 locale={config.locale}
                 plugins={config.plugins}
