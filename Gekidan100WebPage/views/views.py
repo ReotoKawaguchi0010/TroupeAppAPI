@@ -11,7 +11,7 @@ from Gekidan100WebPage.utils.util import is_port_local_content_type, has_request
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.twitter_api import TwitterApi
 from Gekidan100WebPage.views import gets
-from Gekidan100WebPage.views.post import post
+from Gekidan100WebPage.views.post import post, post_performance
 from Gekidan100WebPage.views.get import get
 
 @api_view(['GET', 'POST'])
@@ -62,6 +62,8 @@ def app(request):
             response = post.idea(request, response, request_data)
         elif has_request_type(request_data, 'logout'):
             response = post.logout(request, response, request_data)
+        elif has_request_type(request_data, 'crete_performance'):
+            response = post_performance.post_performance(request, response, request_data)
     elif request.method == 'GET':
         request_data = request.GET.dict()
         if has_request_type(request_data, 'idea'):

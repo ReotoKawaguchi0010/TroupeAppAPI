@@ -9,6 +9,7 @@ import {RouteWithSubRoutes} from "../../../routings/routings";
 import {Performance} from "./performance";
 import {performance_action} from "../../actions/performance_action";
 import {AppContext} from "../../contexts/AppContext";
+import {send} from "../../actions/actions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,8 +57,10 @@ const CreatePerformance = ({open, onClose}) => {
     const classes = useStyles()
 
     const handleCreate = e => {
-        if(sendState !== '') performance_action({type: 'crete_performance'}, dispatch)
-        else alert('タイトルを記入してください')
+        if(sendState.title !== ''){
+            performance_action({type: 'crete_performance', sendData: {title: sendState.title}}, dispatch)
+            onClose()
+        } else alert('タイトルを記入してください')
     }
 
     const handleInputChange = e => {

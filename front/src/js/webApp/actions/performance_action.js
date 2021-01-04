@@ -6,8 +6,8 @@ export const performance_action = async (action, dispatch) => {
         let sendData = {}
         if(Boolean(action.sendData)) sendData = action.sendData
         sendData.type = action.type
-        // const res = await create.post(`/app/`, JSON.stringify(sendData))
-        // action.data = res.data
+        const res = await create.post(`/app/`, JSON.stringify(sendData))
+        action.data = res.data
         dispatch(action)
 
     }catch (e) {
