@@ -9,7 +9,7 @@ import {RouteWithSubRoutes} from "../../../routings/routings";
 import {Performance} from "./performance";
 import {performance_action} from "../../actions/performance_action";
 import {AppContext} from "../../contexts/AppContext";
-import {send} from "../../actions/actions";
+import {create} from "../../../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,17 +33,6 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center'
     },
 }));
-
-const data = [
-    {
-        id: 1,
-        title: '快楽と健康',
-    },
-    {
-        id: 2,
-        title: '海辺の墓場までハイキング',
-    },
-]
 
 const CreatePerformance = ({open, onClose}) => {
     useEffect(() => {
@@ -82,12 +71,39 @@ const CreatePerformance = ({open, onClose}) => {
     )
 }
 
-
+const data = [
+    {
+        id: 1,
+        title: '快楽と健康',
+    },
+    {
+        id: 2,
+        title: '海辺の墓場までハイキング',
+    },
+]
 
 
 const Main = () => {
     const classes = useStyles()
     const {url, path} = useRouteMatch()
+
+    const [dataState, setDataState] = useState({
+        data: []
+    })
+
+    useEffect(() => {
+        create.get('/app/', {
+            params: {
+                type: 'performance',
+                data: 'all',
+            }
+        }).then(resp => {
+            let data = resp.data
+            setDataState({...dataState, data: data})
+        }).catch(err => {
+            console.log(err)
+        })
+    }, [])
 
     const [openState, setOpenState] = useState(false)
     const handleCreateClick = () => {
@@ -104,7 +120,7 @@ const Main = () => {
             <Button onClick={handleCreateClick}>公演を始める</Button>
             <Grid container spacing={3}>
                 {
-                    _.map(data, (v, i) => {
+                    _.map(dataState.data, (v, i) => {
                         return (
                         <Grid item xs={3} key={i}>
                             <Paper>

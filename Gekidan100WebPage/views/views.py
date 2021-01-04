@@ -12,7 +12,7 @@ from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.twitter_api import TwitterApi
 from Gekidan100WebPage.views import gets
 from Gekidan100WebPage.views.post import post, post_performance
-from Gekidan100WebPage.views.get import get
+from Gekidan100WebPage.views.get import get, get_performance
 
 @api_view(['GET', 'POST'])
 def init_page(request):
@@ -68,6 +68,8 @@ def app(request):
         request_data = request.GET.dict()
         if has_request_type(request_data, 'idea'):
             response = get.get_idea(request, response, request_data)
+        elif has_request_type(request_data, 'performance'):
+            response = get_performance.get_performance(request, response, request_data)
     return response
 
 
