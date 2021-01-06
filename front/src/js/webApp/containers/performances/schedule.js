@@ -5,7 +5,7 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import {Button} from "@material-ui/core";
+import {Button, Modal, Paper, Box, TextField} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -14,9 +14,41 @@ const useStyles = makeStyles((theme) => ({
     link: {
        color: '#f6f6a5'
     },
+    createModal: {
+        textAlign: 'center',
+    },
+    createPaper: {
+        width: '50%',
+        display: 'inline-block',
+        marginTop: 20,
+        padding: 20,
+    },
 }));
 
+const CreateEvent = ({dateEvent, open, onClose}) => {
+    const classes = useStyles()
+
+
+    return (
+        <Modal open={open} onClose={onClose} className={classes.createModal}>
+            <Paper className={classes.createPaper}>
+                <Box>start</Box>
+                <Box><TextField type="datetime-local"
+                                defaultValue={Boolean(dateEvent.dateStr) ? `${String(dateEvent.dateStr)}T00:00` : ''} /></Box>
+                <Box><TextField variant="outlined" /></Box>
+                <Box></Box>
+                <Box><Button>決定</Button></Box>
+            </Paper>
+        </Modal>
+    )
+}
+
 const Calendar = () => {
+    const [createEventState, setCreateEventState] = useState({
+        open: false,
+        dateEvent: '',
+    })
+
     const [monthState, setMonthState] = useState({
         month: ''
     })
@@ -60,11 +92,15 @@ const Calendar = () => {
     }
 
     const handleDayClick = e => {
-        console.log(e)
+        setCreateEventState({...createEventState, open: true, dateEvent: e})
     }
 
     const handleEventsClick = e => {
         console.log(e.event.end)
+    }
+
+    const handleCloseEvent = () => {
+        setCreateEventState({...createEventState, open: false})
     }
 
     const calendarEl = useRef(null);
@@ -97,6 +133,7 @@ const Calendar = () => {
 
     return (
         <>
+            <CreateEvent open={createEventState.open} dateEvent={createEventState.dateEvent} onClose={handleCloseEvent} />
             <Button onClick={handleBackClick}>back</Button>
             <Button onClick={handleNextClick}>next</Button>
             <Button onClick={handleMonthClick}>month</Button>

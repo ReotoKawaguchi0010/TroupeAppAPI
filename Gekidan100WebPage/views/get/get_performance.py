@@ -6,7 +6,7 @@ from Gekidan100WebPage.models.performance import Schedule, Cast, Performance_Sch
 def get_performance(request, response: Response, data: dict):
     if bool(data['data']):
         if data['data'] == 'all':
-            performance = Peformance.objects.all()
-            titles = [{'id': i.id,'title': i.title} for i in performance]
+            performances = Peformance.objects.all()
+            titles = [{'id': performance.id,'title': performance.title} for performance in performances]
             response.data = titles
     return response
