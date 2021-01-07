@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect, useContext} from "react";
 import {useParams} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
 import FullCalendar from "@fullcalendar/react";
@@ -6,6 +6,10 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import {Button, Modal, Paper, Box, TextField} from "@material-ui/core";
+
+import {performance_action} from "../../actions/performance_action";
+import {AppContext} from "../../contexts/AppContext";
+
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -27,17 +31,72 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateEvent = ({dateEvent, open, onClose}) => {
     const classes = useStyles()
+    const { performance_id } = useParams()
+    const [timeState, setTimeState] = useState({
+        time: '',
+        endTime: '',
+    })
+    const {state, dispatch} = useContext(AppContext)
+    const [sendState, setSendState] = useState({
+        title: '',
+        startTime: '',
+        endTime: '',
+        description: '',
+    })
+    useEffect(() => {
+        setTimeState({...timeState, time: `${String(dateEvent.dateStr)}T00:00`,
+        endTime: `${String(dateEvent.dateStr)}T00:00`})
+    }, [dateEvent])
 
+    const startTimeChange = e => {
+        setTimeState({...timeState, time: e.target.value, endTime: e.target.value})
+        setSendState({...sendState, startTime: e.target.value})
+    }
+
+    const inputChange = e => {
+        switch (e.target.name){
+            case 'title':
+                setSendState({...sendState, title: e.target.value})
+                break;
+            case 'endTime':
+                setSendState({...sendState, endTime: e.target.value})
+                setTimeState({...timeState, endTime: e.target.value})
+                break;
+            case 'description':
+                setSendState({...sendState, description: e.target.value})
+                break;
+        }
+    }
+
+    const handleSendClick = e => {
+        const sendData = {}
+        if(sendState.endTime === '') sendData.endTime = timeState.endTime
+        else sendData.endTime = sendState.endTime
+        sendData.startTime = timeState.time
+        sendData.description = sendState.description
+        sendData.title = sendState.title
+        sendData.performanceId = performance_id;
+        performance_action({type: 'create_schedule', sendData: sendData}, dispatch)
+        //onClose()
+    }
 
     return (
         <Modal open={open} onClose={onClose} className={classes.createModal}>
             <Paper className={classes.createPaper}>
+                <Box>title</Box>
+                <Box><TextField variant="outlined" name="title" onChange={inputChange} /></Box>
                 <Box>start</Box>
                 <Box><TextField type="datetime-local"
-                                defaultValue={Boolean(dateEvent.dateStr) ? `${String(dateEvent.dateStr)}T00:00` : ''} /></Box>
-                <Box><TextField variant="outlined" /></Box>
-                <Box></Box>
-                <Box><Button>決定</Button></Box>
+                                defaultValue={String(timeState.time)}
+                                onChange={startTimeChange} name="startTime" /></Box>
+                <Box>end</Box>
+                <Box><TextField type="datetime-local"
+                                name="endTime"
+                                value={String(timeState.endTime)}
+                                onChange={inputChange}/></Box>
+                <Box>description</Box>
+                <Box><TextField variant="outlined" multiline name="description" onChange={inputChange} /></Box>
+                <Box><Button onClick={handleSendClick}>決定</Button></Box>
             </Paper>
         </Modal>
     )
@@ -55,15 +114,15 @@ const Calendar = () => {
 
     const events = [
         {
-            id: 1, title: '準備', start: '2021-01-02T10:30:00', end: '2021-01-02T14:30:00',
+            id: 1, title: '準備', start: '2021-01-02T10:30', end: '2021-01-02T14:30',
             backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
         },
         {
-            id: 2, title: '公演', start: '2021-01-03T10:30:00', end: '2021-01-04T14:30:00',
+            id: 2, title: '公演', start: '2021-01-03T10:30', end: '2021-01-04T14:30',
             backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
         },
         {
-            id: 3, title: '撤収', start: '2021-01-04T10:30:00', end: '2021-01-05T14:30:00',
+            id: 3, title: '撤収', start: '2021-01-04T10:30', end: '2021-01-05T14:30',
             backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
         },
     ]

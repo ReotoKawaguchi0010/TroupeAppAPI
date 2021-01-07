@@ -61,6 +61,8 @@ def app(request):
             response = post.logout(request, response, request_data)
         elif has_request_type(request_data, 'crete_performance'):
             response = post_performance.post_performance(request, response, request_data)
+        elif has_request_type(request_data, 'create_schedule'):
+            response = post_performance.post_schedule(request, response, request_data)
     elif request.method == 'GET':
         request_data = request.GET.dict()
         if has_request_type(request_data, 'idea'):

@@ -6,6 +6,10 @@ export const reducerPerformance = (state=initialState, action) =>{
     switch (action.type){
         case 'crete_performance':
             return {...state, data: 'test'}
+        case 'create_schedule':
+            console.log(action.data)
+
+            return {...state}
         default:
             return state
     }
