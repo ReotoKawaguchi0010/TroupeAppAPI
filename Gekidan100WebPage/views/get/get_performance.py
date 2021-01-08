@@ -10,3 +10,23 @@ def get_performance(request, response: Response, data: dict):
             titles = [{'id': performance.id,'title': performance.title} for performance in performances]
             response.data = titles
     return response
+
+
+def get_schedule(request, response: Response, data: dict):
+    performance_id = int(data['performanceId'])
+    performance = Peformance.objects.filter(id=performance_id)
+    response_data = []
+    if bool(performance):
+        performance_schedule = Performance_Schedule.objects.filter(performance=performance[0])
+        if bool(performance_schedule):
+            for p in performance_schedule:
+                p: Performance_Schedule = p
+                event_data = {
+                    'start': p.schedule.start,
+                    'end': p.schedule.end,
+                    'description': p.schedule.description,
+                    'title': p.schedule.title,
+                }
+                response_data.append(event_data)
+    response.data = response_data
+    return response

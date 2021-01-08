@@ -71,18 +71,6 @@ const CreatePerformance = ({open, onClose}) => {
     )
 }
 
-const data = [
-    {
-        id: 1,
-        title: '快楽と健康',
-    },
-    {
-        id: 2,
-        title: '海辺の墓場までハイキング',
-    },
-]
-
-
 const Main = () => {
     const classes = useStyles()
     const {url, path} = useRouteMatch()

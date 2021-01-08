@@ -9,6 +9,7 @@ import {Button, Modal, Paper, Box, TextField} from "@material-ui/core";
 
 import {performance_action} from "../../actions/performance_action";
 import {AppContext} from "../../contexts/AppContext";
+import {create} from "../../../utils/utils";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -112,20 +113,40 @@ const Calendar = () => {
         month: ''
     })
 
-    const events = [
-        {
-            id: 1, title: '準備', start: '2021-01-02T10:30', end: '2021-01-02T14:30',
-            backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
-        },
-        {
-            id: 2, title: '公演', start: '2021-01-03T10:30', end: '2021-01-04T14:30',
-            backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
-        },
-        {
-            id: 3, title: '撤収', start: '2021-01-04T10:30', end: '2021-01-05T14:30',
-            backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
-        },
-    ]
+    const {performance_id} = useParams();
+
+    const [eventsState, setEventsState] = useState({
+        events: []
+    })
+
+    useEffect(() => {
+        create.get('/app/', {
+            params: {
+                type: 'get_schedule',
+                performanceId: performance_id,
+            }
+        }).then(res => {
+            let events = res.data
+            setEventsState({...eventsState, events: events})
+        }).catch(e => {
+            console.error(e)
+        })
+    }, [])
+
+    // const events = [
+    //     {
+    //         id: 1, title: '準備', start: '2021-01-02T10:30', end: '2021-01-02T14:30',
+    //         backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
+    //     },
+    //     {
+    //         id: 2, title: '公演', start: '2021-01-03T10:30', end: '2021-01-04T14:30',
+    //         backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
+    //     },
+    //     {
+    //         id: 3, title: '撤収', start: '2021-01-04T10:30', end: '2021-01-05T14:30',
+    //         backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
+    //     },
+    // ]
 
 
     const config = {
@@ -155,7 +176,7 @@ const Calendar = () => {
     }
 
     const handleEventsClick = e => {
-        console.log(e.event.end)
+        console.log(e.event)
     }
 
     const handleCloseEvent = () => {
@@ -209,7 +230,7 @@ const Calendar = () => {
                 titleFormat={config.titleFormat}
                 headerToolbar={config.headerToolbar}
                 dateClick={handleDayClick}
-                events={events}
+                events={eventsState.events}
                 eventClick={handleEventsClick}
                 ref={calendarEl}
             />

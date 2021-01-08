@@ -69,6 +69,8 @@ def app(request):
             response = get.get_idea(request, response, request_data)
         elif has_request_type(request_data, 'performance'):
             response = get_performance.get_performance(request, response, request_data)
+        elif has_request_type(request_data, 'get_schedule'):
+            response = get_performance.get_schedule(request, response, request_data)
     return response
 
 
