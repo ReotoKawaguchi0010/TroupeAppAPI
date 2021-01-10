@@ -9,6 +9,11 @@ def get_performance(request, response: Response, data: dict):
             performances = Peformance.objects.all()
             titles = [{'id': performance.id,'title': performance.title} for performance in performances]
             response.data = titles
+        else:
+            performance_id = int(data['data'])
+            if Peformance.objects.filter(id=performance_id).exists():
+                performance = Peformance.objects.get(id=performance_id)
+                response.data = {'id': performance.id, 'title': performance.title}
     return response
 
 

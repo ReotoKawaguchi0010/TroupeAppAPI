@@ -78,7 +78,7 @@ const CreateEvent = ({dateEvent, open, onClose}) => {
         sendData.title = sendState.title
         sendData.performanceId = performance_id;
         performance_action({type: 'create_schedule', sendData: sendData}, dispatch)
-        //onClose()
+        onClose()
     }
 
     return (
@@ -103,20 +103,43 @@ const CreateEvent = ({dateEvent, open, onClose}) => {
     )
 }
 
+const ReadEvent = ({readEvent, open, onClose}) => {
+    const [eventState, setEventState] = useState({
+        readEvent: {},
+    })
+    const classes = useStyles()
+    console.log(eventState)
+    useEffect(() => {
+        setEventState({...eventState, readEvent: readEvent})
+    }, [readEvent])
+    return (
+        <Modal open={open} onClose={onClose} className={classes.createModal}>
+            <Paper className={classes.createPaper}>
+                <Box>{Boolean(eventState.readEvent.start) ? String(eventState.readEvent.start) : ''}</Box>
+            </Paper>
+        </Modal>
+    )
+}
+
+
+
+
+
 const Calendar = () => {
+    const {performance_id} = useParams();
     const [createEventState, setCreateEventState] = useState({
         open: false,
         dateEvent: '',
     })
-
     const [monthState, setMonthState] = useState({
         month: ''
     })
-
-    const {performance_id} = useParams();
-
     const [eventsState, setEventsState] = useState({
         events: []
+    })
+    const [readState, setReadState] = useState({
+        event: {},
+        open: false,
     })
 
     useEffect(() => {
@@ -138,14 +161,7 @@ const Calendar = () => {
     //         id: 1, title: '準備', start: '2021-01-02T10:30', end: '2021-01-02T14:30',
     //         backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
     //     },
-    //     {
-    //         id: 2, title: '公演', start: '2021-01-03T10:30', end: '2021-01-04T14:30',
-    //         backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
-    //     },
-    //     {
-    //         id: 3, title: '撤収', start: '2021-01-04T10:30', end: '2021-01-05T14:30',
-    //         backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
-    //     },
+    //
     // ]
 
 
@@ -176,11 +192,15 @@ const Calendar = () => {
     }
 
     const handleEventsClick = e => {
-        console.log(e.event)
+        setReadState({...readState, event: e.event, open: true,})
     }
 
     const handleCloseEvent = () => {
         setCreateEventState({...createEventState, open: false})
+    }
+
+    const handleReadCloseEvent = () => {
+        setReadState({...readState, open: false})
     }
 
     const calendarEl = useRef(null);
@@ -213,6 +233,7 @@ const Calendar = () => {
 
     return (
         <>
+            <ReadEvent open={readState.open} onClose={handleReadCloseEvent} readEvent={readState.event} />
             <CreateEvent open={createEventState.open} dateEvent={createEventState.dateEvent} onClose={handleCloseEvent} />
             <Button onClick={handleBackClick}>back</Button>
             <Button onClick={handleNextClick}>next</Button>

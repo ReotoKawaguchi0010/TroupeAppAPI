@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Switch, useParams, useRouteMatch} from "react-router";
 import {Link} from "react-router-dom";
 import { Box, Container, List, ListItem } from "@material-ui/core";
@@ -11,6 +11,7 @@ import {Schedule} from "./schedule";
 import {Script} from "./script";
 import {Budget} from "./budget";
 import {RouteWithSubRoutes} from "../../../routings/routings";
+import {create} from "../../../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -23,28 +24,31 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const data = [
-    {
-        id: 1,
-        title: '快楽と健康',
-        script: '',
-    },
-    {
-        id: 2,
-        title: '海辺の墓場までハイキング',
-        script: '',
-    },
-]
 
 const PerformanceRoot = () => {
     const classes = useStyles()
+    const [performState, setPerformState] = useState({
+        id: '',
+        title: '',
+    })
     const { performance_id } = useParams()
     const {url, path} = useRouteMatch()
-    const performance_data = _.find(data, ['id', Number(performance_id)])
+
+    useEffect(() => {
+        create.get('/app/', {
+            params: {
+                type: 'performance',
+                data: performance_id,
+            }
+        }).then(res => {
+            setPerformState({...performState, title: res.data.title, id: res.data.id})
+        })
+    }, [])
+
 
     return (
         <>
-            <Box component="h2" className={classes.title}>{performance_data.title}</Box>
+            <Box component="h2" className={classes.title}>{performState.title}</Box>
             <List>
                 <ListItem button><Link to={`${url}/cast`} className={classes.link}>キャスト</Link></ListItem>
                 <ListItem button><Link to={`${url}/staff`} className={classes.link}>スタッフ</Link></ListItem>
