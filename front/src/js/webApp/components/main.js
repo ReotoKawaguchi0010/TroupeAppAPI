@@ -16,6 +16,16 @@ import {Profile} from "../containers/profile";
 import {RouteWithSubRoutes} from "../../routings/routings";
 import _ from "lodash";
 
+const useStyles = makeStyles((theme) => ({
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-end',
+    },
+
+}));
+
 const MainBody = () => {
     return (
         <Container>main</Container>
@@ -51,6 +61,7 @@ const routes = [
 
 export const Main = () => {
     const {state, dispatch} = useContext(AppContext)
+    const classes = useStyles()
 
     useEffect(() =>{
         login({type: 'login'}, dispatch)

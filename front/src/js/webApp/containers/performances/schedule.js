@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 20,
         padding: 20,
     },
+    calendar: {
+      width: '100%',
+    },
 }));
 
 const CreateEvent = ({dateEvent, open, onClose}) => {
@@ -83,7 +86,7 @@ const CreateEvent = ({dateEvent, open, onClose}) => {
 
     return (
         <Modal open={open} onClose={onClose} className={classes.createModal}>
-            <Paper className={classes.createPaper}>
+            <Paper className={classes.createPaper} tabIndex={'none'}>
                 <Box>title</Box>
                 <Box><TextField variant="outlined" name="title" onChange={inputChange} /></Box>
                 <Box>start</Box>
@@ -106,27 +109,61 @@ const CreateEvent = ({dateEvent, open, onClose}) => {
 const ReadEvent = ({readEvent, open, onClose}) => {
     const [eventState, setEventState] = useState({
         readEvent: {},
+        start: {
+            month: 0,
+            date: 0,
+            hours: 0,
+            minute: 0,
+            day: '',
+            year: '',
+        },
+        end: {
+            month: 0,
+            date: 0,
+            hours: 0,
+            minute: 0,
+            day: '',
+            year: '',
+        },
     })
     const classes = useStyles()
     console.log(eventState)
     useEffect(() => {
-        setEventState({...eventState, readEvent: readEvent})
+        let date = new Date(readEvent.start)
+        const start = {...eventState.start, date: date.getDate(), hours: ('00' + date.getHours()).slice(-2),
+            minute: ('00' + date.getMinutes()).slice(-2), month: date.getMonth()+1, day: date.getDay(), year: date.getFullYear()
+        }
+        let end = start
+        if(Boolean(readEvent.end)){
+            date = new Date(readEvent.end)
+            end = {...eventState.start, date: date.getDate(), hours: ('00' + date.getHours()).slice(-2),
+                minute: ('00' + date.getMinutes()).slice(-2), month: date.getMonth()+1, day: date.getDay(), year: date.getFullYear()
+            }
+        }
+
+        setEventState({...eventState, readEvent: readEvent, start: start, end: end})
     }, [readEvent])
     return (
-        <Modal open={open} onClose={onClose} className={classes.createModal}>
-            <Paper className={classes.createPaper}>
-                <Box>{Boolean(eventState.readEvent.start) ? String(eventState.readEvent.start) : ''}</Box>
+        <Modal open={open} onClose={onClose}
+               className={classes.createModal}
+               BackdropProps={{timeout: 500,}}
+        >
+            <Paper className={classes.createPaper} tabIndex={'none'}>
+                <Box>start</Box>
+                <Box>{eventState.start.year}/{eventState.start.month}/{eventState.start.date}</Box>
+                <Box>{eventState.start.hours}:{eventState.start.minute}</Box>
+                <Box>end</Box>
+                <Box>{eventState.end.year}/{eventState.end.month}/{eventState.end.date}</Box>
+                <Box>{eventState.end.hours}:{eventState.end.minute}</Box>
             </Paper>
         </Modal>
     )
 }
 
 
-
-
-
 const Calendar = () => {
     const {performance_id} = useParams();
+    const classes = useStyles()
     const [createEventState, setCreateEventState] = useState({
         open: false,
         dateEvent: '',
@@ -155,15 +192,6 @@ const Calendar = () => {
             console.error(e)
         })
     }, [])
-
-    // const events = [
-    //     {
-    //         id: 1, title: '準備', start: '2021-01-02T10:30', end: '2021-01-02T14:30',
-    //         backgroundColor: '#f6f6a5', borderColor: '#f6f6a5', textColor: '#000000',
-    //     },
-    //
-    // ]
-
 
     const config = {
         locale: 'ja',
@@ -208,11 +236,15 @@ const Calendar = () => {
     const handleNextClick = () => {
         let calendarApi = calendarEl.current.getApi()
         calendarApi.next()
+        let month = calendarApi.view.title
+        setMonthState({...monthState, month: month})
     }
 
     const handleBackClick = () => {
         let calendarApi = calendarEl.current.getApi()
         calendarApi.prev()
+        let month = calendarApi.view.title
+        setMonthState({...monthState, month: month})
     }
 
     const handleMonthClick = () => {
@@ -254,6 +286,7 @@ const Calendar = () => {
                 events={eventsState.events}
                 eventClick={handleEventsClick}
                 ref={calendarEl}
+                viewClassNames={[classes.calendar]}
             />
         </>
     )

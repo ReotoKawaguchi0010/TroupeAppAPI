@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import {Link} from "react-router-dom";
 import {AppBar, Toolbar, IconButton, Typography,
-InputBase, Avatar, Menu, MenuItem} from '@material-ui/core';
+InputBase, Avatar, Menu, MenuItem, Paper} from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
@@ -116,7 +116,7 @@ export const SearchAppBar = () =>{
                     <Typography className={classes.title} variant="h6" noWrap>
                         劇団沸管理アプリ
                     </Typography>
-                    <Avatar onClick={handleMenuClick} className={classes.menuAvatar}>T</Avatar>
+                    <Avatar onClick={handleMenuClick} onMouseOver={handleMenuClick} className={classes.menuAvatar}>T</Avatar>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
@@ -133,14 +133,26 @@ export const SearchAppBar = () =>{
                 </Toolbar>
                 <Menu
                     anchorEl={anchorEl}
+                    elevation={0}
+                    getContentAnchorEl={null}
                     open={Boolean(anchorEl)}
                     onClose={handleMenuClose}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'center',
+                    }}
                 >
-                    <MenuItem><Link to="/app/profile"
+                    <Paper>
+                        <MenuItem><Link to="/app/profile"
                                     className={classes.profileLink}
                                     onClick={handleMenuClose}
-                    >プロフィール</Link></MenuItem>
-                    <MenuItem onClick={handleClickLogout}>ログアウト</MenuItem>
+                        >プロフィール</Link></MenuItem>
+                        <MenuItem onClick={handleClickLogout}>ログアウト</MenuItem>
+                    </Paper>
                 </Menu>
             </AppBar>
         </div>
