@@ -3,14 +3,28 @@ import {useParams} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from '@fullcalendar/timegrid'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import {Button, Modal, Paper, Box, TextField} from "@material-ui/core";
+import _ from "lodash";
 
 import {performance_action} from "../../actions/performance_action";
 import {AppContext} from "../../contexts/AppContext";
 import {create} from "../../../utils/utils";
+import {colorConfig} from "../../../configs/config";
 
+const selectColor = [
+    {name: 'エメラルドグリーン', background: colorConfig.emeraldGreen, color: '#ffffff',},
+    {name: 'モダンシアン', background: colorConfig.modernCian, color: '#ffffff',},
+    {name: 'ディープスカイブルー', background: colorConfig.deepSkyBlue, color: '#ffffff',},
+    {name: 'パステルブラウン', background: colorConfig.pastelBrown, color: '#ffffff',},
+    {name: 'ミッドナイトブラック', background: colorConfig.midnightBlack, color: '#ffffff',},
+    {name: 'アップルレッド', background: colorConfig.appleRed, color: '#ffffff',},
+    {name: 'フレンチローズ', background: colorConfig.frenchRode, color: '#ffffff',},
+    {name: 'コーラルピンク', background: colorConfig.coralPink, color: '#ffffff',},
+    {name: 'ブライトオレンジ', background: colorConfig.brightOrange, color: '#ffffff',},
+    {name: 'ソフトバイオレット', background: colorConfig.softViolet, color: '#ffffff',},
+]
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -100,6 +114,13 @@ const CreateEvent = ({dateEvent, open, onClose}) => {
                                 onChange={inputChange}/></Box>
                 <Box>description</Box>
                 <Box><TextField variant="outlined" multiline name="description" onChange={inputChange} /></Box>
+                <Box><TextField label="Select" select >
+                    {_.map(selectColor, (v, i) => (
+                        <Box key={i} style={{background: v.background}}>
+                            <Button style={{color: v.color}}>{v.name}</Button>
+                        </Box>
+                    ))}
+                </TextField></Box>
                 <Box><Button onClick={handleSendClick}>決定</Button></Box>
             </Paper>
         </Modal>
@@ -109,6 +130,7 @@ const CreateEvent = ({dateEvent, open, onClose}) => {
 const ReadEvent = ({readEvent, open, onClose}) => {
     const [eventState, setEventState] = useState({
         readEvent: {},
+        title: '',
         start: {
             month: 0,
             date: 0,
@@ -125,9 +147,11 @@ const ReadEvent = ({readEvent, open, onClose}) => {
             day: '',
             year: '',
         },
+        description: '',
     })
     const classes = useStyles()
     console.log(eventState)
+
     useEffect(() => {
         let date = new Date(readEvent.start)
         const start = {...eventState.start, date: date.getDate(), hours: ('00' + date.getHours()).slice(-2),
@@ -141,7 +165,10 @@ const ReadEvent = ({readEvent, open, onClose}) => {
             }
         }
 
-        setEventState({...eventState, readEvent: readEvent, start: start, end: end})
+        let description = readEvent.extendedProps
+        if(Boolean(description))description = description.description
+
+        setEventState({...eventState, readEvent: readEvent, start: start, end: end, description: description, title: readEvent.title})
     }, [readEvent])
     return (
         <Modal open={open} onClose={onClose}
@@ -149,12 +176,18 @@ const ReadEvent = ({readEvent, open, onClose}) => {
                BackdropProps={{timeout: 500,}}
         >
             <Paper className={classes.createPaper} tabIndex={'none'}>
-                <Box>start</Box>
-                <Box>{eventState.start.year}/{eventState.start.month}/{eventState.start.date}</Box>
-                <Box>{eventState.start.hours}:{eventState.start.minute}</Box>
-                <Box>end</Box>
-                <Box>{eventState.end.year}/{eventState.end.month}/{eventState.end.date}</Box>
-                <Box>{eventState.end.hours}:{eventState.end.minute}</Box>
+                <Box component="h4">{eventState.title}</Box>
+
+                <Box>
+                    <Box>{eventState.start.year}/{eventState.start.month}/{eventState.start.date}</Box>
+                    <Box>{eventState.start.hours}:{eventState.start.minute}</Box>
+                    <Box>-></Box>
+                    <Box>{eventState.end.year}/{eventState.end.month}/{eventState.end.date}</Box>
+                    <Box>{eventState.end.hours}:{eventState.end.minute}</Box>
+                </Box>
+
+                <Box>内容</Box>
+                <Box>{eventState.description}</Box>
             </Paper>
         </Modal>
     )
