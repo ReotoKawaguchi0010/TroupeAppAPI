@@ -21,3 +21,13 @@ export const create = axios.create({
     xsrfHeaderName: 'X-CSRF-Token',
     withCredentials: true,
 });
+
+export const uploadFile = axios.create({
+    baseURL: API_PATH,
+    headers: {
+        'Content-Type': 'multipart/form-data',
+        'X-Requested-With': 'XMLHttpRequest',
+    },
+    xsrfHeaderName: 'X-CSRF-Token',
+    withCredentials: true,
+})

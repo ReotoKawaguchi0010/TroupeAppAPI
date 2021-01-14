@@ -51,8 +51,14 @@ def app(request):
     content_type = is_port_local_content_type(request)
     response = Response({'status': OK, 'bool': 'false', 'login': 'fail'}, content_type=content_type)
     if request.method == 'POST':
-        request_data = request.body.decode('utf-8')
-        request_data = json.loads(request_data)
+        request_data = ''
+        if request.content_type == 'application/json':
+            request_data = request.body.decode('utf-8')
+            request_data = json.loads(request_data)
+        else:
+            for key, value in request.FILES.items():
+                print(key)
+                print(value)
         if has_request_type(request_data, 'login'):
             response = post.login(request, response, request_data)
         elif has_request_type(request_data, 'idea'):

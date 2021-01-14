@@ -8,7 +8,8 @@ export const reducerPerformance = (state=initialState, action) =>{
             return {...state, data: 'test'}
         case 'create_schedule':
             console.log(action.data)
-
+            return {...state}
+        case 'upload_script':
             return {...state}
         default:
             return state

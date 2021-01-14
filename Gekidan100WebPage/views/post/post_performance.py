@@ -23,3 +23,8 @@ def post_schedule(request, response: Response, data: dict):
         performance_schedule = Performance_Schedule(performance=performance, schedule=schedule)
         performance_schedule.save()
     return response
+
+
+def upload_file(request, response: Response, data: dict):
+
+    return response
