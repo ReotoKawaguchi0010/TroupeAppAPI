@@ -21,10 +21,9 @@ export const uploadFileAction = async (action, dispatch) => {
         console.log(file)
         const params = new FormData()
         params.append('file', file)
+        params.append('type', action.type)
         const res = await uploadFile.post(`/app/`, params)
         action.data = res.data
         dispatch(action)
-    }catch (e) {
-
-    }
+    }catch (e) {}
 }

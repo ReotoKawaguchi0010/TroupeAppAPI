@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 
 from Gekidan100WebPage.api import ameba_api
 from Gekidan100WebPage.utils.util import is_port_local_content_type, has_request_type
+from Gekidan100WebPage.utils.read_word import ReadWordFiles
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.twitter_api import TwitterApi
 from Gekidan100WebPage.views import gets
@@ -56,9 +57,15 @@ def app(request):
             request_data = request.body.decode('utf-8')
             request_data = json.loads(request_data)
         else:
+            print(request.POST)
             for key, value in request.FILES.items():
-                print(key)
-                print(value)
+                if key == 'file':
+                    bytes_data = value.read()
+                    r = ReadWordFiles()
+                    r.read_word_file(bytes_data)
+                elif key == 'type':
+                    print(value)
+
         if has_request_type(request_data, 'login'):
             response = post.login(request, response, request_data)
         elif has_request_type(request_data, 'idea'):

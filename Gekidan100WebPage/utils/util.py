@@ -70,6 +70,8 @@ def has_request_type(request_data, has_data):
     return False
 
 
+
+
 if __name__ == '__main__':
     # str1 = 'PAYID-L67255A76683099VG284801U'
     # str2 = 'ZQFR8L8CNFDC6'
