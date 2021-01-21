@@ -13,7 +13,8 @@ test_file_name =  __file__.replace(os.path.basename(__file__), '')+'test.docx'
 class ReadWordFiles(object):
 
     def __init__(self):
-        self.test = 'test'
+        self.text_list = []
+        self.title = ''
 
 
     def extract_text(self, node):
@@ -37,6 +38,7 @@ class ReadWordFiles(object):
                 font_size = default_font_size
                 text = self.extract_text(text_node)
                 text_list.append({'text': text, 'font_size': font_size})
+            self.text_list = text_list
             return text_list
 
     def dict_text_size(self):

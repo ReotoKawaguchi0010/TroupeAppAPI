@@ -4,13 +4,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from Gekidan100WebPage.api import ameba_api
-from Gekidan100WebPage.utils.util import is_port_local_content_type, has_request_type
-from Gekidan100WebPage.utils.read_word import ReadWordFiles
+from Gekidan100WebPage.utils.util import is_port_local_content_type
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.twitter_api import TwitterApi
 from Gekidan100WebPage.views import gets
-from Gekidan100WebPage.views.post import post, post_performance
-from Gekidan100WebPage.views.get import get, get_performance
+from Gekidan100WebPage.views import post, get, put, delete
 
 @api_view(['GET', 'POST'])
 def init_page(request):
@@ -52,38 +50,13 @@ def app(request):
     content_type = is_port_local_content_type(request)
     response = Response({'status': OK, 'bool': 'false', 'login': 'fail'}, content_type=content_type)
     if request.method == 'POST':
-        request_data = ''
-        if request.content_type == 'application/json':
-            request_data = request.body.decode('utf-8')
-            request_data = json.loads(request_data)
-        else:
-            print(request.POST)
-            for key, value in request.FILES.items():
-                if key == 'file':
-                    bytes_data = value.read()
-                    r = ReadWordFiles()
-                    r.read_word_file(bytes_data)
-                elif key == 'type':
-                    print(value)
-
-        if has_request_type(request_data, 'login'):
-            response = post.login(request, response, request_data)
-        elif has_request_type(request_data, 'idea'):
-            response = post.idea(request, response, request_data)
-        elif has_request_type(request_data, 'logout'):
-            response = post.logout(request, response, request_data)
-        elif has_request_type(request_data, 'crete_performance'):
-            response = post_performance.post_performance(request, response, request_data)
-        elif has_request_type(request_data, 'create_schedule'):
-            response = post_performance.post_schedule(request, response, request_data)
+        response = post.main(request, response)
     elif request.method == 'GET':
-        request_data = request.GET.dict()
-        if has_request_type(request_data, 'idea'):
-            response = get.get_idea(request, response, request_data)
-        elif has_request_type(request_data, 'performance'):
-            response = get_performance.get_performance(request, response, request_data)
-        elif has_request_type(request_data, 'get_schedule'):
-            response = get_performance.get_schedule(request, response, request_data)
+        response = get.main(request, response)
+    elif request.method == 'PUT':
+        response = put.main(request, response)
+    elif request.method == 'DELETE':
+        response = delete.main(request, response)
     return response
 
 
