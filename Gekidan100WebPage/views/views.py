@@ -1,19 +1,17 @@
 import json
 
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from Gekidan100WebPage.api import ameba_api
-from Gekidan100WebPage.utils.util import is_port_local_content_type
+from Gekidan100WebPage.utils.decorators.response import json_response
 from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
 from Gekidan100WebPage.api.twitter_api import TwitterApi
 from Gekidan100WebPage.views import gets
 from Gekidan100WebPage.views import post, get, put, delete
 
 @api_view(['GET', 'POST'])
-def init_page(request):
-    content_type = is_port_local_content_type(request)
-    response = Response({}, content_type=content_type)
+@json_response(status=OK, bool='false', login='fail')
+def init_page(request, response):
     if request.method == 'GET':
         if request.GET.get('video_ticket'):
             output = gets.video_ticket(request)
@@ -46,9 +44,8 @@ def init_page(request):
     return response
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def app(request):
-    content_type = is_port_local_content_type(request)
-    response = Response({'status': OK, 'bool': 'false', 'login': 'fail'}, content_type=content_type)
+@json_response(status=OK, bool='false', login='fail')
+def app(request, response):
     if request.method == 'POST':
         response = post.main(request, response)
     elif request.method == 'GET':
