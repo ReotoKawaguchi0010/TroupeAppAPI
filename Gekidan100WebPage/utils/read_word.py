@@ -1,12 +1,10 @@
-import os
 import zipfile
-import xmltodict
-import json
 import io
 import re
-import lxml
 
-import docx
+import xmltodict
+from lxml import etree
+
 
 class ReadWordFiles(object):
 
@@ -14,9 +12,8 @@ class ReadWordFiles(object):
         self.text_list = []
         self.title = ''
 
-
     def extract_text(self, node):
-        text = lxml.etree.tostring(node, encoding='utf-8').decode('utf-8')
+        text = etree.tostring(node, encoding='utf-8').decode('utf-8')
         text = re.sub('<w:rt>.*?</w:rt>', '', text)
         text = re.sub('<.*?>', '', text)
 
@@ -29,7 +26,7 @@ class ReadWordFiles(object):
             xml_str_style = z.read('word/styles.xml')
             styles = xmltodict.parse(xml_str_style.decode('utf-8'))
             default_font_size = int(styles['w:styles']['w:docDefaults']['w:rPrDefault']['w:rPr']['w:sz']['@w:val']) / 2
-            dom = lxml.etree.fromstring(xml_str)
+            dom = etree.fromstring(xml_str)
             text_nodes = dom.xpath('//w:p', namespaces=xmlns)
             text_list = []
             for text_node in text_nodes:
