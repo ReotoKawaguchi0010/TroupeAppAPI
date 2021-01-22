@@ -1,8 +1,9 @@
 from rest_framework.response import Response
 
-from Gekidan100WebPage.utils.util import is_port_local_content_type
+from Gekidan100WebPage.utils.http import is_port_local_content_type
 
-def json_response(*dargs, **dkwargs):
+
+def json_response(**dkwargs):
     def decorator(func):
         def wrapper(*args, **kwargs):
             newkwargs = {**kwargs, **dkwargs}

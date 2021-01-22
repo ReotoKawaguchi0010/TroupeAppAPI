@@ -3,7 +3,6 @@ from django.db import models
 from Gekidan100WebPage.models.performance.cast import Cast
 from Gekidan100WebPage.models.performance.staff import Staff
 
-
 class Peformance(models.Model):
     title = models.fields.CharField(max_length=256)
     performance_date = models.fields.CharField(max_length=256, null=True)

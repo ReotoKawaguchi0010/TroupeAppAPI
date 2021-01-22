@@ -1,4 +1,11 @@
-from Gekidan100WebPage.models.models import VideoTicket, Idea, IdeaContents
 from Gekidan100WebPage.models.user import UserData
-from Gekidan100WebPage.models.performance import Peformance, Cast, Staff, Schedule, Performance_Schedule
-
+from Gekidan100WebPage.models.models import VideoTicket
+from Gekidan100WebPage.models.models import Idea
+from Gekidan100WebPage.models.models import IdeaContents
+from Gekidan100WebPage.models.performance.performance import Peformance
+from Gekidan100WebPage.models.performance.cast import Cast
+from Gekidan100WebPage.models.performance.staff import Staff
+from Gekidan100WebPage.models.performance.schedule import Schedule
+from Gekidan100WebPage.models.performance.performance_schedule import Performance_Schedule
+from Gekidan100WebPage.models.performance.script import Script
+from Gekidan100WebPage.models.performance.performance_script import PerformanceScript
