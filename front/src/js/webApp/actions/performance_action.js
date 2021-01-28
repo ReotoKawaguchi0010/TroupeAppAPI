@@ -27,3 +27,17 @@ export const uploadFileAction = async (action, dispatch) => {
         dispatch(action)
     }catch (e) {}
 }
+
+export const getPerformances = async (action, dispatch) => {
+    try{
+        const res = await create.get(`/app/`, {
+            params: {
+                type: action.type,
+                data: action.data,
+            }})
+        action.data = res.data
+        dispatch(action)
+    }catch (e) {
+        console.log(e)
+    }
+}

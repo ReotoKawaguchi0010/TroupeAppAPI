@@ -11,4 +11,3 @@ def main(request, response: Response, data: dict):
         if '.docx' in file_name:
             word_data = post_word_file(value)
     return response
-

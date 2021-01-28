@@ -5,7 +5,12 @@ import reducers from "./reducers";
 import {AppContext} from "./contexts/AppContext";
 
 const Provider = ({children}) => {
-    const [state, dispatch] = useReducer(reducers, {});
+    const [state, dispatch] = useReducer(reducers, {
+        reducerFunc: {},
+        reducerPerformance: {
+            performances: [],
+        }
+    });
     return <AppContext.Provider value={{state, dispatch}}>{children}</AppContext.Provider>
 }
 

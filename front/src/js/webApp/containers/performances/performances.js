@@ -7,7 +7,7 @@ import _ from "lodash";
 
 import {RouteWithSubRoutes} from "../../../routings/routings";
 import {Performance} from "./performance";
-import {performance_action} from "../../actions/performance_action";
+import {performance_action, getPerformances} from "../../actions/performance_action";
 import {AppContext} from "../../contexts/AppContext";
 import {create} from "../../../utils/utils";
 
@@ -72,25 +72,13 @@ const CreatePerformance = ({open, onClose}) => {
 }
 
 const Main = () => {
+    const {state, dispatch} = useContext(AppContext)
     const classes = useStyles()
     const {url, path} = useRouteMatch()
 
-    const [dataState, setDataState] = useState({
-        data: []
-    })
-
+    console.log(state)
     useEffect(() => {
-        create.get('/app/', {
-            params: {
-                type: 'performance',
-                data: 'all',
-            }
-        }).then(resp => {
-            let data = resp.data
-            setDataState({...dataState, data: data})
-        }).catch(err => {
-            console.log(err)
-        })
+        getPerformances({type: 'get_performance', data: 'all'}, dispatch)
     }, [])
 
     const [openState, setOpenState] = useState(false)
@@ -108,7 +96,7 @@ const Main = () => {
             <Button onClick={handleCreateClick}>公演を始める</Button>
             <Grid container spacing={3}>
                 {
-                    _.map(dataState.data, (v, i) => {
+                    _.map(state.reducerPerformance.performances, (v, i) => {
                         return (
                         <Grid item xs={3} key={i}>
                             <Paper>
