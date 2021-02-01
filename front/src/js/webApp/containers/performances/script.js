@@ -18,12 +18,15 @@ const useStyles = makeStyles((theme) => ({
 
 
 const UploadScript = () => {
+    const { performance_id } = useParams()
     const [sendState, setSendState] = useState({
         sendData: '',
         filename: '',
     })
     const {state, dispatch} = useContext(AppContext)
     const classes = useStyles()
+
+    console.log(state)
 
     const handleUpload = e => {
         let file = e.target.files.item(0)
@@ -32,7 +35,7 @@ const UploadScript = () => {
     }
 
     const handleSendClick = () => {
-        uploadFileAction({type: 'upload_script', sendData: sendState.sendData}, dispatch)
+        uploadFileAction({type: 'upload_script', sendData: sendState.sendData, performanceID: performance_id}, dispatch)
     }
     return (
         <>

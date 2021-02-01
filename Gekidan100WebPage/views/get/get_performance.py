@@ -1,9 +1,16 @@
 from rest_framework.response import Response
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from Gekidan100WebPage.models.performance import Schedule, Cast, Performance_Schedule, Peformance, Staff
+from Gekidan100WebPage.models.performance import PerformanceScript, Script
+from Gekidan100WebPage.utils.read_word import post_word_file
 
 
 def get_performance(request, response: Response, data: dict):
+    script = Script.objects.get(id=5)
+    test = bytes(script.script)
+    test2 = InMemoryUploadedFile
+    print(post_word_file(test))
     if bool(data['data']):
         if data['data'] == 'all':
             performances = Peformance.objects.all()

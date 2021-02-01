@@ -9,7 +9,6 @@ import {RouteWithSubRoutes} from "../../../routings/routings";
 import {Performance} from "./performance";
 import {performance_action, getPerformances} from "../../actions/performance_action";
 import {AppContext} from "../../contexts/AppContext";
-import {create} from "../../../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
