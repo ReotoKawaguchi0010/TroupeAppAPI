@@ -8,6 +8,8 @@ from lxml import etree
 
 class ReadWordFiles(object):
 
+    BUFFER_SIZE = 34
+
     def __init__(self):
         self.text_list = []
         self.title = ''
@@ -36,11 +38,11 @@ class ReadWordFiles(object):
             self.text_list = text_list
             return text_list
 
-    def dict_text_size(self):
-        return [{'text': file.text, 'size': run.font.size/12700} for file in self.read_word_file() for run in file.runs]
+
 
 def post_word_file(value):
     bytes_data = value.read()
+    print(type(bytes_data))
     word_data = ReadWordFiles()
     word_data.read_word_file(bytes_data)
     return word_data

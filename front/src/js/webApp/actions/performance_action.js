@@ -27,7 +27,10 @@ export const uploadFileAction = async (action, dispatch) => {
         const res = await uploadFile.post(`/app/`, params)
         action.data = res.data
         dispatch(action)
-    }catch (e) {}
+    }catch (e) {
+        console.log(e)
+        alert('アップロードに失敗しました')
+    }
 }
 
 export const getPerformances = async (action, dispatch) => {

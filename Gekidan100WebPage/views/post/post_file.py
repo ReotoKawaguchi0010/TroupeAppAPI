@@ -2,6 +2,8 @@ from django.utils.datastructures import MultiValueDict
 from rest_framework.response import Response
 import sys
 import io
+import pickle
+import json
 
 
 from Gekidan100WebPage.utils.read_word import post_word_file
@@ -19,11 +21,14 @@ def main(request, response: Response, data: dict):
     for key, value in files.items():
         file_name = str(value)
         if '.docx' in file_name:
-            file = value.read()
-            script.script = file
+            word_data = post_word_file(value)
+            print(sys.getsizeof(word_data.text_list))
+            serialize = pickle.dumps(word_data.text_list)
+            script.script = serialize
             script.save()
             performance_script.performance = performance[0]
             performance_script.script = script
             performance_script.save()
-            #word_data = post_word_file(value)
+            break
+
     return response

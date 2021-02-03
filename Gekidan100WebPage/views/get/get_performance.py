@@ -1,3 +1,4 @@
+import pickle
 from rest_framework.response import Response
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
@@ -7,10 +8,8 @@ from Gekidan100WebPage.utils.read_word import post_word_file
 
 
 def get_performance(request, response: Response, data: dict):
-    script = Script.objects.get(id=5)
-    test = bytes(script.script)
-    test2 = InMemoryUploadedFile
-    print(post_word_file(test))
+    script = Script.objects.get(id=1)
+    print(pickle.loads(script.script))
     if bool(data['data']):
         if data['data'] == 'all':
             performances = Peformance.objects.all()
