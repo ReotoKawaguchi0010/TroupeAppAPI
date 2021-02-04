@@ -6,7 +6,7 @@ import _ from "lodash";
 
 import {uploadFileAction} from "../../actions/performance_action";
 import {AppContext} from "../../contexts/AppContext";
-import {getPerformances} from "../../actions/performance_action";
+import {getPerformances, getScript} from "../../actions/performance_action";
 
 const useStyles = makeStyles((theme) => ({
     upload: {
@@ -25,8 +25,6 @@ const UploadScript = () => {
     })
     const {state, dispatch} = useContext(AppContext)
     const classes = useStyles()
-
-    console.log(state)
 
     const handleUpload = e => {
         let file = e.target.files.item(0)
@@ -56,10 +54,18 @@ export const Script = () => {
     const { performance_id } = useParams()
     const {state, dispatch} = useContext(AppContext)
 
+    console.log(state)
+
     useEffect(() => {
         if(!state.reducerPerformance.performances.length){
             getPerformances({type: 'get_performance', data: 'all'}, dispatch)
         }
+        let action = {
+            type: 'get_script',
+            performanceId: Number(performance_id),
+            scriptNum: 1,
+        }
+        getScript(action, dispatch)
     }, [])
     return (
         <>
@@ -68,6 +74,11 @@ export const Script = () => {
             })}
             <div>台本</div>
             <UploadScript />
+            <div>
+                {_.map(state.reducerPerformance.script, (v, i) => {
+                    return <div key={i}>{v.text}</div>
+                })}
+            </div>
         </>
     )
 }

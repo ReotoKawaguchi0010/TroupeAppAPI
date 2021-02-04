@@ -10,4 +10,6 @@ def main(request, response):
         response = get_performance.get_performance(request, response, request_data)
     elif has_request_type(request_data, 'get_schedule'):
         response = get_performance.get_schedule(request, response, request_data)
+    elif has_request_type(request_data, 'get_script'):
+        response = get_performance.get_script(request, response, request_data)
     return response

@@ -13,6 +13,8 @@ export const reducerPerformance = (state=initialState, action) =>{
             return {...state}
         case 'get_performance':
             return {...state, performances: action.data}
+        case 'get_script':
+            return {...state, script: action.data}
         default:
             return state
     }

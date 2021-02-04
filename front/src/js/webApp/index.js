@@ -9,6 +9,7 @@ const Provider = ({children}) => {
         reducerFunc: {},
         reducerPerformance: {
             performances: [],
+            script: [],
         }
     });
     return <AppContext.Provider value={{state, dispatch}}>{children}</AppContext.Provider>

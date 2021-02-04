@@ -3,13 +3,27 @@ import {uploadFile} from "../../utils/utils";
 
 export const performance_action = async (action, dispatch) => {
     try{
-        let sendData = {}
-        if(Boolean(action.sendData)) sendData = action.sendData
+        let sendData = Boolean(action.sendData) ? action.sendData: {}
         sendData.type = action.type
         const res = await create.post(`/app/`, JSON.stringify(sendData))
         action.data = res.data
         dispatch(action)
 
+    }catch (e) {
+        console.log(e)
+    }
+}
+
+export const getScript = async (action, dispatch) => {
+    try{
+        let sendData = Boolean(action.sendData) ? action.sendData: {}
+        sendData.type = action.type
+        const res = await create.get(`/app/`, {
+            params: action
+            })
+        action.data = res.data
+        console.log(res.data)
+        dispatch(action)
     }catch (e) {
         console.log(e)
     }

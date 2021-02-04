@@ -1,6 +1,7 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const { basename } = require('path')
 
 const outputPath = path.resolve(__dirname, 'dist')
 
@@ -54,7 +55,8 @@ module.exports = {
     plugins: [
         new htmlWebpackPlugin({
             template: "./public/index.html",
-            filename: "./index.html"
-        })
+            filename: "./index.html",
+            favicon: './public/favicon.ico'
+        }),
     ],
 }
