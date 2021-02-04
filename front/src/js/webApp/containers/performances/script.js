@@ -51,33 +51,58 @@ const UploadScript = () => {
 
 
 export const Script = () => {
+    const classes = makeStyles((theme) => ({
+        book: {
+            height: 500,
+            overflow: 'auto',
+            writingMode: 'vertical-rl',
+        }
+    }))()
     const { performance_id } = useParams()
+    const [pageState, setPageState] = useState({
+        pageNum: 1,
+    })
     const {state, dispatch} = useContext(AppContext)
 
     console.log(state)
 
     useEffect(() => {
-        if(!state.reducerPerformance.performances.length){
-            getPerformances({type: 'get_performance', data: 'all'}, dispatch)
-        }
         let action = {
             type: 'get_script',
             performanceId: Number(performance_id),
-            scriptNum: 1,
+            scriptNum: pageState.pageNum,
         }
         getScript(action, dispatch)
-    }, [])
+    }, [pageState])
+
+    const handleRightClick = e => {
+        if(pageState.pageNum < 0) return ''
+        if(pageState.pageNum >= state.reducerPerformance.scripts.total_page_num) return ''
+        let pageNum = pageState.pageNum += 1
+        setPageState({...pageState, pageNum: pageNum})
+    }
+
+    const handleLeftClick = e => {
+        if(pageState.pageNum > 0) return ''
+        if(pageState.pageNum <= state.reducerPerformance.scripts.total_page_num) return ''
+        let pageNum = pageState.pageNum -= 1
+        setPageState({...pageState, pageNum: pageNum})
+    }
+
     return (
         <>
-            {_.map(state.reducerPerformance.performances, (v, i) => {
-                return Number(v.id) === Number(performance_id) ? (<div key={i}>{state.reducerPerformance.performances[i].title}</div>) : ''
-            })}
+            <div>{state.reducerPerformance.scripts.title}</div>
             <div>台本</div>
             <UploadScript />
-            <div>
-                {_.map(state.reducerPerformance.script, (v, i) => {
-                    return <div key={i}>{v.text}</div>
+            <div className={classes.book}>
+                {_.map(state.reducerPerformance.scripts.script, (v, i) => {
+                    return <div key={i} style={{fontSize: v.font_size}}>{v.text === '' ? <br /> : v.text}</div>
                 })}
+            </div>
+            <div>
+                <div onClick={handleLeftClick}>{'<'}</div>
+                {state.reducerPerformance.scripts.page_num}/{state.reducerPerformance.scripts.total_page_num}
+                <div onClick={handleRightClick}>{'>'}</div>
             </div>
         </>
     )

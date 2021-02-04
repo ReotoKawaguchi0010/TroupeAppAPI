@@ -7,14 +7,13 @@ export const reducerPerformance = (state=initialState, action) =>{
         case 'crete_performance':
             return {...state, data: 'test'}
         case 'create_schedule':
-            console.log(action.data)
             return {...state}
         case 'upload_script':
             return {...state}
         case 'get_performance':
             return {...state, performances: action.data}
         case 'get_script':
-            return {...state, script: action.data}
+            return {...state, scripts: action.data}
         default:
             return state
     }

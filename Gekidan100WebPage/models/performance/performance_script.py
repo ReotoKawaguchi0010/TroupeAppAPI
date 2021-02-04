@@ -1,4 +1,5 @@
 import pickle
+import math
 from django.db import models
 
 from Gekidan100WebPage.models.performance.performance import Peformance
@@ -29,6 +30,14 @@ def models_get_script(performance_id, script_num):
             performance_script = PerformanceScript.objects.get(performance=performance)
             script = performance_script.script
             script = pickle.loads(script.script)
-            return script[0: PerformanceScript.BUFFER_SIZE]
+            total_page_num = math.ceil(len(script) / PerformanceScript.BUFFER_SIZE)
+            script_page_num = script_num * PerformanceScript.BUFFER_SIZE - PerformanceScript.BUFFER_SIZE
+            script = {
+                'title': performance.title,
+                'total_page_num': total_page_num,
+                'page_num': script_num,
+                'script': script[script_page_num: script_page_num+PerformanceScript.BUFFER_SIZE]
+            }
+            return script
     return False
 
