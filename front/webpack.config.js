@@ -1,7 +1,5 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
-const { basename } = require('path')
 
 const outputPath = path.resolve(__dirname, 'dist')
 

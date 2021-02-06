@@ -57,6 +57,10 @@ const routes = [
         path: '/app',
         component: MainBody,
     },
+    {
+        path: '*',
+        component: () => (<div>404</div>),
+    },
 ];
 
 export const Main = () => {

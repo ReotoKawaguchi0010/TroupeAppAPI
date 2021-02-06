@@ -16,6 +16,11 @@ const routes = [
         path: '/app',
         component: Main,
     },
+    {
+        path: '*',
+        component: () => (<div>404</div>),
+    },
+
 ];
 
 

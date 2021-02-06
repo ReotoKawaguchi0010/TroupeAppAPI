@@ -6,7 +6,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import _ from "lodash";
 
-import {PerformanceIcon, IdeaMan, NoteIcon, ContractIcon} from "../containers/icons";
+import {PerformanceIcon, IdeaMan, NoteIcon, ContractIcon, DisplayIcon} from "../containers/icons";
 
 const drawerWidth = 240;
 
@@ -64,6 +64,11 @@ const listItems = [
         iconComponent: ContractIcon,
         link: 'contract',
     },
+    {
+        name: 'ホームページ',
+        iconComponent: DisplayIcon,
+        link: '',
+    }
 ]
 
 

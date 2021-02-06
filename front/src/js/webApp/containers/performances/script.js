@@ -13,6 +13,12 @@ const useStyles = makeStyles((theme) => ({
         position: 'absolute',
         opacity: 0,
     },
+    book: {
+        height: '75%',
+        width: '100%',
+        overflow: 'auto',
+        writingMode: 'vertical-rl',
+    },
 }));
 
 
@@ -51,13 +57,7 @@ const UploadScript = () => {
 
 
 export const Script = () => {
-    const classes = makeStyles((theme) => ({
-        book: {
-            height: 500,
-            overflow: 'auto',
-            writingMode: 'vertical-rl',
-        }
-    }))()
+    const classes = useStyles()
     const { performance_id } = useParams()
     const [pageState, setPageState] = useState({
         pageNum: 1,
@@ -75,17 +75,17 @@ export const Script = () => {
         getScript(action, dispatch)
     }, [pageState])
 
-    const handleRightClick = e => {
-        if(pageState.pageNum < 0) return ''
+    const handleLeftClick = e => {
+        if(pageState.pageNum <= 0) return ''
         if(pageState.pageNum >= state.reducerPerformance.scripts.total_page_num) return ''
-        let pageNum = pageState.pageNum += 1
+        let pageNum = pageState.pageNum + 1
         setPageState({...pageState, pageNum: pageNum})
     }
 
-    const handleLeftClick = e => {
-        if(pageState.pageNum > 0) return ''
-        if(pageState.pageNum <= state.reducerPerformance.scripts.total_page_num) return ''
-        let pageNum = pageState.pageNum -= 1
+    const handleRightClick = e => {
+        if(pageState.pageNum <= 1) return ''
+        if(pageState.pageNum > state.reducerPerformance.scripts.total_page_num) return ''
+        let pageNum = pageState.pageNum - 1
         setPageState({...pageState, pageNum: pageNum})
     }
 
@@ -96,7 +96,7 @@ export const Script = () => {
             <UploadScript />
             <div className={classes.book}>
                 {_.map(state.reducerPerformance.scripts.script, (v, i) => {
-                    return <div key={i} style={{fontSize: v.font_size}}>{v.text === '' ? <br /> : v.text}</div>
+                    return <div key={i} style={{fontSize: Number(v.font_size)*1.5}}>{v.text === '' ? <br /> : v.text}</div>
                 })}
             </div>
             <div>

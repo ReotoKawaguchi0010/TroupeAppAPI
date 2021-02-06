@@ -10,14 +10,28 @@ import {Performance} from "./performance";
 import {performance_action, getPerformances} from "../../actions/performance_action";
 import {AppContext} from "../../contexts/AppContext";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         flexGrow: 1,
     },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
+    categoryTitle: {
+        fontSize: 19,
+        fontWeight: 'bolder',
+    },
+    paperRoot: {
+        height: 100,
+    },
+    paperInBox: {
+        height: 'calc(100% - 24px)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: 18,
+        fontWeight: 'bolder',
+    },
+    dateBox: {
+        height: 24,
+        textAlign: 'right',
     },
     link: {
         color: "initial",
@@ -30,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
     },
     modal: {
         textAlign: 'center'
+    },
+    titleBtn: {
+        display: 'block',
+        width: '100%',
     },
 }));
 
@@ -92,16 +110,26 @@ const Main = () => {
     return (
         <div className={classes.root}>
             <CreatePerformance open={openState} onClose={handleClose} />
-            <Button onClick={handleCreateClick}>公演を始める</Button>
+            <Box className={classes.categoryTitle}>現在進行中の公演</Box>
+            <Box>
+                <Button onClick={handleCreateClick}>公演を始める</Button>
+            </Box>
+            <Box className={classes.categoryTitle}>過去の公演</Box>
             <Grid container spacing={3}>
                 {
                     _.map(state.reducerPerformance.performances, (v, i) => {
                         return (
                         <Grid item xs={3} key={i}>
-                            <Paper>
-                                <Box><Link to={`${path}/${v.id}`} className={classes.link}>{v.title}</Link></Box>
-                                <Box>{v.date}</Box>
-                            </Paper>
+                            <Button className={classes.titleBtn}>
+                                <Link to={`${path}/${v.id}`} className={classes.link}>
+                                    <Paper classes={{root: classes.paperRoot}}>
+                                        <Box className={classes.paperInBox}>
+                                            {v.title}
+                                        </Box>
+                                        <Box className={classes.dateBox}>公演予定日:{v.date}</Box>
+                                    </Paper>
+                                </Link>
+                            </Button>
                         </Grid>)
                     })
                 }
@@ -124,8 +152,6 @@ export const Performances = () => {
             component: Main,
         },
     ];
-
-
 
     return (
         <Container>
