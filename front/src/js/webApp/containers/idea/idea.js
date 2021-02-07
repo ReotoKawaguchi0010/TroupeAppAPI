@@ -14,6 +14,7 @@ import {AppContext} from "../../contexts/AppContext";
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        padding: 10,
     },
     paper: {
         padding: theme.spacing(2),
@@ -27,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
         display: 'inline-block',
         padding: '35px',
         marginTop: '10px',
+    },
+    addBtnBlock: {
+        textAlign: 'center',
+    },
+    title: {
+        textAlign: 'center'
     },
 }));
 
@@ -79,9 +86,12 @@ const IdeaRoot = () => {
                     </Paper>
                 </Box>
             </Modal>
-            <Fab onClick={handleAddBtnClick}>
-                <AddIcon />
-            </Fab>
+            <Box component="h2" className={classes.title}>企画</Box>
+            <div className={classes.addBtnBlock}>
+                <Fab onClick={handleAddBtnClick}>
+                    <AddIcon />
+                </Fab>
+            </div>
             <Grid container spacing={3}>
                 {_.map(dataState.data, (v, i) => {
                     return(
