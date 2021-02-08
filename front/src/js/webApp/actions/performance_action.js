@@ -22,7 +22,6 @@ export const getScript = async (action, dispatch) => {
             params: action
             })
         action.data = res.data
-        console.log(res.data)
         dispatch(action)
     }catch (e) {
         console.log(e)
@@ -32,7 +31,6 @@ export const getScript = async (action, dispatch) => {
 export const uploadFileAction = async (action, dispatch) => {
     try{
         const file = action.sendData
-        console.log(file)
         const params = new FormData()
         params.append('file', file)
         params.append('type', action.type)
@@ -54,6 +52,21 @@ export const getPerformances = async (action, dispatch) => {
                 type: action.type,
                 data: action.data,
             }})
+        action.data = res.data
+        dispatch(action)
+    }catch (e) {
+        console.log(e)
+    }
+}
+
+export const getSchedule = async (action, dispatch) => {
+    try{
+        const res = await create.get(`/app/`, {
+            params: {
+                type: action.type,
+                performanceId: action.performanceId,
+            }})
+        console.log(res.data)
         action.data = res.data
         dispatch(action)
     }catch (e) {

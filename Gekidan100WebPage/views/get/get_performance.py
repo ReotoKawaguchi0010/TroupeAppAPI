@@ -17,7 +17,7 @@ def get_performance(request, response: Response, data: dict):
     if 'data' in data:
         if data['data'] == 'all':
             performances = Peformance.objects.all()
-            titles = [{'id': performance.id,'title': performance.title} for performance in performances]
+            titles = [{'id': performance.id,'title': performance.title, 'performance_date': performance.performance_date} for performance in performances]
             response.data = titles
         else:
             performance_id = int(data['data'])
@@ -31,9 +31,9 @@ def get_schedule(request, response: Response, data: dict):
     performance_id = int(data['performanceId'])
     performance = Peformance.objects.filter(id=performance_id)
     response_data = []
-    if bool(performance):
+    if performance.exists():
         performance_schedule = Performance_Schedule.objects.filter(performance=performance[0])
-        if bool(performance_schedule):
+        if performance_schedule.exists():
             for p in performance_schedule:
                 p: Performance_Schedule = p
                 event_data = {

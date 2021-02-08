@@ -93,7 +93,6 @@ const Main = () => {
     const classes = useStyles()
     const {url, path} = useRouteMatch()
 
-    console.log(state)
     useEffect(() => {
         getPerformances({type: 'get_performance', data: 'all'}, dispatch)
     }, [])

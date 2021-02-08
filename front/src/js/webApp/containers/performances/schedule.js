@@ -8,7 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import {Button, Modal, Paper, Box, TextField} from "@material-ui/core";
 import _ from "lodash";
 
-import {performance_action} from "../../actions/performance_action";
+import {performance_action, getSchedule} from "../../actions/performance_action";
 import {AppContext} from "../../contexts/AppContext";
 import {create} from "../../../utils/utils";
 import {colorConfig} from "../../../configs/config";
@@ -150,7 +150,6 @@ const ReadEvent = ({readEvent, open, onClose}) => {
         description: '',
     })
     const classes = useStyles()
-    console.log(eventState)
 
     useEffect(() => {
         let date = new Date(readEvent.start)
@@ -195,6 +194,8 @@ const ReadEvent = ({readEvent, open, onClose}) => {
 
 
 const Calendar = () => {
+    const {state, dispatch} = useContext(AppContext);
+
     const {performance_id} = useParams();
     const classes = useStyles()
     const [createEventState, setCreateEventState] = useState({
@@ -224,7 +225,13 @@ const Calendar = () => {
         }).catch(e => {
             console.error(e)
         })
+        getSchedule({type: 'get_schedule', performanceId: performance_id}, dispatch)
+        let calendarApi = calendarEl.current.getApi()
+        let month = calendarApi.view.title
+        setMonthState({...monthState, month: month})
     }, [])
+
+
 
     const config = {
         locale: 'ja',
@@ -289,12 +296,6 @@ const Calendar = () => {
         let calendarApi = calendarEl.current.getApi()
         calendarApi.changeView('timeGridWeek')
     }
-
-    useEffect(() => {
-        let calendarApi = calendarEl.current.getApi()
-        let month = calendarApi.view.title
-        setMonthState({...monthState, month: month})
-    }, [])
 
     return (
         <>

@@ -36,7 +36,10 @@ module.exports = {
                     presets: ['@babel/preset-env', '@babel/preset-react'],
                     plugins: ['@babel/plugin-transform-runtime'],
                 },
-
+            },
+            {
+                test: /\.tsx?$/,
+                loader: "ts-loader",
             },
             {
                 test: /\.html$/,
@@ -45,8 +48,12 @@ module.exports = {
             },
         ]
     },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    },
     devServer: {
         contentBase: outputPath,
+        open: true,
         port: 3000,
         historyApiFallback: true,
     },

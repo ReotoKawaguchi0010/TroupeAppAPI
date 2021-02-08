@@ -1,21 +1,11 @@
 import React, {useEffect, useReducer} from "react";
 
 import {Routings} from "./routings/routings";
-import reducers from "./reducers";
+import reducers, {initialState} from "./reducers";
 import {AppContext} from "./contexts/AppContext";
 
 const Provider = ({children}) => {
-    const [state, dispatch] = useReducer(reducers, {
-        reducerFunc: {},
-        reducerPerformance: {
-            performances: [],
-            scripts: {
-                total_page_num: 0,
-                page_num: 1,
-                script: [],
-            },
-        }
-    });
+    const [state, dispatch] = useReducer(reducers, initialState);
     return <AppContext.Provider value={{state, dispatch}}>{children}</AppContext.Provider>
 }
 

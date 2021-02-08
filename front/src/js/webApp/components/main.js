@@ -15,6 +15,7 @@ import {Contract} from "../containers/contract";
 import {Profile} from "../containers/profile";
 import {RouteWithSubRoutes} from "../../routings/routings";
 import _ from "lodash";
+import {Ttest} from "../containers/edit_home_page";
 
 const useStyles = makeStyles((theme) => ({
     drawerHeader: {
@@ -28,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
 
 const MainBody = () => {
     return (
-        <Container>main</Container>
+        <Container>
+            main
+            <Ttest />
+        </Container>
     )
 }
 
