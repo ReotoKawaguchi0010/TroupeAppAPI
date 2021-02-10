@@ -1,14 +1,21 @@
 {
     "compilerOptions": {
-        "sourceMap": true,
-        "baseUrl": "./",
+        "types": ["node"],
+        "noImplicitAny": true,
+        "module": "es6",
         "target": "es5",
-        "strict": true,
-        "module": "commonJs",
         "jsx": "react",
+        "sourceMap": true,
         "lib": ["ES5", "ES6", "DOM"],
-        "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
-        "isolatedModules": true,
+        "typeRoots":[
+            "./@types",
+            "./node_modules",
+            "./node_modules/@types",
+            "./src/@types"
+        ],
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "moduleResolution": "Node"
     }
 }
