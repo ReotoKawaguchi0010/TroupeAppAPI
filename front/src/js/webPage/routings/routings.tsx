@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {RouteWithSubRoutes} from "../../routings/routings";
-import {Switch} from "react-router-dom";
+import {Switch, useHistory} from "react-router-dom";
 import _ from "lodash"
 
 import {Main} from "../components/main";
@@ -41,7 +41,16 @@ const routes: RoutesType[] = [
     },
 ]
 
+
 export const Routings = () => {
+    const [historyState, setHistoryState] = useState("")
+    const history = useHistory()
+    history.listen(() => {
+        if(historyState !== history.location.pathname) {
+            setHistoryState(history.location.pathname)
+            window.scroll(0, 0)
+        }
+    })
 
     return (
         <>

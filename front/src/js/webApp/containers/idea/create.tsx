@@ -1,29 +1,32 @@
 import React, {useState, useContext} from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles, createStyles} from "@material-ui/core/styles";
 import {Input, TextField, Box, Button, Modal, Paper} from "@material-ui/core";
 import _ from "lodash";
 
 import {AppContext} from "../../contexts/AppContext";
 import {idea} from "../../actions/actions";
 
-const useStyles = makeStyles((theme) => ({
-    form: {
-        textAlign: 'center',
-        width: '100%',
-        marginTop: 45,
-    },
-    wrapInput: {
-        width: '35%',
-    },
-    modal: {
-        textAlign: 'center',
-    },
-    wrapCreateContent: {
-        width: '50%',
-        display: 'inline-block',
-        marginTop: 45,
-    },
-}));
+const useStyles = makeStyles((theme) =>
+    createStyles({
+        form: {
+            textAlign: 'center',
+            width: '100%',
+            marginTop: 45,
+        },
+        wrapInput: {
+            width: '35%',
+        },
+        modal: {
+            textAlign: 'center',
+        },
+        wrapCreateContent: {
+            width: '50%',
+            display: 'inline-block',
+            marginTop: 45,
+            outline: 0,
+        },
+    }))
+;
 
 export const IdeaCreate = () => {
     const {state, dispatch} = useContext(AppContext)
@@ -80,7 +83,7 @@ export const IdeaCreate = () => {
     return (
         <>
             <Modal open={fieldState.addButton} className={classes.modal}>
-                <Paper tabIndex={undefined} className={classes.wrapCreateContent}>
+                <Paper className={classes.wrapCreateContent}>
                     <Box>項目の名前</Box>
                     <Box><Input onChange={handleChangeContent} /></Box>
                     <Box>

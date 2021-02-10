@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     modalBox: {
         textAlign: 'center',
+        outline: 0,
     },
     modalPaper: {
         display: 'inline-block',
@@ -74,7 +75,7 @@ const IdeaRoot = () => {
         <div className={classes.root}>
             {ideaState.create ? <Redirect to={`${url}/create`} /> : <></>}
             <Modal open={ideaState.createModal}>
-                <Box tabIndex={undefined} className={classes.modalBox}>
+                <Box className={classes.modalBox}>
                     <Paper className={classes.modalPaper}>
                         <Box>企画を提案しますか？</Box>
                         <Box>

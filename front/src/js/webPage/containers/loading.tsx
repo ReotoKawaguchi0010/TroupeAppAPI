@@ -5,19 +5,13 @@ import {PageStoreContext} from "../contexts/PageStoreContext";
 import {makeStyles, createStyles, Theme} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
-    [theme.breakpoints.between('sm', 'xl')]: {
-        modal: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    [theme.breakpoints.between('xs', 'sm')]: {
-        modal: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
+    wrapContent: {
+        outline: 0,
     },
 }));
 
@@ -28,7 +22,7 @@ export const Loading = () => {
     return (
         <>
             <Modal open={true} className={classes.modal}>
-                <div tabIndex={undefined}>
+                <div className={classes.wrapContent}>
                     <CircularProgress />
                 </div>
             </Modal>
