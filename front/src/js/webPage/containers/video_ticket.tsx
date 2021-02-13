@@ -1,6 +1,6 @@
 import React from "react";
 import {makeStyles, createStyles, Theme} from "@material-ui/core/styles";
-import {MenuIcon} from "../components/menu";
+import {MenuIcon} from "js/webPage/components/menu";
 import { Link } from "react-router-dom";
 
 

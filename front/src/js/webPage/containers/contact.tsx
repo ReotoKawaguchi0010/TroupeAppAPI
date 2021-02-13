@@ -11,12 +11,12 @@ import {makeStyles, Theme} from "@material-ui/core/styles";
 import SendIcon from '@material-ui/icons/Send';
 import _ from "lodash";
 
-import {MenuIcon} from "../components/menu";
-import Footer from "../components/footer";
-import {sendContactMail} from "../actions/action";
-import {PageStoreContext} from "../contexts/PageStoreContext";
-import {Loading} from "./loading";
-import {SEND_MAIL} from "../actions/action";
+import {MenuIcon} from "js/webPage/components/menu";
+import Footer from "js/webPage/components/footer";
+import {sendContactMail} from "js/webPage/actions/action";
+import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
+import {Loading} from "js/webPage/containers/loading";
+import {SEND_MAIL} from "js/webPage/actions/action";
 
 
 const useStyles = makeStyles((theme: Theme) => ({

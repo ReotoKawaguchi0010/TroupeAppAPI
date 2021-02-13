@@ -9,10 +9,10 @@ import interactionPlugin from '@fullcalendar/interaction';
 import {Button, Modal, Paper, Box, TextField} from "@material-ui/core";
 import _ from "lodash";
 
-import {performance_action, getSchedule} from "../../actions/performance_action";
-import {AppContext} from "../../contexts/AppContext";
-import {create} from "../../../utils/utils";
-import {colorConfig} from "../../../configs/config";
+import {performance_action, getSchedule} from "js/webApp/actions/performance_action";
+import {AppContext} from "js/webApp/contexts/AppContext";
+import {create} from "js/utils/utils";
+import {colorConfig} from "js/configs/config";
 
 const selectColor = [
     {name: 'エメラルドグリーン', background: colorConfig.emeraldGreen, color: '#ffffff',},

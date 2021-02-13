@@ -6,10 +6,10 @@ import {Drawer} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 
-import youtubeIcon from "../../../../images/icons/youtube_logo_official.png";
-import instagramIcon from "../../../../images/icons/instagram_logo_official.png";
-import twitterIcon from "../../../../images/icons/twitter_logo_official.png";
-import logo from "../../../../images/futsu_logo.png"
+import youtubeIcon from "images/icons/youtube_logo_official.png";
+import instagramIcon from "images/icons/instagram_logo_official.png";
+import twitterIcon from "images/icons/twitter_logo_official.png";
+import logo from "images/futsu_logo.png"
 
 const pcStyles = {
     headImg: {

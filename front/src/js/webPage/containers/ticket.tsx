@@ -1,8 +1,8 @@
 import React from "react";
 import {makeStyles, createStyles, Theme} from "@material-ui/core/styles";
 
-import {MenuIcon} from "../components/menu";
-import Footer from "../components/footer";
+import {MenuIcon} from "js/webPage/components/menu";
+import Footer from "js/webPage/components/footer";
 
 
 const useStyles = makeStyles((theme: Theme) =>

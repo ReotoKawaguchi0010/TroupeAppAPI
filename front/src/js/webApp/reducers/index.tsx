@@ -1,29 +1,34 @@
 import { combineReducers } from "redux";
 
-import {reducerFunc} from "./http";
-import {reducerPerformance} from "./performance_reducer";
+import {reducerFunc} from "js/webApp/reducers/http";
+import {reducerPerformance} from "js/webApp/reducers/performance_reducer";
+
+import {PerformanceType, InitialPerformance,
+    ScheduleType, ScriptType,
+    ScriptsType, ScheduleTime} from "js/types";
+
+
+export const initialTime: ScheduleTime = {
+    date: 0, day: '', hours: 0, minute: 0, month: 0, year: '',
+}
+
 
 export const initialState = {
     reducerFunc: {},
     reducerPerformance: {
         performances: [],
-        scripts: {
-            total_page_num: 0,
-            page_num: 1,
-            script: [],
-        },
         schedule: {
-            readEvent: {},
-            title: '',
-            start: {
-                month: 0, date: 0, hours: 0,
-                minute: 0, day: '', year: '',
-            },
-            end: {
-                month: 0, date: 0, hours: 0,
-                minute: 0, day: '', year: '',
-            },
             description: '',
+            end: initialTime,
+            readEvent: {},
+            start: initialTime,
+            title: '',
+        },
+        scripts: {
+            pageNum: 0,
+            scripts: [],
+            title: '',
+            totalPageNum: 0,
         },
     }
 }

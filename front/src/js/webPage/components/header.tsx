@@ -1,8 +1,8 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 
-import mainGif from "../../../../images/main_gif.gif";
-import {MenuIcon} from "./menu";
+import mainGif from "images/main_gif.gif";
+import {MenuIcon} from "js/webPage/components/menu";
 
 const pcStyles = {
     mainHeader: {

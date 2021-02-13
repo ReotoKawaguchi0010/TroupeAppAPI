@@ -3,7 +3,7 @@ import { Paper } from "@material-ui/core";
 import _ from "lodash"
 import {makeStyles, createStyles, Theme} from "@material-ui/core/styles";
 
-import {PageStoreContext} from "../contexts/PageStoreContext";
+import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 
 
 const useStyles = makeStyles((theme: Theme) =>

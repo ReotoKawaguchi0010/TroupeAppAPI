@@ -4,12 +4,12 @@ import {Link, Redirect ,useRouteMatch} from "react-router-dom";
 import {Grid, Paper, Box, Button, Modal, ButtonGroup, Fab} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import {makeStyles} from "@material-ui/core/styles";
-
-import {RouteWithSubRoutes} from "../../../routings/routings";
 import _ from "lodash";
-import {IdeaCreate} from "./create";
-import {create} from "../../../utils/utils";
-import {AppContext} from "../../contexts/AppContext";
+
+import {RouteWithSubRoutes} from "js/routings/routings";
+import {IdeaCreate} from "js/webApp/containers/idea/create";
+import {create} from "js/utils/utils";
+import {AppContext} from "js/webApp/contexts/AppContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {

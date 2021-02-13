@@ -1,5 +1,5 @@
 import axios from "axios";
-import {API_PATH} from "../configs/config";
+import {API_PATH} from "js/configs/config";
 
 export const paramObj = (locationSearch: string) => {
     let paramObj: any = {};

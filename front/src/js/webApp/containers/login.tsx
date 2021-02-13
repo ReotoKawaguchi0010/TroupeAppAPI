@@ -2,10 +2,10 @@ import React, {useState, useContext} from "react";
 import {Input, Button, InputAdornment, IconButton} from '@material-ui/core';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
-
-import {AppContext} from "../contexts/AppContext";
-import {login} from "../actions/actions";
 import {Redirect} from "react-router";
+
+import {AppContext} from "js/webApp/contexts/AppContext";
+import {login} from "js/webApp/actions/actions";
 
 const useStyles = makeStyles((theme) => ({
     main: {

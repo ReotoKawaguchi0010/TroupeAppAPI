@@ -2,9 +2,9 @@ import React from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import _ from "lodash";
 
-import {webPage} from "../webPage";
-import {webApp} from "../webApp";
-import {RoutesType} from "../webPage/routings/routings";
+import {webPage} from "js/webPage";
+import {webApp} from "js/webApp";
+import {RoutesType} from "js/webPage/routings/routings";
 
 const routes: RoutesType[] = [
     {

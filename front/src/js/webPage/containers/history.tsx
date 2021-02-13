@@ -1,12 +1,11 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import _ from "lodash"
-
-import firstImage from "../../../../images/performances/first.jpg"
-import secondImage from "../../../../images/performances/second_performance.jpg"
-
 import SwipeableViews from "react-swipeable-views";
 import { Card, CardContent } from "@material-ui/core";
+
+import firstImage from "images/performances/first.jpg"
+import secondImage from "images/performances/second_performance.jpg"
 
 const pcStyles = {
     performance: {

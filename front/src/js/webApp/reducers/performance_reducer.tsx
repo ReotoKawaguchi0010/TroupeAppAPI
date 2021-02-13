@@ -1,15 +1,12 @@
-const initialState = {
-    login: false
-};
+import {PerformanceType, ScheduleTime, ScriptsType,
+ScriptType, ScheduleType, InitialPerformance} from "js/types";
 
-interface Action {
-    type: string
-    data: object
-}
+import {initialState} from "js/webApp/reducers";
 
-
-
-export const reducerPerformance = (state=initialState, action: Action) =>{
+export const reducerPerformance = (
+    state=initialState.reducerPerformance,
+    action: any) =>
+{
     switch (action.type){
         case 'crete_performance':
             return {...state, data: 'test'}

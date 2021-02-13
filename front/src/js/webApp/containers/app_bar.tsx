@@ -1,5 +1,4 @@
 import React, {useContext, useState} from "react";
-
 const {Link} = require("react-router-dom");
 import {
     AppBar, Toolbar, IconButton, Typography,
@@ -9,9 +8,8 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 
-const { AppContext } = require("../contexts/AppContext")
-const {logout} = require("../actions/actions")
-
+import {AppContext} from "js/webApp/contexts/AppContext";
+import {logout} from "js/webApp/actions/actions"
 
 const useStyles = makeStyles((theme) => ({
     root: {

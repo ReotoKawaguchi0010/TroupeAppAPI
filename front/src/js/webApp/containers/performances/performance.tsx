@@ -5,13 +5,13 @@ import { Box, List, ListItem } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import _ from "lodash";
 
-import {Cast} from "./cast";
-import {Staff} from "./staff";
-import {Schedule} from "./schedule";
-import {Script} from "./script";
-import {Budget} from "./budget";
-import {RouteWithSubRoutes} from "../../../routings/routings";
-import {create} from "../../../utils/utils";
+import {Cast} from "js/webApp/containers/performances/cast";
+import {Staff} from "js/webApp/containers/performances/staff";
+import {Schedule} from "js/webApp/containers/performances/schedule";
+import {Script} from "js/webApp/containers/performances/script";
+import {Budget} from "js/webApp/containers/performances/budget";
+import {RouteWithSubRoutes} from "js/routings/routings";
+import {create} from "js/utils/utils";
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -95,7 +95,6 @@ export const Performance = () => {
             component: PerformanceRoot,
         },
     ];
-
 
 
     return (

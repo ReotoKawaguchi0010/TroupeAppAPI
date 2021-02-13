@@ -16,6 +16,7 @@
         ],
         "noImplicitThis": true,
         "strictNullChecks": true,
-        "moduleResolution": "Node"
+        "moduleResolution": "Node",
+        "baseUrl": "./src/",
     }
 }

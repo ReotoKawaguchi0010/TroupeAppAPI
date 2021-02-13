@@ -1,6 +1,6 @@
 import React from "react";
 
-import {SearchAppBar} from "../containers/app_bar";
+import {SearchAppBar} from "js/webApp/containers/app_bar";
 
 export  const Header = () => {
     return (

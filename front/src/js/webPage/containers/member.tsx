@@ -3,15 +3,15 @@ import { Avatar, Paper } from "@material-ui/core";
 import _ from "lodash";
 import { makeStyles } from '@material-ui/core/styles';
 
-import Footer from "../components/footer";
-import {MenuIcon} from "../components/menu"
-import Tatsuya from "../../../../images/members/takayuki_square_image.jpg"
-import Dai from "../../../../images/members/dai_square_image.jpg"
-import Hayate from "../../../../images/members/hayate_saito_square_image.jpg"
-import Reoto from "../../../../images/members/reoto_kawaguchi_square_image.jpg"
-import Ritsu from "../../../../images/members/ritsu_alkanuma_square_image.jpg"
-import Sayaka from "../../../../images/members/sayaka_kanzaki_square_image.jpg"
-import Yukako from "../../../../images/members/yukako_yasuda_square_image.jpg"
+import Footer from "js/webPage/components/footer";
+import {MenuIcon} from "js/webPage/components/menu"
+import Tatsuya from "images/members/takayuki_square_image.jpg"
+import Dai from "images/members/dai_square_image.jpg"
+import Hayate from "images/members/hayate_saito_square_image.jpg"
+import Reoto from "images/members/reoto_kawaguchi_square_image.jpg"
+import Ritsu from "images/members/ritsu_alkanuma_square_image.jpg"
+import Sayaka from "images/members/sayaka_kanzaki_square_image.jpg"
+import Yukako from "images/members/yukako_yasuda_square_image.jpg"
 
 const members = {
     'akanuma': {

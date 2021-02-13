@@ -3,11 +3,11 @@ import {RouteWithSubRoutes} from "../../routings/routings";
 import {Switch, useHistory} from "react-router-dom";
 import _ from "lodash"
 
-import {Main} from "../components/main";
-import {Member} from "../containers/member";
-import {Ticket} from "../containers/ticket";
-import {Contact} from "../containers/contact";
-import {scrollTop} from "../../utils/utils";
+import {Main} from "js/webPage/components/main";
+import {Member} from "js/webPage/containers/member";
+import {Ticket} from "js/webPage/containers/ticket";
+import {Contact} from "js/webPage/containers/contact";
+import {scrollTop} from "js/utils/utils";
 
 import "../../../css/style.scss"
 

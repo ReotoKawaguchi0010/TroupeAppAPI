@@ -1,8 +1,8 @@
 import React, {useEffect, useReducer} from "react";
 
-import {Routings} from "./routings/routings";
-import reducers, {initialState} from "./reducers";
-import {AppContext} from "./contexts/AppContext";
+import {Routings} from "js/webApp/routings/routings";
+import reducers, {initialState} from "js/webApp/reducers";
+import {AppContext} from "js/webApp/contexts/AppContext";
 
 interface PropsType {
     children: any

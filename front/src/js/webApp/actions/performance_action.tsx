@@ -1,5 +1,4 @@
-import {create} from "../../utils/utils";
-import {uploadFile} from "../../utils/utils";
+import {create, uploadFile} from "js/utils/utils";
 
 interface SendDataType {
     type: string

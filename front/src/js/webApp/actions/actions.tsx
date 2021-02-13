@@ -1,4 +1,9 @@
-import {create} from "../../utils/utils";
+import {create} from "js/utils/utils";
+
+export interface Action {
+    type: string
+    data: object
+}
 
 interface SendDataType {
     type: string

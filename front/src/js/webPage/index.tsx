@@ -1,8 +1,8 @@
 import React, {useReducer} from "react";
 
-import reducers from "./reducers"
-import { Routings } from "./routings/routings";
-import {PageStoreContext} from "./contexts/PageStoreContext";
+import reducers from "js/webPage/reducers"
+import { Routings } from "js/webPage/routings/routings";
+import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 
 interface ProvideTypes {
     children: object

@@ -1,4 +1,4 @@
-import {create} from "../../utils/utils";
+import {create} from "js/utils/utils";
 
 export const GET_ROOT_PATH = 'GET_ROOT_PATH';
 

@@ -1,4 +1,4 @@
-import { GET_ROOT_PATH, SEND_MAIL } from "../actions/action"
+import { GET_ROOT_PATH, SEND_MAIL } from "js/webPage/actions/action"
 
 export default (initialState={}, action: any) => {
     switch (action.type){

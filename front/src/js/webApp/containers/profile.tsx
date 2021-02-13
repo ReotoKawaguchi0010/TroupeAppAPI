@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import {Card, List, ListItem, Container, Button} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit"
 
-import {AppContext} from "../contexts/AppContext";
+import {AppContext} from "js/webApp/contexts/AppContext";
 
 export const Profile = () => {
     const {state, dispatch} = useContext(AppContext)

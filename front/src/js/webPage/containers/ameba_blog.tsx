@@ -4,7 +4,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import _ from "lodash"
 
-import {PageStoreContext} from "../contexts/PageStoreContext";
+import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles({

@@ -1,9 +1,9 @@
 import React from "react";
 import {useLocation} from "react-router";
-import {VideoTicket} from "./video_ticket";
-import Footer from "../components/footer";
-import {VideoTicketDone} from "./ticket_done";
-import {Video} from "./video";
+import {VideoTicket} from "js/webPage/containers/video_ticket";
+import Footer from "js/webPage/components/footer";
+import {VideoTicketDone} from "js/webPage/containers/ticket_done";
+import {Video} from "js/webPage/containers/video";
 
 export const Parameters = () => {
     const query = new URLSearchParams(String(useLocation().search))

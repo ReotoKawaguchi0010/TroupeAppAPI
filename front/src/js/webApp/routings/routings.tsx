@@ -2,9 +2,9 @@ import React, {useContext, useEffect} from "react";
 import _ from "lodash";
 import {Switch} from "react-router";
 
-import { Main } from "../components/main";
-import { Login } from "../containers/login";
-import {RouteWithSubRoutes} from "../../routings/routings";
+import { Main } from "js/webApp/components/main";
+import { Login } from "js/webApp/containers/login";
+import {RouteWithSubRoutes} from "js/routings/routings";
 
 const routes = [
     {

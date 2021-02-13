@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import {Header} from "./header";
-import Footer from "./footer";
-import { makeStyles } from '@material-ui/core/styles';
 import { useLocation } from "react-router";
+import { makeStyles } from '@material-ui/core/styles';
 
-import { PageStoreContext } from "../contexts/PageStoreContext"
-import Twitter from "../containers/twitter"
-import AmeBlo from "../containers/ameba_blog";
-import History from "../containers/history";
-import News from "../containers/news";
-import AboutUs from "../containers/about_us";
-import {GET_ROOT_PATH} from "../actions/action";
-import {getRootPath} from "../actions/action";
-import {Parameters} from "../containers/querys";
-import {Loading} from "../containers/loading";
+import {Header} from "js/webPage/components/header";
+import Footer from "js/webPage/components/footer";
+import { PageStoreContext } from "js/webPage/contexts/PageStoreContext"
+import Twitter from "js/webPage/containers/twitter"
+import AmeBlo from "js/webPage/containers/ameba_blog";
+import History from "js/webPage/containers/history";
+import News from "js/webPage/containers/news";
+import AboutUs from "js/webPage/containers/about_us";
+import {GET_ROOT_PATH} from "js/webPage/actions/action";
+import {getRootPath} from "js/webPage/actions/action";
+import {Parameters} from "js/webPage/containers/querys";
+import {Loading} from "js/webPage/containers/loading";
 
 
 const pcStyles = {

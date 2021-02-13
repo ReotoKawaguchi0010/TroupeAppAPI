@@ -5,10 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Grid, Paper, Box, Container, Button, Input, Modal} from "@material-ui/core";
 import _ from "lodash";
 
-import {RouteWithSubRoutes} from "../../../routings/routings";
-import {Performance} from "./performance";
-import {performance_action, getPerformances} from "../../actions/performance_action";
-import {AppContext} from "../../contexts/AppContext";
+import {RouteWithSubRoutes} from "js/routings/routings";
+import {Performance} from "js/webApp/containers/performances/performance";
+import {performance_action, getPerformances} from "js/webApp/actions/performance_action";
+import {AppContext} from "js/webApp/contexts/AppContext";
 
 const useStyles = makeStyles(() => ({
     root: {

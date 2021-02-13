@@ -3,8 +3,8 @@ import {makeStyles, createStyles} from "@material-ui/core/styles";
 import {Input, TextField, Box, Button, Modal, Paper} from "@material-ui/core";
 import _ from "lodash";
 
-import {AppContext} from "../../contexts/AppContext";
-import {idea} from "../../actions/actions";
+import {AppContext} from "js/webApp/contexts/AppContext";
+import {idea} from "js/webApp/actions/actions";
 
 const useStyles = makeStyles((theme) =>
     createStyles({

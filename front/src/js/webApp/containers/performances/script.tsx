@@ -4,9 +4,9 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Input, Button} from "@material-ui/core";
 import _ from "lodash";
 
-import {uploadFileAction} from "../../actions/performance_action";
-import {AppContext} from "../../contexts/AppContext";
-import {getPerformances, getScript} from "../../actions/performance_action";
+import {uploadFileAction} from "js/webApp/actions/performance_action";
+import {AppContext} from "js/webApp/contexts/AppContext";
+import {getPerformances, getScript} from "js/webApp/actions/performance_action";
 
 const useStyles = makeStyles((theme) => ({
     upload: {

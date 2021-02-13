@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 
-import { StyledBreadcrumbs } from "../styles/style"
-import instagramIcon from "../../../../images/icons/instagram_logo_official.png";
-import twitterIcon from "../../../../images/icons/twitter_logo_official.png";
-import youtubeIcon from "../../../../images/icons/youtube_logo_official.png";
-import footerImage from "../../../../images/movie_theater_img.jpg"
+import { StyledBreadcrumbs } from "js/webPage/styles/style"
+import instagramIcon from "images/icons/instagram_logo_official.png";
+import twitterIcon from "images/icons/twitter_logo_official.png";
+import youtubeIcon from "images/icons/youtube_logo_official.png";
+import footerImage from "images/movie_theater_img.jpg"
 
 const iconSize = {
     youtube: 40,

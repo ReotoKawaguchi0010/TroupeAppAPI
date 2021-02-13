@@ -13,3 +13,9 @@ export const colorConfig = {
     brightOrange: 'rgb(253, 192, 45)',
     softViolet: 'rgb(179, 139, 220)',
 }
+
+
+
+export const config = {
+    devMode: true,
+}

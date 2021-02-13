@@ -1,8 +1,8 @@
 import React, {useContext} from "react";
 import {CircularProgress, Modal} from "@material-ui/core";
-
-import {PageStoreContext} from "../contexts/PageStoreContext";
 import {makeStyles, createStyles, Theme} from "@material-ui/core/styles";
+
+import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     modal: {
