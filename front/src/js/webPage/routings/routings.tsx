@@ -7,7 +7,6 @@ import {Main} from "js/webPage/components/main";
 import {Member} from "js/webPage/containers/member";
 import {Ticket} from "js/webPage/containers/ticket";
 import {Contact} from "js/webPage/containers/contact";
-import {scrollTop} from "js/utils/utils";
 
 import "../../../css/style.scss"
 

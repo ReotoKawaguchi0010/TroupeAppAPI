@@ -6,6 +6,7 @@ import {
     InputLabel,
     FormControl,
     Button,
+    Modal, Paper,
 } from "@material-ui/core";
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import SendIcon from '@material-ui/icons/Send';
@@ -20,6 +21,13 @@ import {SEND_MAIL} from "js/webPage/actions/action";
 
 
 const useStyles = makeStyles((theme: Theme) => ({
+    wrapModal: {
+        textAlign: 'center',
+    },
+    wrapModalPaper: {
+        outline: 0,
+        display: 'inline-block',
+    },
     [theme.breakpoints.between('md', 'xl')]: {
         wrapForm: {
             margin: '20px',
@@ -127,7 +135,71 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 }));
 
-let formObj: any = {
+interface SendFormType {
+    content: string
+    firstName: string
+    secondName: string
+    firstPhonetic: string
+    secondPhonetic: string
+    mailAddress: string
+    address: string
+    cities: string
+    houseNumber: string
+    profession: string
+    textArea: string
+}
+
+
+interface ModalType {
+    onClose: () => void
+    formState: SendFormType
+    open: boolean
+}
+
+
+
+const CheckModal: React.FC<ModalType> = ({onClose, formState, open}) => {
+    const {state, dispatch} = useContext(PageStoreContext)
+    const classes = useStyles()
+    const sendMail = () => {
+        sendContactMail({sendData: formState, type: SEND_MAIL, state: state}, dispatch)
+    }
+    return (
+        <>
+            <Modal open={open} onClose={onClose}>
+                <Paper className={classes.wrapModalPaper}>
+                    <div>お問い合わせ内容はこちらで宜しいでしょうか？ よろしければ「送信」ボタンを押して下さい。</div>
+                    <div>
+                        <div>お名前</div>
+                        <div>{`${formState.secondName} ${formState.firstName}`}</div>
+                        <div>フリガナ</div>
+                        <div>{`${formState.secondPhonetic} ${formState.firstPhonetic}`}</div>
+                        <div>メールアドレス</div>
+                        <div>{formState.mailAddress}</div>
+                        <div>住所</div>
+                        <div>{`${formState.address} ${formState.cities} ${formState.houseNumber}`}</div>
+                        <div>職業</div>
+                        <div>{formState.profession}</div>
+                        <div>その他</div>
+                        <div>{formState.textArea}</div>
+                    </div>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        endIcon={<SendIcon className={classes.btnIcon}/>}
+                        className={classes.btnContent}
+                        onClick={sendMail}
+                    >
+                       送信
+                    </Button>
+                </Paper>
+            </Modal>
+        </>
+    )
+}
+
+
+const initialFormState: any = {
     content: 'お問い合わせ',
     firstName: '',
     secondName: '',
@@ -154,25 +226,66 @@ const renderJapanCity = () =>{
 export const Contact = () => {
     const {state, dispatch} = useContext(PageStoreContext)
     const classes = useStyles()
-    const [contactState, setContactState] = React.useState({city: '', isLoading: false, formObj: formObj})
+    const [contactState, setContactState] = React.useState({
+        isLoading: false,
+    })
+    const [formState, setFormState] = React.useState(initialFormState)
+    const [openState, setOpenState] = React.useState(false)
 
-    const selectChange = (e: React.ChangeEvent<{ value: unknown }>) => {
-        const city: any = e.target.value
-        formObj.address = city;
-        setContactState({...contactState, city: city, formObj: formObj})
+    const inTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value: string = e.target.value
+        switch (e.target.name) {
+            case 'secondName':
+                setFormState({...formState, secondName: value})
+                break
+            case 'firstName':
+                setFormState({...formState, firstName: value})
+                break
+            case 'secondPhonetic':
+                setFormState({...formState, secondPhonetic: value})
+                break
+            case 'firstPhonetic':
+                setFormState({...formState, firstPhonetic: value})
+                break
+            case 'mailAddress':
+                setFormState({...formState, mailAddress: value})
+                break
+            case 'address':
+                setFormState({...formState, address: value})
+                break
+            case 'cities':
+                setFormState({...formState, cities: value})
+                break
+            case 'houseNumber':
+                setFormState({...formState, houseNumber: value})
+                break
+            case 'profession':
+                setFormState({...formState, profession: value})
+                break
+            case 'textArea':
+                setFormState({...formState, textArea: value})
+                break
+            default:
+                break
+        }
+    }
+
+
+    const handleSendBtnClick = () => {
+        setOpenState(true)
+    }
+
+    const handleClose = () => {
+        setOpenState(false)
     }
 
     const sendMail = () => {
         setContactState({...contactState, isLoading: true})
-        sendContactMail({sendData: contactState.formObj, type: SEND_MAIL, state: state}, dispatch).then(() => {
+        sendContactMail({sendData: formState, type: SEND_MAIL, state: state}, dispatch).then(() => {
             setContactState({...contactState ,isLoading: false})
         })
-    }
-
-    const inTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let targetId: string = e.target.id
-        formObj[targetId] = e.target.value
-        setContactState({...contactState, formObj: formObj})
+        setContactState({...contactState, isLoading: false})
+        setFormState(initialFormState)
     }
 
     return (
@@ -180,51 +293,52 @@ export const Contact = () => {
             {
                 contactState.isLoading ? <Loading /> : <></>
             }
+            <CheckModal onClose={handleClose} open={openState} formState={formState} />
             <div className="contact">
                 <MenuIcon/>
                 <div style={{padding: 100}}>
                     <h3 className={classes.title}>CONTACT</h3>
                     <form>
                         <div className={classes.wrapForm}>
-                            <TextField id="secondName" label="性" variant="outlined" className={classes.dabbleTextField}
-                                       onChange={inTextChange}/>
-                            <TextField id="firstName" label="名" variant="outlined" className={classes.dabbleTextField}
-                                       onChange={inTextChange}/>
+                            <TextField name="secondName" label="性" variant="outlined" className={classes.dabbleTextField}
+                                       onChange={inTextChange} value={formState.secondName} />
+                            <TextField name="firstName" label="名" variant="outlined" className={classes.dabbleTextField}
+                                       onChange={inTextChange} value={formState.firstName}/>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="secondPhonetic" label="セイ" variant="outlined"
-                                       className={classes.dabbleTextField} onChange={inTextChange}/>
-                            <TextField id="firstPhonetic" label="メイ" variant="outlined"
-                                       className={classes.dabbleTextField} onChange={inTextChange}/>
+                            <TextField name="secondPhonetic" label="セイ" variant="outlined" className={classes.dabbleTextField}
+                                       onChange={inTextChange} value={formState.secondPhonetic}/>
+                            <TextField name="firstPhonetic" label="メイ" variant="outlined" className={classes.dabbleTextField}
+                                       onChange={inTextChange} value={formState.firstPhonetic}/>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="mailAddress" label="メールアドレス" variant="outlined"
-                                       className={classes.singleTextField} onChange={inTextChange}/>
+                            <TextField name="mailAddress" label="メールアドレス" variant="outlined" className={classes.singleTextField}
+                                       onChange={inTextChange} value={formState.mailAddress}/>
                         </div>
                         <div className={classes.wrapForm}>
                             <FormControl variant="outlined">
                                 <InputLabel id="address-place" className={classes.selectInLabel}>都道府県</InputLabel>
-                                <Select id="address" label="都道府県" labelId="address-place"
-                                        className={classes.selectField} value={contactState.city} onChange={selectChange} >
+                                <Select name="address" label="都道府県" labelId="address-place"
+                                        className={classes.selectField} value={formState.address} onChange={inTextChange} >
                                     {renderJapanCity()}
                                 </Select>
                             </FormControl>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="cities" label="市区町村" variant="outlined" className={classes.singleTextField}
-                                       onChange={inTextChange}/>
+                            <TextField name="cities" label="市区町村" variant="outlined" className={classes.singleTextField}
+                                       onChange={inTextChange} value={formState.cities}/>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="houseNumber" label="番地・建物名" variant="outlined"
-                                       className={classes.singleTextField} onChange={inTextChange}/>
+                            <TextField name="houseNumber" label="番地・建物名" variant="outlined" className={classes.singleTextField}
+                                       onChange={inTextChange} value={formState.houseNumber}/>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="profession" label="職業" variant="outlined" className={classes.singleTextField}
-                                       onChange={inTextChange}/>
+                            <TextField name="profession" label="職業" variant="outlined" className={classes.singleTextField}
+                                       onChange={inTextChange} value={formState.profession}/>
                         </div>
                         <div className={classes.wrapForm}>
-                            <TextField id="textArea" label="その他お問い合わせ" variant="outlined" multiline rowsMax={5} rows={5}
-                                       className={classes.singleTextField} onChange={inTextChange}/>
+                            <TextField name="textArea" label="その他お問い合わせ" variant="outlined" multiline rowsMax={5} rows={5}
+                                       className={classes.singleTextField} onChange={inTextChange} value={formState.textArea}/>
                         </div>
                         <div className={classes.button}>
                             <Button
@@ -232,9 +346,9 @@ export const Contact = () => {
                                 color="secondary"
                                 endIcon={<SendIcon className={classes.btnIcon}/>}
                                 className={classes.btnContent}
-                                onClick={sendMail}
+                                onClick={handleSendBtnClick}
                             >
-                                送信
+                                確認画面
                             </Button>
                         </div>
                     </form>
