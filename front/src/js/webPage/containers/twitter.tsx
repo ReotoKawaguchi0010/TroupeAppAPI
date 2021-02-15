@@ -47,7 +47,7 @@ export default function Twitter(){
             <h2 className={classes.title}>Twitter</h2>
             <Paper elevation={3} className={classes.paper}>
                 <ul className={classes.ul}>
-                    {value.state.http ? (
+                    {(
                         _.map(value.state.http.texts.twitter, (value, key)=>{
                             return (
                                 <li key={key}>
@@ -56,7 +56,7 @@ export default function Twitter(){
                                 </li>
                             )
                         })
-                    ) : ''}
+                    )}
                 </ul>
             </Paper>
         </React.Fragment>

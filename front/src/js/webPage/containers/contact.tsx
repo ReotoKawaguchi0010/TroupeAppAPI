@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useState} from "react";
 import {
     TextField,
     Select,
@@ -6,60 +6,63 @@ import {
     InputLabel,
     FormControl,
     Button,
-    Modal, Paper,
+    Modal, Paper, Snackbar
 } from "@material-ui/core";
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import SendIcon from '@material-ui/icons/Send';
+import ClearIcon from '@material-ui/icons/Clear';
 import _ from "lodash";
 
 import {MenuIcon} from "js/webPage/components/menu";
 import Footer from "js/webPage/components/footer";
-import {sendContactMail} from "js/webPage/actions/action";
-import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 import {Loading} from "js/webPage/containers/loading";
-import {SEND_MAIL} from "js/webPage/actions/action";
+import {create} from "js/utils/utils";
 
 
 const useStyles = makeStyles((theme: Theme) => ({
     wrapModal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    wrapPaper: {
         textAlign: 'center',
+        outline: 0,
     },
     wrapModalPaper: {
-        outline: 0,
         display: 'inline-block',
+        textAlign: 'center',
+        outline: 0,
+        padding: 20,
+        '& div': {
+            margin: '10px 0'
+        },
+        [theme.breakpoints.between('sm', 'md')]: {
+            display: 'block',
+            '& div': {
+                fontSize: 40,
+                margin: '10px 0',
+            },
+        },
     },
-    [theme.breakpoints.between('md', 'xl')]: {
-        wrapForm: {
-            margin: '20px',
-            textAlign: 'center',
-        },
-        singleTextField: {
-            width: '40ch'
-        },
-        dabbleTextField: {
-            width: '20ch'
-        },
-        selectField: {
-            width: '40ch',
-        },
-        selectInLabel: {},
-        button: {
-            textAlign: 'center'
-        },
-        title: {
-            textAlign: 'center',
-        },
-        btnContent: {},
-        btnIcon: {},
-        menuItem: {},
+    contentSpace: {
+        border: 'solid 1px #000000',
+        borderRadius: 10,
     },
-    [theme.breakpoints.between('sm', 'md')]: {
-        wrapForm: {
-            margin: '20px',
-            textAlign: 'center',
+    wrapForm: {
+        margin: '20px',
+        textAlign: 'center',
+    },
+    modalInBtn: {
+        [theme.breakpoints.between('sm', 'md')]: {
+            width: '40%',
+            height: '100px',
+            fontSize: '55px',
         },
-        singleTextField: {
-            width: '40ch',
+    },
+    singleTextField: {
+        width: '40ch',
+        [theme.breakpoints.between('sm', 'md')]: {
             fontSize: '25px',
             margin: theme.spacing(1),
             '& label':{
@@ -78,7 +81,13 @@ const useStyles = makeStyles((theme: Theme) => ({
                 transform: 'translate(10px, -15px) scale(2)'
             },
         },
-        dabbleTextField: {
+
+    },
+    dabbleTextField: {
+        [theme.breakpoints.between('md', 'xl')]: {
+             width: '20ch',
+        },
+        [theme.breakpoints.between('sm', 'md')]: {
             width: '50ch',
             margin: theme.spacing(1),
             '& label':{
@@ -94,7 +103,12 @@ const useStyles = makeStyles((theme: Theme) => ({
                 transform: 'translate(10px, -15px) scale(2)'
             },
         },
-        selectField: {
+    },
+    selectField: {
+        [theme.breakpoints.between('md', 'xl')]: {
+            width: '40ch',
+        },
+        [theme.breakpoints.between('sm', 'md')]: {
             fontSize: '40px',
             width: '20ch',
             margin: theme.spacing(1),
@@ -108,29 +122,45 @@ const useStyles = makeStyles((theme: Theme) => ({
                 transform: 'translate(10px, -15px) scale(2)'
             },
         },
-        selectInLabel: {
+    },
+    selectInLabel: {
+        [theme.breakpoints.between('sm', 'md')]: {
             fontSize: '30px',
         },
-        button: {
-            textAlign: 'center'
-        },
-        title: {
+    },
+    button: {
+        textAlign: 'center',
+    },
+    title: {
+        textAlign: 'center',
+        [theme.breakpoints.between('sm', 'md')]: {
             fontSize: '50px',
-            textAlign: 'center',
         },
-        btnContent: {
+    },
+    btnContent: {
+        [theme.breakpoints.between('sm', 'md')]: {
             width: '60%',
             height: '100px',
             fontSize: '55px',
         },
-        btnIcon: {
+    },
+    btnIcon: {
+        [theme.breakpoints.between('sm', 'md')]: {
             fontSize: '55px',
         },
-        menuItem: {
+    },
+    menuItem: {
+        [theme.breakpoints.between('sm', 'md')]: {
             '& ul':{
                 height: 200,
             },
             fontSize: '40px'
+        },
+    },
+    snackbarChild: {
+        background: 'rgb(237, 247, 237)',
+        [theme.breakpoints.between('sm', 'md')]: {
+            fontSize: 40,
         },
     },
 }));
@@ -154,45 +184,61 @@ interface ModalType {
     onClose: () => void
     formState: SendFormType
     open: boolean
+    sendFunc: () => void
 }
 
 
 
-const CheckModal: React.FC<ModalType> = ({onClose, formState, open}) => {
-    const {state, dispatch} = useContext(PageStoreContext)
+const CheckModal: React.FC<ModalType> = ({onClose, formState, open, sendFunc}) => {
     const classes = useStyles()
-    const sendMail = () => {
-        sendContactMail({sendData: formState, type: SEND_MAIL, state: state}, dispatch)
-    }
     return (
         <>
             <Modal open={open} onClose={onClose}>
-                <Paper className={classes.wrapModalPaper}>
-                    <div>お問い合わせ内容はこちらで宜しいでしょうか？ よろしければ「送信」ボタンを押して下さい。</div>
-                    <div>
-                        <div>お名前</div>
-                        <div>{`${formState.secondName} ${formState.firstName}`}</div>
-                        <div>フリガナ</div>
-                        <div>{`${formState.secondPhonetic} ${formState.firstPhonetic}`}</div>
-                        <div>メールアドレス</div>
-                        <div>{formState.mailAddress}</div>
-                        <div>住所</div>
-                        <div>{`${formState.address} ${formState.cities} ${formState.houseNumber}`}</div>
-                        <div>職業</div>
-                        <div>{formState.profession}</div>
-                        <div>その他</div>
-                        <div>{formState.textArea}</div>
-                    </div>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        endIcon={<SendIcon className={classes.btnIcon}/>}
-                        className={classes.btnContent}
-                        onClick={sendMail}
-                    >
-                       送信
-                    </Button>
-                </Paper>
+                <div className={classes.wrapPaper}>
+                    <Paper className={classes.wrapModalPaper}>
+                        <div>お問い合わせ内容はこちらで宜しいでしょうか？ よろしければ「送信」ボタンを押して下さい。</div>
+                        <div>
+                            <div className={classes.contentSpace}>
+                                <div>お名前</div>
+                                <div>{`${formState.secondName} ${formState.firstName}`}</div>
+                            </div>
+                            <div className={classes.contentSpace}>
+                                <div>フリガナ</div>
+                                <div>{`${formState.secondPhonetic} ${formState.firstPhonetic}`}</div>
+                            </div>
+                            <div className={classes.contentSpace}>
+                                <div>メールアドレス</div>
+                                <div>{formState.mailAddress}</div>
+                            </div>
+                            <div className={classes.contentSpace}>
+                                <div>住所</div>
+                                <div>{`${formState.address} ${formState.cities} ${formState.houseNumber}`}</div>
+                            </div>
+                            <div className={classes.contentSpace}>
+                                <div>職業</div>
+                                <div>{formState.profession}</div>
+                            </div>
+                            <div className={classes.contentSpace}>
+                                <div>その他</div>
+                                <div>{formState.textArea}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <Button onClick={onClose} className={classes.modalInBtn}>
+                                キャンセル
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                endIcon={<SendIcon className={classes.btnIcon}/>}
+                                className={classes.modalInBtn}
+                                onClick={sendFunc}
+                            >
+                               送信
+                            </Button>
+                        </div>
+                    </Paper>
+                </div>
             </Modal>
         </>
     )
@@ -224,13 +270,16 @@ const renderJapanCity = () =>{
 }
 
 export const Contact = () => {
-    const {state, dispatch} = useContext(PageStoreContext)
     const classes = useStyles()
-    const [contactState, setContactState] = React.useState({
+    const [contactState, setContactState] = useState({
+        bool: false,
+        status: 0,
         isLoading: false,
     })
-    const [formState, setFormState] = React.useState(initialFormState)
-    const [openState, setOpenState] = React.useState(false)
+    const [formState, setFormState] = useState(initialFormState)
+    const [openState, setOpenState] = useState(false)
+    const [barOpenState, setBarOpenState] = useState(false)
+
 
     const inTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value: string = e.target.value
@@ -279,13 +328,19 @@ export const Contact = () => {
         setOpenState(false)
     }
 
-    const sendMail = () => {
+    const sendFunc = async () => {
         setContactState({...contactState, isLoading: true})
-        sendContactMail({sendData: formState, type: SEND_MAIL, state: state}, dispatch).then(() => {
-            setContactState({...contactState ,isLoading: false})
-        })
-        setContactState({...contactState, isLoading: false})
+        const res = await create.post('/mail', formState)
+        if(res){
+            setContactState({...contactState, isLoading: false})
+            res.data.bool === 'true' ? setBarOpenState(true) : setBarOpenState(false)
+        }
         setFormState(initialFormState)
+        setOpenState(false)
+    }
+
+    const handleClearBtnClick = () => {
+        setBarOpenState(false)
     }
 
     return (
@@ -293,7 +348,13 @@ export const Contact = () => {
             {
                 contactState.isLoading ? <Loading /> : <></>
             }
-            <CheckModal onClose={handleClose} open={openState} formState={formState} />
+            <Snackbar open={barOpenState} anchorOrigin={{vertical: 'top', horizontal: 'center'}}>
+                <div className={classes.snackbarChild}>
+                    送信が完了しました。今しばらくお待ちください
+                    <Button onClick={handleClearBtnClick}><ClearIcon /></Button>
+                </div>
+            </Snackbar>
+            <CheckModal onClose={handleClose} open={openState} formState={formState} sendFunc={sendFunc} />
             <div className="contact">
                 <MenuIcon/>
                 <div style={{padding: 100}}>
@@ -358,4 +419,3 @@ export const Contact = () => {
         </React.Fragment>
     )
 }
-

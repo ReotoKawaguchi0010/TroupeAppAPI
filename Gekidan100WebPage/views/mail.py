@@ -16,10 +16,12 @@ def send_mail(request, response):
     try:
         req_body = request.body.decode(encoding='utf-8')
         req_body = json.loads(req_body)
-        #info_send_mail(req_body['mailAddress'], req_body, req_body['content'])
-        #info_response_mail(req_body['mailAddress'], req_body, req_body['content'])
-        output = {'status_code': OK, 'bool': 'true',
-                  'timestamp': datetime.datetime.now().timestamp()}
+        output = {'status_code': 400, 'bool': 'false', 'timestamp': datetime.datetime.now().timestamp()}
+        if req_body['mailAddress'] != '' and req_body['content'] != '':
+            info_send_mail(req_body['mailAddress'], req_body, req_body['content'])
+            info_response_mail(req_body['mailAddress'], req_body, req_body['content'])
+            output = {'status_code': OK, 'bool': 'true',
+                    'timestamp': datetime.datetime.now().timestamp()}
     except:
         output = {'status_code': 500, 'bool': 'false',
                   'timestamp': datetime.datetime.now().timestamp()}

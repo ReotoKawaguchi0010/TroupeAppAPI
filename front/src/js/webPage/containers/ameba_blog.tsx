@@ -51,16 +51,24 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 export default function AmeBlo() {
     const value = useContext(PageStoreContext)
     const classes = useStyles();
+    console.log(value.state)
     return (
         <React.Fragment>
             <h2 className={classes.title}>Blog</h2>
             <Paper elevation={3} className={classes.paper}>
                 <ul className={classes.ul}>
-                    {value.state.http ? (
+                    {
                         _.map(value.state.http.texts.blog, (value, key)=>{
-                        return (<li key={key}><a href={value.link} target="_blank" rel="noopener norefferer" className={classes.link}>{value.title}</a><hr style={{color: '#f5f5f5'}} /></li>)
-                    })
-                    ) : ''}
+                        return (
+                                <li key={key}>
+                                    <a href={value.link} target="_blank" rel="noopener norefferer" className={classes.link}>
+                                        {value.title}
+                                    </a>
+                                    <hr style={{color: '#f5f5f5'}} />
+                                </li>
+                            )
+                        })
+                    }
                 </ul>
             </Paper>
         </React.Fragment>
