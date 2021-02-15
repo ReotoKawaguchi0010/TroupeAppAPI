@@ -1,6 +1,5 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin')
-
 const outputPath = path.resolve(__dirname, 'dist')
 
 module.exports = {
@@ -45,7 +44,11 @@ module.exports = {
             {
                 test: /\.html$/,
                 loader: "html-loader"
-
+            },
+            {
+                test: /\.json$/,
+                loader: "json-loader",
+                type: "javascript/auto"
             },
         ]
     },

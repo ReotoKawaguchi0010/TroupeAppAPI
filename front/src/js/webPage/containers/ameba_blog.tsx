@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 export default function AmeBlo() {
     const value = useContext(PageStoreContext)
     const classes = useStyles();
-    console.log(value.state)
     return (
         <React.Fragment>
             <h2 className={classes.title}>Blog</h2>

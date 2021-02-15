@@ -1,5 +1,7 @@
+const json = require("js/configs/config.json")
+
 export const config = {
-    devMode: true,
+    devMode: json.devMode,
 }
 
 export const API_PATH: string = config.devMode ? 'http://localhost:8000/api' : 'https://futsu100.com/api';
