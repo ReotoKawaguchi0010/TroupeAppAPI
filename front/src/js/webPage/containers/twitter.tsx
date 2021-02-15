@@ -9,7 +9,7 @@ import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         title: {
-            [theme.breakpoints.between('xs', 'sm')]: {
+            [theme.breakpoints.between('xs', 'md')]: {
                 fontSize: 50,
             }
         },
@@ -19,14 +19,15 @@ const useStyles = makeStyles((theme: Theme) =>
             height: 500,
             overflow: 'auto',
             wordWrap:'break-word',
-            [theme.breakpoints.between('xs', 'sm')]: {
+            [theme.breakpoints.between('xs', 'md')]: {
                 width:'70%',
+                height: 700,
             },
         },
         ul: {
             listStyle: 'none',
             paddingInlineStart: '0',
-            [theme.breakpoints.between('xs', 'sm')]: {
+            [theme.breakpoints.between('xs', 'md')]: {
                 fontSize: 35,
             },
         },

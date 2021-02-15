@@ -14,7 +14,8 @@ const iconSize = {
     twitter: 40,
 }
 
-const pcStyles = {
+
+const useStyles = makeStyles((theme) => ({
     figure: {
         position: 'relative',
         bottom: 0,
@@ -24,12 +25,18 @@ const pcStyles = {
         width: '100vw',
         height: '100vh',
         position: 'absolute',
+        [theme.breakpoints.between('xs', 'md')]: {
+            height: '44vh',
+        },
     },
     icons: {
         display: 'flex',
         width: '100%',
         bottom:  'calc(-550px + 123px)',
         position: 'absolute',
+        [theme.breakpoints.between('xs', 'md')]: {
+            bottom: 'calc(-570px + 175px)',
+        },
     },
     youtubeIco:{
         width: `${100-iconSize.instagram-iconSize.twitter}%`,
@@ -48,6 +55,9 @@ const pcStyles = {
         bottom: 'calc(-550px + 77px)',
         width: '100%',
         color: '#ffffff',
+        [theme.breakpoints.between('xs', 'md')]: {
+            bottom: 'calc(-570px + 110px)',
+        },
     },
     privacyPolicy: {
         textAlign: 'center',
@@ -55,6 +65,10 @@ const pcStyles = {
         width: '100%',
         color: '#ffffff',
         bottom: 'calc(-550px + 32px)',
+        [theme.breakpoints.between('xs', 'md')]: {
+            bottom: 'calc(-570px + 50px)',
+            fontSize: '25px',
+        },
     },
     copyright: {
         position: 'absolute',
@@ -62,73 +76,17 @@ const pcStyles = {
         textAlign: 'center',
         color: '#ffffff',
         bottom: '-550px',
+        [theme.breakpoints.between('xs', 'md')]: {
+            bottom: '-570px',
+            fontSize: '25px',
+        },
     },
     link: {
         textDecoration: 'none',
-    }
-}
-
-const mobStyles = {
-    figure: {
-        position: 'relative',
-        bottom: 0,
-        margin: 0,
+        [theme.breakpoints.between('xs', 'md')]: {
+            color: '#ffffff',
+        },
     },
-    footerImg: {
-        width: '100vw',
-        height: '44vh',
-        position: 'absolute',
-    },
-    icons: {
-        display: 'flex',
-        width: '100%',
-        bottom:  'calc(-570px + 175px)',
-        position: 'absolute',
-    },
-    youtubeIco:{
-        width: `${100-iconSize.instagram-iconSize.twitter}%`,
-        textAlign: 'right',
-    },
-    instagramIco:{
-        width: `${100-iconSize.youtube-iconSize.twitter}%`,
-        textAlign: 'center',
-    },
-    twitterIco:{
-        width: `${100-iconSize.youtube-iconSize.instagram}%`,
-        textAlign: 'left',
-    },
-    footerLink: {
-        position: 'absolute',
-        bottom: 'calc(-570px + 110px)',
-        width: '100%',
-        color: '#ffffff',
-    },
-    privacyPolicy: {
-        textAlign: 'center',
-        position: 'absolute',
-        width: '100%',
-        color: '#ffffff',
-        bottom: 'calc(-570px + 50px)',
-        fontSize: '25px',
-    },
-    copyright: {
-        position: 'absolute',
-        width: '100%',
-        textAlign: 'center',
-        color: '#ffffff',
-        bottom: '-570px',
-        fontSize: '25px',
-    },
-    link: {
-        textDecoration: 'none',
-        color: '#ffffff',
-    }
-}
-
-
-const useStyles = makeStyles((theme) => ({
-    [theme.breakpoints.between('sm', 'xl')]: pcStyles,
-    [theme.breakpoints.between('xs', 'sm')]: mobStyles,
 }));
 
 function FooterFunc(){

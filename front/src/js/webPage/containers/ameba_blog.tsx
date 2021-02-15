@@ -8,36 +8,26 @@ import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
-    [theme.breakpoints.between('md', 'xl')]: {
-        title: {},
-        paper: {
-            display:'inline-block',
-            width:'33%',
-            height: '500px',
-            overflow: 'auto',
-            wordWrap:'break-word',
+    title: {
+        [theme.breakpoints.between('xs', 'md')]: {
+            fontSize: 50,
         },
-        ul: {
-            listStyle: 'none',
-            paddingInlineStart: '0',
-        },
-        link: {
-            textDecoration: 'none',
-            color: '#000000'
-        }
     },
-    [theme.breakpoints.between('sm', 'md')]: {
-        title: {
-        fontSize: '50px',
-        },
-        paper: {
-            display:'inline-block',
+    paper: {
+        display:'inline-block',
+        width:'33%',
+        height: 500,
+        overflow: 'auto',
+        wordWrap:'break-word',
+        [theme.breakpoints.between('xs', 'md')]: {
             width:'70%',
-            height: '500px',
-            overflow: 'auto',
-            wordWrap:'break-word',
+            height: 700,
         },
-        ul: {
+    },
+    ul: {
+        listStyle: 'none',
+        paddingInlineStart: '0',
+        [theme.breakpoints.between('xs', 'md')]: {
             listStyle: 'none',
             paddingInlineStart: '0',
             fontSize: '35px',
@@ -45,6 +35,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
                 color: 'red',
             },
         },
+    },
+    link: {
+        textDecoration: 'none',
+        color: '#000000'
     },
 }));
 

@@ -2,28 +2,22 @@ import React from "react";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
-    [theme.breakpoints.between('sm', 'xl')]: {
-        aboutUsTitle: {
-            width: '33%',
-            textAlign: 'right',
-            margin: 0,
-        },
-        aboutUsContent: {
-            width: 'calc(77% - 5px)',
-            lineHeight: '1.5em',
-            margin: 'auto 5px',
-        },
-    },
-    [theme.breakpoints.between('xs', 'sm')]: {
-        aboutUsTitle: {
-            margin: 0,
+    aboutUsTitle: {
+        width: '33%',
+        textAlign: 'right',
+        margin: 0,
+        [theme.breakpoints.between('xs', 'md')]: {
             width: '100%',
             textAlign: 'center',
             fontSize: '50px',
         },
-        aboutUsContent: {
+    },
+    aboutUsContent: {
+        width: 'calc(77% - 5px)',
+        lineHeight: '1.5em',
+        margin: 'auto 5px',
+        [theme.breakpoints.between('xs', 'md')]: {
             width: '100%',
-            lineHeight: '1.5em',
             margin: 'auto 5px',
             fontSize: '35px',
             wordWrap: 'break-word'

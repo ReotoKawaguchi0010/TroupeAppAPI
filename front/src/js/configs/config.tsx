@@ -1,5 +1,8 @@
-export const API_PATH: string = 'http://localhost:8000/api';
+export const config = {
+    devMode: true,
+}
 
+export const API_PATH: string = config.devMode ? 'http://localhost:8000/api' : 'https://futsu100.com/api';
 
 export const colorConfig = {
     emeraldGreen: 'rgb(46, 204, 135)',
@@ -12,10 +15,4 @@ export const colorConfig = {
     coralPink: 'rgb(251, 127, 119)',
     brightOrange: 'rgb(253, 192, 45)',
     softViolet: 'rgb(179, 139, 220)',
-}
-
-
-
-export const config = {
-    devMode: true,
 }
