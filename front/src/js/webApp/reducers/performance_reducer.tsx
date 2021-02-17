@@ -1,6 +1,7 @@
+import _ from "lodash"
+
 import {PerformanceType, ScheduleTime, ScriptsType,
 ScriptType, ScheduleType, InitialPerformance} from "js/types";
-
 import {initialState} from "js/webApp/reducers";
 
 export const reducerPerformance = (
@@ -17,7 +18,21 @@ export const reducerPerformance = (
         case 'get_performance':
             return {...state, performances: action.data}
         case 'get_script':
-            return {...state, scripts: action.data}
+            let list = []
+            let scriptsInScripts = state.scripts.scripts
+            if(Boolean(scriptsInScripts.length)) {
+                _.map(scriptsInScripts, (v) => {
+                    list.push(v)
+                })
+            }
+            list.push(action.data.scripts)
+            let scripts: ScriptsType = {
+                title: action.data.title,
+                totalPageNum: action.data.total_page_num,
+                pageNum: action.data.page_num,
+                scripts: list
+            }
+            return {...state, scripts: scripts}
         default:
             return state
     }

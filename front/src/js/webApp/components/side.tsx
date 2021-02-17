@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
-import {Drawer, List, ListItem, Button, Box} from "@material-ui/core";
+import {Drawer, List, ListItem, Button, Box, useMediaQuery,
+useTheme} from "@material-ui/core";
 import {makeStyles} from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -34,10 +35,16 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         width: drawerWidth,
         position: 'initial',
+        [theme.breakpoints.between('xs', 'md')]: {
+            width: '100%',
+        },
     },
     drawerOpen: {
         width: drawerWidth,
         flexShrink: 0,
+        [theme.breakpoints.between('xs', 'md')]: {
+            width: '100%',
+        },
     },
     drawerClose: {
         width: 0,
@@ -74,7 +81,7 @@ const listItems = [
 
 
 interface SideRootArg {
-    open: any
+    open: boolean
     onClose: any
 }
 
@@ -112,34 +119,33 @@ const SideRoot: React.FC<SideRootArg> = ({open, onClose}) => {
         </List>
     </Drawer>
     )
-
 }
 
 
-
-
-
-
 export const Side = () => {
-    const [sideState, setSideState] = useState({
-        open: true,
-    })
+    const [sideState, setSideState] = useState(true)
     const classes = useStyles()
+    const theme = useTheme()
+    const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'))
+
+    useEffect(() => {
+        !matches ? setSideState(true): setSideState(false)
+    }, [matches])
 
     const handleClickBtn = () => {
-        sideState.open ? setSideState({...sideState, open: false}) : setSideState({...sideState, open: true})
+        sideState ? setSideState(false) : setSideState(true)
     }
     return (
         <>
             {
-                !sideState.open ? <Box className={classes.wrapAllowIcon}>
+                !sideState ? <Box className={classes.wrapAllowIcon}>
                 <Button onClick={handleClickBtn}>
                     <ChevronRightIcon />
                 </Button>
             </Box> : <></>
             }
 
-            <SideRoot open={sideState.open} onClose={handleClickBtn} />
+            <SideRoot open={sideState} onClose={handleClickBtn} />
         </>
     )
 }

@@ -28,7 +28,7 @@ export interface ScriptType {
 
 export interface ScriptsType {
     pageNum: number
-    scripts: ScriptType[]
+    scripts: ScriptType[][]
     title: string
     totalPageNum: number
 }

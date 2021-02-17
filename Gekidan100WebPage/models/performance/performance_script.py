@@ -36,7 +36,7 @@ def models_get_script(performance_id, script_num):
                 'title': performance.title,
                 'total_page_num': total_page_num,
                 'page_num': script_num,
-                'script': script[script_page_num: script_page_num+PerformanceScript.BUFFER_SIZE]
+                'scripts': script[script_page_num: script_page_num+PerformanceScript.BUFFER_SIZE]
             }
             return script
     return False

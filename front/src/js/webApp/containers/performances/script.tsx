@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
         height: '75%',
         width: '100%',
         overflow: 'auto',
-        writingMode: 'vertical-rl',
     },
 }));
 
@@ -56,7 +55,25 @@ const UploadScript = () => {
     )
 }
 
+interface BoxInScriptType {
+    value: any
+}
 
+const BoxInScript: React.FC<BoxInScriptType> = ({value}) => {
+    return (
+        <>
+            {
+                _.map(value, (script, i) => {
+                    return (
+                        <div key={i} style={{fontSize: Number(script.font_size)*1.5}}>
+                            {script.text === '' ? <br /> : script.text}
+                        </div>
+                    )
+                })
+            }
+        </>
+    )
+}
 
 
 export const Script = () => {
@@ -67,27 +84,28 @@ export const Script = () => {
     })
     const {state, dispatch} = useContext(AppContext)
 
-    console.log(state)
-
     useEffect(() => {
-        let action = {
-            type: 'get_script',
-            performanceId: Number(performance_id),
-            scriptNum: pageState.pageNum,
+        if(!Boolean(state.reducerPerformance.scripts.scripts[pageState.pageNum-1])){
+            let action = {
+                type: 'get_script',
+                performanceId: Number(performance_id),
+                scriptNum: pageState.pageNum,
+            }
+            getScript(action, dispatch)
         }
-        getScript(action, dispatch)
+
     }, [pageState])
 
     const handleLeftClick = (e: any) => {
         if(pageState.pageNum <= 0) return ''
-        if(pageState.pageNum >= state.reducerPerformance.scripts.total_page_num) return ''
+        if(pageState.pageNum >= state.reducerPerformance.scripts.totalPageNum) return ''
         let pageNum = pageState.pageNum + 1
         setPageState({...pageState, pageNum: pageNum})
     }
 
     const handleRightClick = (e: any) => {
         if(pageState.pageNum <= 1) return ''
-        if(pageState.pageNum > state.reducerPerformance.scripts.total_page_num) return ''
+        if(pageState.pageNum > state.reducerPerformance.scripts.totalPageNum) return ''
         let pageNum = pageState.pageNum - 1
         setPageState({...pageState, pageNum: pageNum})
     }
@@ -97,14 +115,12 @@ export const Script = () => {
             <div>{state.reducerPerformance.scripts.title}</div>
             <div>台本</div>
             <UploadScript />
-            <div className={classes.book}>
-                {_.map(state.reducerPerformance.scripts.script, (v, i) => {
-                    return <div key={i} style={{fontSize: Number(v.font_size)*1.5}}>{v.text === '' ? <br /> : v.text}</div>
-                })}
+            <div className={classes.book} style={{writingMode: 'vertical-rl'}}>
+                <BoxInScript value={state.reducerPerformance.scripts.scripts[pageState.pageNum-1]} />
             </div>
             <div>
                 <div onClick={handleLeftClick}>{'<'}</div>
-                {state.reducerPerformance.scripts.page_num}/{state.reducerPerformance.scripts.total_page_num}
+                {pageState.pageNum}/{state.reducerPerformance.scripts.totalPageNum}
                 <div onClick={handleRightClick}>{'>'}</div>
             </div>
         </>

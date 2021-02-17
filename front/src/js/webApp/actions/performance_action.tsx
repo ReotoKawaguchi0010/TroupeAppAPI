@@ -1,3 +1,4 @@
+import React from "react";
 import {create, uploadFile} from "js/utils/utils";
 
 interface SendDataType {
@@ -6,7 +7,7 @@ interface SendDataType {
 }
 
 
-export const performance_action = async (action: any, dispatch: any) => {
+export const performance_action = async (action: any, dispatch: React.Dispatch<any>) => {
     try{
         let sendData = Boolean(action.sendData) ? action.sendData: {}
         sendData.type = action.type
@@ -19,7 +20,7 @@ export const performance_action = async (action: any, dispatch: any) => {
     }
 }
 
-export const getScript = async (action: any, dispatch: any) => {
+export const getScript = async (action: any, dispatch: React.Dispatch<any>) => {
     try{
         let sendData = Boolean(action.sendData) ? action.sendData: {}
         sendData.type = action.type
@@ -33,7 +34,7 @@ export const getScript = async (action: any, dispatch: any) => {
     }
 }
 
-export const uploadFileAction = async (action: any, dispatch: any) => {
+export const uploadFileAction = async (action: any, dispatch: React.Dispatch<any>) => {
     try{
         const file = action.sendData
         const params = new FormData()
@@ -50,7 +51,7 @@ export const uploadFileAction = async (action: any, dispatch: any) => {
     }
 }
 
-export const getPerformances = async (action: any, dispatch: any) => {
+export const getPerformances = async (action: any, dispatch: React.Dispatch<any>) => {
     try{
         const res = await create.get(`/app/`, {
             params: {
@@ -64,14 +65,13 @@ export const getPerformances = async (action: any, dispatch: any) => {
     }
 }
 
-export const getSchedule = async (action: any, dispatch: any) => {
+export const getSchedule = async (action: any, dispatch: React.Dispatch<any>) => {
     try{
         const res = await create.get(`/app/`, {
             params: {
                 type: action.type,
                 performanceId: action.performanceId,
             }})
-        console.log(res.data)
         action.data = res.data
         dispatch(action)
     }catch (e) {
