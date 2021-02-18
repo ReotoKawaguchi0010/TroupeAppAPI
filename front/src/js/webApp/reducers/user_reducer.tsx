@@ -2,7 +2,7 @@ const initialState = {
     login: false
 };
 
-export const reducerFunc = (state=initialState, action: any) =>{
+export const userReducer = (state=initialState, action: any) =>{
     switch (action.type){
         case 'login':
             let login = false

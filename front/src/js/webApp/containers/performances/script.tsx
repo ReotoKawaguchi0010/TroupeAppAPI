@@ -85,7 +85,7 @@ export const Script = () => {
     const {state, dispatch} = useContext(AppContext)
 
     useEffect(() => {
-        if(!Boolean(state.reducerPerformance.scripts.scripts[pageState.pageNum-1])){
+        if(!Boolean(state.performanceReducer.scripts.scripts[pageState.pageNum-1])){
             let action = {
                 type: 'get_script',
                 performanceId: Number(performance_id),
@@ -98,29 +98,29 @@ export const Script = () => {
 
     const handleLeftClick = (e: any) => {
         if(pageState.pageNum <= 0) return ''
-        if(pageState.pageNum >= state.reducerPerformance.scripts.totalPageNum) return ''
+        if(pageState.pageNum >= state.performanceReducer.scripts.totalPageNum) return ''
         let pageNum = pageState.pageNum + 1
         setPageState({...pageState, pageNum: pageNum})
     }
 
     const handleRightClick = (e: any) => {
         if(pageState.pageNum <= 1) return ''
-        if(pageState.pageNum > state.reducerPerformance.scripts.totalPageNum) return ''
+        if(pageState.pageNum > state.performanceReducer.scripts.totalPageNum) return ''
         let pageNum = pageState.pageNum - 1
         setPageState({...pageState, pageNum: pageNum})
     }
 
     return (
         <>
-            <div>{state.reducerPerformance.scripts.title}</div>
+            <div>{state.performanceReducer.scripts.title}</div>
             <div>台本</div>
             <UploadScript />
             <div className={classes.book} style={{writingMode: 'vertical-rl'}}>
-                <BoxInScript value={state.reducerPerformance.scripts.scripts[pageState.pageNum-1]} />
+                <BoxInScript value={state.performanceReducer.scripts.scripts[pageState.pageNum-1]} />
             </div>
             <div>
                 <div onClick={handleLeftClick}>{'<'}</div>
-                {pageState.pageNum}/{state.reducerPerformance.scripts.totalPageNum}
+                {pageState.pageNum}/{state.performanceReducer.scripts.totalPageNum}
                 <div onClick={handleRightClick}>{'>'}</div>
             </div>
         </>

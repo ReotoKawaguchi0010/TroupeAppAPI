@@ -1,14 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
 import {Drawer, List, ListItem, Button, Box, useMediaQuery,
 useTheme} from "@material-ui/core";
 import {makeStyles} from '@material-ui/core/styles';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import _ from "lodash";
 
 import {PerformanceIcon, IdeaMan,
     NoteIcon, ContractIcon, DisplayIcon} from "js/webApp/containers/icons";
+import {AppContext} from "../contexts/AppContext";
 
 const drawerWidth = 240;
 
@@ -34,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerPaper: {
         width: drawerWidth,
-        position: 'initial',
         [theme.breakpoints.between('xs', 'md')]: {
             width: '100%',
         },
@@ -86,8 +84,15 @@ interface SideRootArg {
 }
 
 
-const SideRoot: React.FC<SideRootArg> = ({open, onClose}) => {
+export const SideRoot: React.FC<SideRootArg> = ({open, onClose}) => {
+    const {state, dispatch} = useContext(AppContext)
     const classes = useStyles()
+    const theme = useTheme()
+    const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'))
+
+    useEffect(() => {
+        !matches ? dispatch({type: 'menu_open'}): dispatch({type: 'menu_close'})
+    }, [matches])
 
     return (
     <Drawer className={
@@ -101,7 +106,7 @@ const SideRoot: React.FC<SideRootArg> = ({open, onClose}) => {
             }}
     >
         <List>
-            <ListItem className={classes.wrapAllowIcon}><Button onClick={onClose}><ChevronLeftIcon /></Button></ListItem>
+            <ListItem><Box>Menu</Box></ListItem>
             {
                 _.map(listItems, (v, i) => {
                     return (
@@ -118,34 +123,5 @@ const SideRoot: React.FC<SideRootArg> = ({open, onClose}) => {
             }
         </List>
     </Drawer>
-    )
-}
-
-
-export const Side = () => {
-    const [sideState, setSideState] = useState(true)
-    const classes = useStyles()
-    const theme = useTheme()
-    const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'))
-
-    useEffect(() => {
-        !matches ? setSideState(true): setSideState(false)
-    }, [matches])
-
-    const handleClickBtn = () => {
-        sideState ? setSideState(false) : setSideState(true)
-    }
-    return (
-        <>
-            {
-                !sideState ? <Box className={classes.wrapAllowIcon}>
-                <Button onClick={handleClickBtn}>
-                    <ChevronRightIcon />
-                </Button>
-            </Box> : <></>
-            }
-
-            <SideRoot open={sideState} onClose={handleClickBtn} />
-        </>
     )
 }

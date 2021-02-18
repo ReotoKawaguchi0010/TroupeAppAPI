@@ -123,7 +123,7 @@ const Main = () => {
             <Box className={classes.categoryTitle}>過去の公演</Box>
             <Grid container spacing={3}>
                 {
-                    _.map(state.reducerPerformance.performances, (v, i) => {
+                    _.map(state.performanceReducer.performances, (v, i) => {
                         return (
                         <Grid item xs={3} key={i}>
                             <Button className={classes.titleBtn}>

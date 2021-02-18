@@ -8,9 +8,14 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import DehazeIcon from '@material-ui/icons/Dehaze';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import clsx from "clsx";
 
 import {AppContext} from "js/webApp/contexts/AppContext";
 import {logout} from "js/webApp/actions/actions"
+import {SideRoot} from "js/webApp/components/side";
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,9 +51,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(1),
         width: 'auto',
         [theme.breakpoints.between('xs', 'md')]: {
-            marginLeft: 0,
-            width: '100%',
+            width: '80%',
             height: '100%',
+            marginLeft: '10%',
         },
     },
     searchIcon: {
@@ -87,6 +92,18 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
         background: '#C14949',
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    appBarShift: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
     },
     link: {
         color: '#ffffff',
@@ -101,6 +118,12 @@ const useStyles = makeStyles((theme) => ({
     homeIcon: {
         [theme.breakpoints.between('xs', 'md')]: {
             fontSize: 40,
+        },
+    },
+    menuIcon: {
+        fontSize: 40,
+        [theme.breakpoints.between('xs', 'md')]: {
+            fontSize: 75,
         },
     },
 }));
@@ -123,22 +146,52 @@ const HomeIconComp = () => {
     )
 }
 
-const MenuIconComp = () => {
+
+interface InOnclickType {
+    onClick: () => void
+}
+const MenuIconComp: React.FC<InOnclickType> = ({onClick}) => {
     const classes = useStyles()
     return (
         <>
-            <DehazeIcon />
+            <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="open drawer"
+                onClick={onClick}
+            >
+                <DehazeIcon classes={{root: classes.menuIcon}} />
+            </IconButton>
+        </>
+    )
+}
+
+const LeftIconComp: React.FC<InOnclickType> = ({onClick}) => {
+    const classes = useStyles()
+    return (
+        <>
+            <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="open drawer"
+                onClick={onClick}
+            >
+                <ChevronLeftIcon classes={{root: classes.menuIcon}} />
+            </IconButton>
         </>
     )
 }
 
 export const SearchAppBar = () =>{
+    const classes = useStyles();
     const {state, dispatch} = useContext(AppContext)
     const [anchorEl, setAnchorEl] = useState(null)
     const theme = useTheme()
     const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
-    console.log(matches)
+    console.log(state)
 
     const handleMenuClick = (e: any) => {
         setAnchorEl(e.target)
@@ -152,13 +205,22 @@ export const SearchAppBar = () =>{
         logout({type: 'logout'}, dispatch)
     }
 
-    const classes = useStyles();
+    const handleSideClose = () => {
+        dispatch({type: 'menu_close'})
+    }
+
+    const handleMenuIconClick = () => {
+        dispatch({type: 'menu_open'})
+    }
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" className={classes.appBar}>
+            <SideRoot open={state.viewReducer.sideMenu} onClose={handleSideClose} />
+            <AppBar position="fixed" className={clsx(classes.appBar, {
+                [classes.appBarShift]: state.viewReducer.sideMenu
+            })}>
                 <Toolbar classes={{root: classes.toolBar}}>
-                    {!matches ? <HomeIconComp /> : <MenuIconComp />}
+                    {state.viewReducer.sideMenu ? <LeftIconComp onClick={handleSideClose} /> : <MenuIconComp onClick={handleMenuIconClick} />}
                     <Typography className={classes.title} variant="h6" noWrap>
                         劇団沸管理アプリ
                     </Typography>

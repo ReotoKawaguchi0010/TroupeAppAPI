@@ -2,12 +2,12 @@ import React, {useContext, useEffect} from "react";
 import {Switch, Redirect} from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
 import {Container, Button} from "@material-ui/core";
+import clsx from "clsx";
 import _ from "lodash";
 
 import {AppContext} from "js/webApp/contexts/AppContext";
 import {login, logout} from "js/webApp/actions/actions";
 import {Header} from "js/webApp/components/header";
-import {Side} from "js/webApp/components/side";
 import {Performances} from "js/webApp/containers/performances/performances";
 import {Idea} from "js/webApp/containers/idea/idea";
 import {Manual} from "js/webApp/containers/manual";
@@ -24,6 +24,20 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
+    },
+    closeMenuMain: {
+        width: '100%',
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    openMenuMain: {
+        marginLeft: 240,
+        width: 'calc(100% - 240px)',
+    },
+    main: {
+        marginTop: 64,
     },
 
 }));
@@ -82,8 +96,10 @@ export const Main = () => {
                 config.devMode ? '' : state.reducerFunc ? !state.reducerFunc.login ? <Redirect to="/app/login" /> : <></> : <></>
             }
             <Header />
-            <div style={{display: 'flex'}}>
-                <Side />
+            <div className={clsx(classes.main, {
+                [classes.openMenuMain]: state.viewReducer.sideMenu,
+                [classes.closeMenuMain]: !state.viewReducer.sideMenu,
+            })}>
                 <Switch>
                     {_.map(routes, (route, i) => (
                         <RouteWithSubRoutes key={i} {...route} />

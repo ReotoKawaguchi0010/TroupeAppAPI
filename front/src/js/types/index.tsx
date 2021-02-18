@@ -38,3 +38,8 @@ export interface InitialPerformance {
     schedule: ScheduleType
     scripts: ScriptsType
 }
+
+export interface InitialViewType{
+    sideMenu: boolean
+    test: []
+}

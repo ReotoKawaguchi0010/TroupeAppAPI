@@ -4,8 +4,8 @@ import {PerformanceType, ScheduleTime, ScriptsType,
 ScriptType, ScheduleType, InitialPerformance} from "js/types";
 import {initialState} from "js/webApp/reducers";
 
-export const reducerPerformance = (
-    state=initialState.reducerPerformance,
+export const performanceReducer = (
+    state=initialState.performanceReducer,
     action: any) =>
 {
     switch (action.type){

@@ -1,21 +1,24 @@
 import { combineReducers } from "redux";
 
-import {reducerFunc} from "js/webApp/reducers/http";
-import {reducerPerformance} from "js/webApp/reducers/performance_reducer";
+import {userReducer} from "js/webApp/reducers/user_reducer";
+import {performanceReducer} from "js/webApp/reducers/performance_reducer";
+import {viewReducer} from "js/webApp/reducers/view_reducer";
 
-import {PerformanceType, InitialPerformance,
-    ScheduleType, ScriptType,
-    ScriptsType, ScheduleTime} from "js/types";
+import {ScheduleTime, InitialPerformance} from "js/types";
 
 
 export const initialTime: ScheduleTime = {
     date: 0, day: '', hours: 0, minute: 0, month: 0, year: '',
 }
 
+interface InitialStateType {
+
+}
+
 
 export const initialState = {
-    reducerFunc: {},
-    reducerPerformance: {
+    userReducer: {},
+    performanceReducer: {
         performances: [],
         schedule: {
             description: '',
@@ -30,11 +33,14 @@ export const initialState = {
             title: '',
             totalPageNum: 0,
         },
-    }
+    },
+    viewReducer: {
+        sideMenu: true,
+    },
 }
 
 
 
 
 
-export default combineReducers({reducerFunc, reducerPerformance})
+export default combineReducers({userReducer, performanceReducer, viewReducer})
