@@ -17,6 +17,7 @@ import {RouteWithSubRoutes} from "js/routings/routings";
 import {Ttest} from "js/webApp/containers/edit_home_page";
 import {RoutesType} from "js/webPage/routings/routings";
 import {config} from "js/configs/config";
+import {create} from "js/utils/utils"
 
 const useStyles = makeStyles((theme) => ({
     drawerHeader: {
@@ -86,9 +87,19 @@ export const Main = () => {
     const {state, dispatch} = useContext(AppContext)
     const classes = useStyles()
 
+
+    const getUserData = async (type: string) => {
+        const res = await create.get('/app/', {
+            params: {type: type}
+        })
+        dispatch({type: type, data: res.data})
+    }
+
     useEffect(() =>{
-        login({type: 'login'}, dispatch)
+        getUserData('get_user_data')
     }, [])
+
+
 
     return (
         <React.Fragment>

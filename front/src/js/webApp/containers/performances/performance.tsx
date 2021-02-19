@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: 'none',
         color: "initial",
         margin: '0 auto',
+        [theme.breakpoints.between('xs', 'md')]: {
+            fontSize: 35,
+            padding: 16,
+        }
     },
 }));
 

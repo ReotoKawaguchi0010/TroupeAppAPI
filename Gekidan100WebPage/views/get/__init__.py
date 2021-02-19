@@ -6,6 +6,8 @@ def main(request, response):
     request_data = request.GET.dict()
     if has_request_type(request_data, 'idea'):
         response = get.get_idea(request, response, request_data)
+    elif has_request_type(request_data, 'get_user_data'):
+        response = get.get_user_data(request, response)
     elif has_request_type(request_data, 'get_performance'):
         response = get_performance.get_performance(request, response, request_data)
     elif has_request_type(request_data, 'get_schedule'):

@@ -1,17 +1,43 @@
-const initialState = {
-    login: false
-};
+import {initialState, UserReducerType} from "js/webApp/reducers";
 
-export const userReducer = (state=initialState, action: any) =>{
+let login: boolean
+let newState: UserReducerType
+export const userReducer = (state=initialState.userReducer, action: any) =>{
     switch (action.type){
         case 'login':
-            let login = false
-            if(action.data.bool === 'true') login = true
-            return {...state, data: action.data, login: login, user: action.data.user}
+            login = action.data.bool
+            newState = {
+                login: login,
+                user: {
+                    username: action.data.username,
+                    contact: action.data.contact,
+                    email: action.data.email,
+                    introduction: action.data.introduction,
+                    firstName: action.data.first_name,
+                    lastName: action.data.lest_name,
+                    profileImageUrl: action.data.profile_image,
+                }
+            }
+            return newState
         case 'logout':
-            return {}
-        case 'idea':
-            return {...state}
+            return state
+        case 'get_user_data':
+            login = action.data.login === 'true'
+            if(login){
+                newState = {
+                    login: login,
+                    user: {
+                        username: action.data.user.username,
+                        contact: action.data.user.contact,
+                        email: action.data.user.email,
+                        introduction: action.data.user.introduction,
+                        firstName: action.data.user.first_name,
+                        lastName: action.data.user.lest_name,
+                        profileImageUrl: action.data.user.profile_image,
+                    },
+                }
+            }
+            return newState
         default:
             return state
     }

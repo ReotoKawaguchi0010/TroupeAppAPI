@@ -98,12 +98,15 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     appBarShift: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        [theme.breakpoints.between('xs', 'md')]: {
+            display: 'none',
+        },
     },
     link: {
         color: '#ffffff',
@@ -167,7 +170,7 @@ const MenuIconComp: React.FC<InOnclickType> = ({onClick}) => {
     )
 }
 
-const LeftIconComp: React.FC<InOnclickType> = ({onClick}) => {
+export const LeftIconComp: React.FC<InOnclickType> = ({onClick}) => {
     const classes = useStyles()
     return (
         <>

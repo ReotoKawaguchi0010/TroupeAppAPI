@@ -11,13 +11,41 @@ export const initialTime: ScheduleTime = {
     date: 0, day: '', hours: 0, minute: 0, month: 0, year: '',
 }
 
-interface InitialStateType {
 
+interface UserInUserReducerType {
+    contact: string
+    email: string
+    firstName: string
+    lastName: string
+    introduction: string
+    profileImageUrl: string
+    username: string
 }
 
+export interface UserReducerType {
+    login: boolean
+    user: UserInUserReducerType
+}
 
-export const initialState = {
-    userReducer: {},
+interface InitialStateType {
+    userReducer: UserReducerType
+    performanceReducer: any
+    viewReducer: any
+}
+
+export const initialState: InitialStateType = {
+    userReducer: {
+        login: false,
+        user: {
+            contact: '',
+            email: '',
+            firstName: '',
+            lastName: '',
+            introduction: '',
+            profileImageUrl: '',
+            username: '',
+        },
+    },
     performanceReducer: {
         performances: [],
         schedule: {

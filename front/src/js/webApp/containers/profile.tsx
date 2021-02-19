@@ -7,24 +7,16 @@ import {AppContext} from "js/webApp/contexts/AppContext";
 export const Profile = () => {
     const {state, dispatch} = useContext(AppContext)
 
-    const userData: any = {user: {}}
-
-    if(Boolean(state.reducerFunc)){
-        if(Boolean(state.reducerFunc.user)){
-            userData.user = state.reducerFunc.user
-        }
-    }
-
     return (
         <Container>
             <div>プロフィール</div>
 
             <Card>
                 <List>
-                    <ListItem>名前: {Boolean(userData.user) ? `${userData.user.last_name} ${userData.user.first_name}` : ''}<Button><EditIcon /></Button></ListItem>
-                    <ListItem>メールアドレス: {Boolean(userData.user) ? userData.user.email : ''}<Button><EditIcon /></Button></ListItem>
-                    <ListItem>ユーザーネーム: {Boolean(userData.user) ? userData.user.username : ''}<Button><EditIcon /></Button></ListItem>
-                    <ListItem>自己紹介: {Boolean(userData.user) ? userData.user.introduction : ''}<Button><EditIcon /></Button></ListItem>
+                    <ListItem>名前: {`${state.userReducer.user.lastName} ${state.userReducer.user.firstName}`}<Button><EditIcon /></Button></ListItem>
+                    <ListItem>メールアドレス: {state.userReducer.user.contact}<Button><EditIcon /></Button></ListItem>
+                    <ListItem>ユーザーネーム: {state.userReducer.user.username}<Button><EditIcon /></Button></ListItem>
+                    <ListItem>自己紹介: {state.userReducer.user.introduction}<Button><EditIcon /></Button></ListItem>
                 </List>
             </Card>
         </Container>

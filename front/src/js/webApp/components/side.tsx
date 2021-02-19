@@ -7,7 +7,8 @@ import _ from "lodash";
 
 import {PerformanceIcon, IdeaMan,
     NoteIcon, ContractIcon, DisplayIcon} from "js/webApp/containers/icons";
-import {AppContext} from "../contexts/AppContext";
+import {AppContext} from "js/webApp/contexts/AppContext";
+import {LeftIconComp} from "js/webApp/containers/app_bar";
 
 const drawerWidth = 240;
 
@@ -94,6 +95,12 @@ export const SideRoot: React.FC<SideRootArg> = ({open, onClose}) => {
         !matches ? dispatch({type: 'menu_open'}): dispatch({type: 'menu_close'})
     }, [matches])
 
+    const handleLinkClick = () => {
+        if(matches){
+            dispatch({type: 'menu_close'})
+        }
+    }
+
     return (
     <Drawer className={
         open ? classes.drawerOpen : classes.drawerClose
@@ -106,13 +113,18 @@ export const SideRoot: React.FC<SideRootArg> = ({open, onClose}) => {
             }}
     >
         <List>
-            <ListItem><Box>Menu</Box></ListItem>
+            <ListItem>
+                <Box>
+                    Menu
+                    {matches ? <LeftIconComp onClick={() => {dispatch({type: 'menu_close'})}} /> : ''}
+                </Box>
+            </ListItem>
             {
                 _.map(listItems, (v, i) => {
                     return (
                     <ListItem key={i}>
                         <Button>
-                            <Link className={classes.link} to={`/app/${v.link}`}>
+                            <Link className={classes.link} to={`/app/${v.link}`} onClick={handleLinkClick}>
                                 <v.iconComponent />
                                 <Box>{v.name}</Box>
                             </Link>
