@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from Gekidan100WebPage.models.performance import Peformance, Cast, Staff, Schedule
 from Gekidan100WebPage.models.performance import Performance_Schedule
 
+
 def post_performance(request, response: Response, data: dict):
     if bool(data['title']):
         performance = Peformance(title=data['title'])

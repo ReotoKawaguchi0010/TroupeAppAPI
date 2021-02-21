@@ -33,6 +33,8 @@ export const performanceReducer = (
                 scripts: list
             }
             return {...state, scripts: scripts}
+        case 'get_idea':
+            return {...state, idea: action.data}
         default:
             return state
     }

@@ -91,7 +91,7 @@ export const Main = () => {
         const res = await create.get('/app/', {
             params: {type: type}
         })
-        if(res.status === 200) dispatch({type: type, data: res.data})
+        if(String(res.status).match(/200?/)) dispatch({type: type, data: res.data})
     }
 
     useEffect(() =>{

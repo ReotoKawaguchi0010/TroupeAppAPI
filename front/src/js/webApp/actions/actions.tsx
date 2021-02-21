@@ -36,7 +36,7 @@ export const logout = async (action: any, dispatch: any) => {
     }
 }
 
-export const idea = async (action: any, dispatch: any) => {
+export const createIdea = async (action: any, dispatch: any) => {
     try{
         let sendData: SendDataType = {type: '', data: {}}
         if(Boolean(action.sendData)) sendData = action.sendData

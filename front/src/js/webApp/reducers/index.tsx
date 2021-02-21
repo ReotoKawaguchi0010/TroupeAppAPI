@@ -27,11 +27,26 @@ export interface UserReducerType {
     user: UserInUserReducerType
 }
 
+export interface IdeaType {
+    author: string
+    contents: []
+    title: string
+}
+
+export interface PerformanceReducerType {
+    performances: any
+    schedule: any
+    scripts: any
+    idea: IdeaType[]
+}
+
 interface InitialStateType {
     userReducer: UserReducerType
-    performanceReducer: any
+    performanceReducer: PerformanceReducerType
     viewReducer: any
 }
+
+
 
 export const initialState: InitialStateType = {
     userReducer: {
@@ -61,6 +76,7 @@ export const initialState: InitialStateType = {
             title: '',
             totalPageNum: 0,
         },
+        idea: [{title: '', contents: [], author: ''}],
     },
     viewReducer: {
         sideMenu: true,
