@@ -1,12 +1,11 @@
 import React, {useContext, useEffect} from "react";
 import {Switch, Redirect} from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
-import {Container, Button} from "@material-ui/core";
+import {Container} from "@material-ui/core";
 import clsx from "clsx";
 import _ from "lodash";
 
 import {AppContext} from "js/webApp/contexts/AppContext";
-import {login, logout} from "js/webApp/actions/actions";
 import {Header} from "js/webApp/components/header";
 import {Performances} from "js/webApp/containers/performances/performances";
 import {Idea} from "js/webApp/containers/idea/idea";
@@ -92,7 +91,7 @@ export const Main = () => {
         const res = await create.get('/app/', {
             params: {type: type}
         })
-        dispatch({type: type, data: res.data})
+        if(res.status === 200) dispatch({type: type, data: res.data})
     }
 
     useEffect(() =>{

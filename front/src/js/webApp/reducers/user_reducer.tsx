@@ -24,7 +24,7 @@ export const userReducer = (state=initialState.userReducer, action: any) =>{
         case 'get_user_data':
             login = action.data.login === 'true'
             if(login){
-                newState = {
+                state = {
                     login: login,
                     user: {
                         username: action.data.user.username,
@@ -32,12 +32,12 @@ export const userReducer = (state=initialState.userReducer, action: any) =>{
                         email: action.data.user.email,
                         introduction: action.data.user.introduction,
                         firstName: action.data.user.first_name,
-                        lastName: action.data.user.lest_name,
+                        lastName: action.data.user.last_name,
                         profileImageUrl: action.data.user.profile_image,
                     },
                 }
             }
-            return newState
+            return state
         default:
             return state
     }

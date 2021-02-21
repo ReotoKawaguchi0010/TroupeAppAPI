@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         overflow: 'auto',
     },
+    pageNum: {
+        textAlign: 'center',
+    },
 }));
 
 
@@ -118,10 +121,10 @@ export const Script = () => {
             <div className={classes.book} style={{writingMode: 'vertical-rl'}}>
                 <BoxInScript value={state.performanceReducer.scripts.scripts[pageState.pageNum-1]} />
             </div>
-            <div>
-                <div onClick={handleLeftClick}>{'<'}</div>
+            <div className={classes.pageNum}>
+                <Button onClick={handleLeftClick}>{'<'}</Button>
                 {pageState.pageNum}/{state.performanceReducer.scripts.totalPageNum}
-                <div onClick={handleRightClick}>{'>'}</div>
+                <Button onClick={handleRightClick}>{'>'}</Button>
             </div>
         </>
     )

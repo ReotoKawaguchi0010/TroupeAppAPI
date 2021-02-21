@@ -63,7 +63,7 @@ const Main = () => {
 
     return (
         <>
-            {state.reducerFunc ? state.reducerFunc.login ? <Redirect to="/app" /> : <></> : <></>}
+            {state.userReducer.login ? <Redirect to="/app" /> : <></>}
             <main className={classes.main}>
                 <h3 className={classes.title}>Login</h3>
                 <div className={classes.usernameBlock}>
