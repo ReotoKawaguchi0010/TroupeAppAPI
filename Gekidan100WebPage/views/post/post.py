@@ -64,23 +64,15 @@ def logout(request, response: Response, data: dict):
 
 
 def idea(request, response: Response, data: dict):
-    data.pop('type')
-    title = ''
-    author = data['author']
-    in_idea_contents_data = {}
-    for i in range(len(data['itemValues'])):
-        if data['itemValues'][i]['name'] == 'タイトル':
-            title = data['itemValues'][i]['value']
-        else:
-            in_idea_contents_data = {i: data['itemValues'][i]}
-    if Idea.objects.select_related().filter(title=title).exists():
-        idea_data = Idea.objects.select_related().get(title=title)
-        idea = Idea(title=title, author=author)
-        idea.save()
-        if bool(in_idea_contents_data):
-            for _, v in in_idea_contents_data.items():
-                idea_contents_data = IdeaContents.objects.filter(name=v['name'])
-                if not bool(idea_contents_data):
-                    idea_contents = IdeaContents(name=v['name'], value=v['value'], idea_id=idea_data)
-                    idea_contents.save()
+    if data['author'] != '':
+        title = ''
+        author = data['author']
+        in_idea_contents_data = {}
+        for i in range(len(data['itemValues'])):
+            if data['itemValues'][i]['name'] == 'タイトル':
+                title = data['itemValues'][i]['value']
+            else:
+                in_idea_contents_data = {i: data['itemValues'][i]}
+        idea_contents = IdeaContents()
+        idea_contents.create(title=title, author=author, values=in_idea_contents_data)
     return response

@@ -136,7 +136,6 @@ const CreateIdea: React.FC<CreateContentType> = ({open, onClose}) => {
     }
 
     const handleClickSendBtn = () => {
-        console.log(sendState.itemValues)
         if(sendState.itemValues.length < itemsState.items.length){
             alert('未入力の項目があります。')
         }else{
@@ -186,6 +185,9 @@ const ReadIdea: React.FC<ReadContentType> = ({open, onClose, contentNum}) => {
 
     return (
         <Drawer anchor={'top'} open={open} ModalProps={{hideBackdrop: true, onClose: onClose}} classes={{paper: classes.readIdeaPaper}}>
+            <Box className={classes.createWrapCloseBtn}><IconButton onClick={onClose}>
+                <CloseIcon />
+            </IconButton></Box>
             <Box>{state.performanceReducer.idea[contentNum].title}</Box>
             <Box>
                 {_.map(state.performanceReducer.idea[contentNum].contents, (i, contents) => {
@@ -200,9 +202,6 @@ const ReadIdea: React.FC<ReadContentType> = ({open, onClose, contentNum}) => {
                 })}
             </Box>
             <Box>{state.performanceReducer.idea[contentNum].author}</Box>
-            <Box>
-                <Button onClick={onClose}>閉じる</Button>
-            </Box>
         </Drawer>
     )
 }
