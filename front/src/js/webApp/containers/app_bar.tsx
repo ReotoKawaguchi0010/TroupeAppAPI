@@ -1,11 +1,10 @@
 import React, {useContext, useState} from "react";
-const {Link} = require("react-router-dom");
+import {Link} from "react-router-dom";
 import {
     AppBar, Toolbar, IconButton, Typography,
     InputBase, Avatar, Menu, MenuItem, Paper, useTheme, useMediaQuery
 } from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -131,24 +130,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const HomeIconComp = () => {
-    const classes = useStyles()
-    return (
-        <>
-             <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                aria-label="open drawer"
-            >
-                <Link to="/app" className={classes.link}>
-                    <HomeIcon className={classes.homeIcon} />
-                </Link>
-            </IconButton>
-        </>
-    )
-}
-
 
 interface InOnclickType {
     onClick: () => void
@@ -194,8 +175,6 @@ export const SearchAppBar = () =>{
     const theme = useTheme()
     const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
-    console.log(state)
-
     const handleMenuClick = (e: any) => {
         setAnchorEl(e.target)
     }
@@ -229,8 +208,9 @@ export const SearchAppBar = () =>{
                     </Typography>
                     {!matches ? (
                         <Avatar onClick={handleMenuClick}
-                            onMouseOver={handleMenuClick}
-                            className={classes.menuAvatar}>
+                                onMouseOver={handleMenuClick}
+
+                                className={classes.menuAvatar}>
                             {'T'}
                         </Avatar>
                     ) : <></>}
@@ -263,11 +243,18 @@ export const SearchAppBar = () =>{
                       horizontal: 'center',
                     }}
                 >
-                    <Paper>
-                        <MenuItem><Link to="/app/profile"
-                                    className={classes.profileLink}
-                                    onClick={handleMenuClose}
-                        >プロフィール</Link></MenuItem>
+                    <Paper
+                        onMouseOver={handleMenuClick}
+                        onMouseOut={handleMenuClose}
+                    >
+                        <MenuItem>
+                            <Link to="/app/profile"
+                                  className={classes.profileLink}
+                                  onClick={handleMenuClose}
+                            >
+                                プロフィール
+                            </Link>
+                        </MenuItem>
                         <MenuItem onClick={handleClickLogout}>ログアウト</MenuItem>
                     </Paper>
                 </Menu>

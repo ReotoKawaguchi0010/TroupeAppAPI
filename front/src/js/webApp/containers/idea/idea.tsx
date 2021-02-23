@@ -142,39 +142,42 @@ const CreateIdea: React.FC<CreateContentType> = ({open, onClose}) => {
             createIdea({type: 'idea', sendData: sendState}, dispatch)
         }
     }
+
     return (
         <Drawer anchor={'top'}
                 open={open}
                 ModalProps={{hideBackdrop: true, onClose: onClose}}
                 classes={{paper: classes.readIdeaPaper}}
         >
-            <Box className={classes.createWrapCloseBtn}><IconButton onClick={onClose}>
-                <CloseIcon />
-            </IconButton></Box>
-            <Box>項目の名前</Box>
-            <Box><Input onChange={handleChangeItem} value={itemInputState} /></Box>
-            <Box>
-                <Button onClick={creatItem}>項目を追加</Button>
-                <Button>項目を削除</Button>
-            </Box>
-            <form className={classes.form}>
-                {
-                    _.map(itemsState.items, (v, i) => {
-                        return (
-                            <Box key={i}>
-                                <Box>{v.name}</Box>
-                                <Box>
-                                    <TextField className={classes.wrapInput} multiline
-                                                onChange={event => handleContentChange(event, i)}
-                                                name={encodeURI(v.name)}
-                                    />
+            <div>
+                <Box className={classes.createWrapCloseBtn}><IconButton onClick={onClose}>
+                    <CloseIcon />
+                </IconButton></Box>
+                <Box>項目の名前</Box>
+                <Box><Input onChange={handleChangeItem} value={itemInputState} /></Box>
+                <Box>
+                    <Button onClick={creatItem}>項目を追加</Button>
+                    <Button>項目を削除</Button>
+                </Box>
+                <form className={classes.form}>
+                    {
+                        _.map(itemsState.items, (v, i) => {
+                            return (
+                                <Box key={i}>
+                                    <Box>{v.name}</Box>
+                                    <Box>
+                                        <TextField className={classes.wrapInput} multiline
+                                                    onChange={event => handleContentChange(event, i)}
+                                                    name={encodeURI(v.name)}
+                                        />
+                                    </Box>
                                 </Box>
-                            </Box>
-                        )
-                    })
-                }
-                <Button onClick={handleClickSendBtn}>作成</Button>
-            </form>
+                            )
+                        })
+                    }
+                    <Button onClick={handleClickSendBtn}>作成</Button>
+                </form>
+            </div>
         </Drawer>
     )
 }

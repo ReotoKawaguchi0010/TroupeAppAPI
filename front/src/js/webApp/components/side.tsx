@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
 import {Drawer, List, ListItem, Button, Box, useMediaQuery,
 useTheme} from "@material-ui/core";
@@ -14,7 +14,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        width: 240,
+        width: drawerWidth,
         height: '100%',
         minHeight: '100vh',
     },
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: 'none',
         color: 'initial',
         width: '100%',
-        display: 'inherit',
+        display: 'block',
         alignItems: 'inherit',
         justifyContent: 'inherit',
     },
@@ -47,6 +47,26 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerClose: {
         width: 0,
+    },
+    menuBtn: {
+        display: 'flex',
+        width: '100%',
+    },
+    icon: {
+        textAlign: 'left',
+        width: '20%',
+    },
+    name: {
+        width: '80%',
+    },
+    list: {
+        borderBottom: 'solid 1px #000000',
+    },
+    sideFooter: {
+        fontSize: '12px',
+        color: '#a2a1a1',
+        textAlign: 'center',
+        margin: '10px 0'
     },
 }));
 
@@ -85,8 +105,8 @@ interface SideRootArg {
 }
 
 
-export const SideRoot: React.FC<SideRootArg> = ({open, onClose}) => {
-    const {state, dispatch} = useContext(AppContext)
+export const SideRoot: React.FC<SideRootArg> = ({open}) => {
+    const {dispatch} = useContext(AppContext)
     const classes = useStyles()
     const theme = useTheme()
     const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'))
@@ -113,26 +133,25 @@ export const SideRoot: React.FC<SideRootArg> = ({open, onClose}) => {
             }}
     >
         <List>
-            <ListItem>
-                <Box>
-                    Menu
-                    {matches ? <LeftIconComp onClick={() => {dispatch({type: 'menu_close'})}} /> : ''}
-                </Box>
-            </ListItem>
+            <Box>
+                Menu
+                {matches ? <LeftIconComp onClick={() => {dispatch({type: 'menu_close'})}} /> : ''}
+            </Box>
             {
                 _.map(listItems, (v, i) => {
                     return (
-                    <ListItem key={i}>
-                        <Button>
-                            <Link className={classes.link} to={`/app/${v.link}`} onClick={handleLinkClick}>
-                                <v.iconComponent />
-                                <Box>{v.name}</Box>
-                            </Link>
-                        </Button>
+                    <ListItem key={i} className={classes.list}>
+                        <Link className={classes.link} to={`/app/${v.link}`} onClick={handleLinkClick}>
+                            <Button className={classes.menuBtn}>
+                                <Box className={classes.icon}><v.iconComponent /></Box>
+                                <Box className={classes.name}>{v.name}</Box>
+                            </Button>
+                        </Link>
                     </ListItem>
                     )
                 })
             }
+            <Box className={classes.sideFooter}>劇団沸管理アプリ</Box>
         </List>
     </Drawer>
     )

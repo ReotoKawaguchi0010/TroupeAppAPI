@@ -82,13 +82,13 @@ const CreatePerformance = (props: ArgsProps) => {
         props.open ? setOpenState({...openState, open: true}) : setOpenState({...openState, open: false})
     }, [props.open])
 
-    const {state, dispatch} = useContext(AppContext)
+    const {dispatch} = useContext(AppContext)
     const [openState, setOpenState] = useState({open: false})
     const [sendState, setSendState] = useState({title: ''})
 
     const classes = useStyles()
 
-    const handleCreate = (e: any) => {
+    const handleCreate = () => {
         if(sendState.title !== ''){
             performance_action({type: 'crete_performance', sendData: {title: sendState.title}}, dispatch)
             props.onClose()
@@ -118,7 +118,7 @@ const Main = () => {
     const {state, dispatch} = useContext(AppContext)
     const [openState, setOpenState] = useState(false)
     const classes = useStyles()
-    const {url, path} = useRouteMatch()
+    const {path} = useRouteMatch()
     const theme = useTheme()
     const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'))
     const spacing = !matches ? 3 : 6
@@ -148,16 +148,16 @@ const Main = () => {
                     _.map(state.performanceReducer.performances, (v, i) => {
                         return (
                         <Grid item xs={spacing} key={i}>
-                            <Button className={classes.titleBtn}>
-                                <Link to={`${path}/${v.id}`} className={classes.link}>
+                            <Link to={`${path}/${v.id}`} className={classes.link}>
+                                <Button className={classes.titleBtn}>
                                     <Paper classes={{root: classes.paperRoot}}>
                                         <Box className={classes.paperInBox}>
                                             {v.title}
                                         </Box>
                                         <Box className={classes.dateBox}>公演予定日:{v.date}</Box>
                                     </Paper>
-                                </Link>
-                            </Button>
+                                </Button>
+                            </Link>
                         </Grid>)
                     })
                 }
@@ -168,7 +168,7 @@ const Main = () => {
 
 
 export const Performances = () => {
-    const {url, path} = useRouteMatch()
+    const {path} = useRouteMatch()
 
     const routes = [
         {
