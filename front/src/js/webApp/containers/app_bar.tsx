@@ -208,8 +208,6 @@ export const SearchAppBar = () =>{
                     </Typography>
                     {!matches ? (
                         <Avatar onClick={handleMenuClick}
-                                onMouseOver={handleMenuClick}
-
                                 className={classes.menuAvatar}>
                             {'T'}
                         </Avatar>
@@ -243,10 +241,7 @@ export const SearchAppBar = () =>{
                       horizontal: 'center',
                     }}
                 >
-                    <Paper
-                        onMouseOver={handleMenuClick}
-                        onMouseOut={handleMenuClose}
-                    >
+                    <Paper>
                         <MenuItem>
                             <Link to="/app/profile"
                                   className={classes.profileLink}

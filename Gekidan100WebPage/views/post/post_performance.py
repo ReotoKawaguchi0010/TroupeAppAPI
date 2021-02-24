@@ -1,9 +1,6 @@
-import datetime
-import json
-
 from rest_framework.response import Response
 
-from Gekidan100WebPage.models.performance import Peformance, Cast, Staff, Schedule
+from Gekidan100WebPage.models.performance import Peformance, Schedule
 from Gekidan100WebPage.models.performance import Performance_Schedule
 
 

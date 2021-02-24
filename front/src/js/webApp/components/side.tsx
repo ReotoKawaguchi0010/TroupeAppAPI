@@ -68,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         margin: '10px 0'
     },
+    sideHeader: {
+        textAlign: 'center',
+    },
 }));
 
 const listItems = [
@@ -133,7 +136,7 @@ export const SideRoot: React.FC<SideRootArg> = ({open}) => {
             }}
     >
         <List>
-            <Box>
+            <Box className={classes.sideHeader}>
                 Menu
                 {matches ? <LeftIconComp onClick={() => {dispatch({type: 'menu_close'})}} /> : ''}
             </Box>

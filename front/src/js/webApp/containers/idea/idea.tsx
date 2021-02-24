@@ -4,6 +4,7 @@ import {useRouteMatch} from "react-router-dom";
 import {Grid, Paper, Box, Button, Fab, Drawer, Input, TextField, IconButton} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
 import {makeStyles} from "@material-ui/core/styles";
 import _ from "lodash";
 
@@ -11,6 +12,7 @@ import {RouteWithSubRoutes} from "js/routings/routings";
 import {create} from "js/utils/utils";
 import {AppContext} from "js/webApp/contexts/AppContext";
 import {createIdea} from "js/webApp/actions/actions";
+import {AlertUI} from "js/utils/utils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -83,7 +85,16 @@ const useStyles = makeStyles((theme) => ({
     },
     createWrapCloseBtn: {
         textAlign: 'right'
-    }
+    },
+    readIdeaWrapTitle: {
+        display: 'flex',
+        margin: '0 auto'
+    },
+    readIdeaTitle: {
+        padding: '12px 0',
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
 }));
 
 
@@ -91,7 +102,6 @@ interface CreateContentType {
     open: boolean
     onClose: () => void
 }
-
 
 interface ReadContentType {
     open: boolean
@@ -111,6 +121,10 @@ const CreateIdea: React.FC<CreateContentType> = ({open, onClose}) => {
     const [sendState, setSendState] = useState<any>({
             author: state.userReducer.user.username,
             itemValues: [],
+    })
+    const [alertState, setAlertState] = useState({
+        open: false,
+        text: '',
     })
     const classes = useStyles()
 
@@ -137,10 +151,14 @@ const CreateIdea: React.FC<CreateContentType> = ({open, onClose}) => {
 
     const handleClickSendBtn = () => {
         if(sendState.itemValues.length < itemsState.items.length){
-            alert('未入力の項目があります。')
+            setAlertState({...alertState, open: true, text: '未入力の項目があります。',})
         }else{
             createIdea({type: 'idea', sendData: sendState}, dispatch)
         }
+    }
+
+    const alertOnClose = () => {
+        setAlertState({...alertState, open: false})
     }
 
     return (
@@ -149,6 +167,7 @@ const CreateIdea: React.FC<CreateContentType> = ({open, onClose}) => {
                 ModalProps={{hideBackdrop: true, onClose: onClose}}
                 classes={{paper: classes.readIdeaPaper}}
         >
+            <AlertUI open={alertState.open} onClose={alertOnClose} text={alertState.text} />
             <div>
                 <Box className={classes.createWrapCloseBtn}><IconButton onClick={onClose}>
                     <CloseIcon />
@@ -167,8 +186,8 @@ const CreateIdea: React.FC<CreateContentType> = ({open, onClose}) => {
                                     <Box>{v.name}</Box>
                                     <Box>
                                         <TextField className={classes.wrapInput} multiline
-                                                    onChange={event => handleContentChange(event, i)}
-                                                    name={encodeURI(v.name)}
+                                                   onChange={event => handleContentChange(event, i)}
+                                                   name={encodeURI(v.name)}
                                         />
                                     </Box>
                                 </Box>
@@ -182,16 +201,51 @@ const CreateIdea: React.FC<CreateContentType> = ({open, onClose}) => {
     )
 }
 
+
+
+
 const ReadIdea: React.FC<ReadContentType> = ({open, onClose, contentNum}) => {
-    const {state} = useContext(AppContext)
+    const {state, dispatch} = useContext(AppContext)
     const classes = useStyles()
+
+    const deleteIdea = async (idea: any, type: string) => {
+        const res = await create.delete('/app/', {
+            params: {
+                type: type,
+                title: idea.title,
+                author: idea.author,
+                username: state.userReducer.user.username,
+            },
+        })
+        if(String(res.status).match(/200?/)) {
+            let copyArray = [...state.performanceReducer.idea]
+            copyArray = copyArray.filter(n => n !== contentNum)
+            dispatch({type: type, data: copyArray})
+        }
+        onClose()
+    }
+    console.log(state)
+
+    const deleteBtnClick = () => {
+        const title = state.performanceReducer.idea[contentNum].title
+        const isDelete = confirm(`${title}を削除しますか？`)
+        if(isDelete) deleteIdea(state.performanceReducer.idea[contentNum], 'delete_idea')
+    }
+
 
     return (
         <Drawer anchor={'top'} open={open} ModalProps={{hideBackdrop: true, onClose: onClose}} classes={{paper: classes.readIdeaPaper}}>
             <Box className={classes.createWrapCloseBtn}><IconButton onClick={onClose}>
                 <CloseIcon />
             </IconButton></Box>
-            <Box>{state.performanceReducer.idea[contentNum].title}</Box>
+            <Box className={classes.readIdeaWrapTitle}>
+                <Box className={classes.readIdeaTitle}>{state.performanceReducer.idea[contentNum].title}</Box>
+                <Box>
+                    <IconButton onClick={deleteBtnClick}>
+                        <DeleteIcon />
+                    </IconButton>
+                </Box>
+            </Box>
             <Box>
                 {_.map(state.performanceReducer.idea[contentNum].contents, (i, contents) => {
                     _.map(contents, (k, v) => {
@@ -243,7 +297,7 @@ const IdeaRoot = () => {
     const readContentClose = () => {
         setReadState({...readState, open: false})
     }
-    const readBtnClick = (contentNum: number) => {
+    const readContentOpen = (contentNum: number) => {
         setReadState({...readState, open: true, contentNum: contentNum})
     }
 
@@ -263,20 +317,11 @@ const IdeaRoot = () => {
                         return(
                         <Grid key={i} item xs={3}>
                             <Paper>
-                                <Button className={classes.contentButton} onClick={() => readBtnClick(i)}>
+                                <Button className={classes.contentButton} onClick={() => readContentOpen(i)}>
                                     <Box component={'h3'} className={classes.wrapContentTitle}>
                                         {v.title}
                                     </Box>
                                     <Box className={classes.author}>作成者: {v.author}</Box>
-                                    {
-                                        _.map(v.contents, (content, n) => {
-                                            return(
-                                            <Box key={n}>
-                                                {content.name}:{content.value}
-                                            </Box>
-                                            )
-                                        })
-                                    }
                                 </Button>
                             </Paper>
                         </Grid>

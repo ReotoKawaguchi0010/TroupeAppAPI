@@ -1,5 +1,44 @@
+import React from "react";
+import {Paper, Drawer, Button} from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
+
 import {API_PATH} from "js/configs/config";
+
+
+const useStyle = makeStyles(() => ({
+
+}))
+
+
+export interface AlertUIType {
+    open: boolean
+    onClose: () => void
+    text: string
+}
+
+export const AlertUI: React.FC<AlertUIType> = ({open, text, onClose}) => {
+    return (
+        <>
+            <Drawer open={open} ModalProps={{hideBackdrop: true, onClose: onClose}} anchor={'top'}>
+                <Paper>
+                    <div>{text}</div>
+                    <div>
+                        <Button onClick={onClose}>はい</Button>
+                    </div>
+                </Paper>
+            </Drawer>
+        </>
+    )
+}
+
+
+
+
+
+
+
+
 
 export const paramObj = (locationSearch: string) => {
     let paramObj: any = {};

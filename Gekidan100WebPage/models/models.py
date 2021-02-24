@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class VideoTicket(models.Model):
     mail_address = models.CharField(max_length=256)
@@ -20,8 +18,7 @@ class Idea(models.Model):
     @classmethod
     def read_util(cls, **kwargs):
         if cls.objects.filter(**kwargs).exists():
-            idea = cls.objects.get(**kwargs)
-            return idea
+            return cls.objects.filter(**kwargs)
         return False
 
     def exist(self):
@@ -35,6 +32,12 @@ class Idea(models.Model):
     def read(self):
         if self.__class__.objects.filter(title=self.title).exists() and self.__class__.objects.filter(author=self.author):
             return self.__class__.objects.get(title=self.title, author=self.author)
+        return False
+
+    def delete(self, using=None, keep_parents=False):
+        if self.__class__.objects.filter(title=self.title).exists():
+            idea = self.__class__.objects.get(title=self.title)
+            return idea
         return False
 
 class IdeaContents(models.Model):
@@ -57,6 +60,7 @@ class IdeaContents(models.Model):
         if not idea.exist():
             idea.create()
         self.idea_id = idea.read()
+        print(values)
         for _, v in values.items():
             self.name = v['name']
             self.value = v['value']
