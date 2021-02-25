@@ -6,9 +6,9 @@ import _ from "lodash";
 
 import {uploadFileAction} from "js/webApp/actions/performance_action";
 import {AppContext} from "js/webApp/contexts/AppContext";
-import {getPerformances, getScript} from "js/webApp/actions/performance_action";
+import {getScript} from "js/webApp/actions/performance_action";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     upload: {
         position: 'absolute',
         opacity: 0,
@@ -34,7 +34,7 @@ const UploadScript = () => {
         sendData: '',
         filename: '',
     })
-    const {state, dispatch} = useContext(AppContext)
+    const {dispatch} = useContext(AppContext)
     const classes = useStyles()
 
     const handleUpload = (e: any) => {
@@ -54,6 +54,16 @@ const UploadScript = () => {
             </Button>
             <span>{sendState.filename}</span>
             <Button onClick={handleSendClick}>send</Button>
+        </>
+    )
+}
+
+const DeleteScript = () => {
+    return (
+        <>
+            <div>
+                <Button>delete</Button>
+            </div>
         </>
     )
 }
@@ -99,14 +109,14 @@ export const Script = () => {
 
     }, [pageState])
 
-    const handleLeftClick = (e: any) => {
+    const handleLeftClick = () => {
         if(pageState.pageNum <= 0) return ''
         if(pageState.pageNum >= state.performanceReducer.scripts.totalPageNum) return ''
         let pageNum = pageState.pageNum + 1
         setPageState({...pageState, pageNum: pageNum})
     }
 
-    const handleRightClick = (e: any) => {
+    const handleRightClick = () => {
         if(pageState.pageNum <= 1) return ''
         if(pageState.pageNum > state.performanceReducer.scripts.totalPageNum) return ''
         let pageNum = pageState.pageNum - 1
@@ -118,6 +128,7 @@ export const Script = () => {
             <div>{state.performanceReducer.scripts.title}</div>
             <div>台本</div>
             <UploadScript />
+            <DeleteScript />
             <div className={classes.book} style={{writingMode: 'vertical-rl'}}>
                 <BoxInScript value={state.performanceReducer.scripts.scripts[pageState.pageNum-1]} />
             </div>

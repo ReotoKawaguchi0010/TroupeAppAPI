@@ -11,6 +11,10 @@ class PerformanceScript(models.Model):
     performance = models.ForeignKey(Peformance, on_delete=models.CASCADE)
     script = models.ForeignKey(Script, on_delete=models.CASCADE)
 
+    @classmethod
+    def search_script(cls):
+        return {}
+
     def get_script(self, performance_id, script_num):
         if self.performance.objects.filter(id=performance_id).exists():
             performance = self.performance.objects.get(id=performance_id)
