@@ -7,6 +7,7 @@ import _ from "lodash";
 import {uploadFileAction} from "js/webApp/actions/performance_action";
 import {AppContext} from "js/webApp/contexts/AppContext";
 import {getScript} from "js/webApp/actions/performance_action";
+import {create} from "js/utils/utils"
 
 const useStyles = makeStyles(() => ({
     upload: {
@@ -40,7 +41,6 @@ const UploadScript = () => {
     const handleUpload = (e: any) => {
         let file = e.target.files.item(0)
         Boolean(file)? setSendState({...sendState, sendData: file, filename: file.name}) : ''
-
     }
 
     const handleSendClick = () => {
@@ -59,10 +59,25 @@ const UploadScript = () => {
 }
 
 const DeleteScript = () => {
+    const { performance_id } = useParams<ParamsType>()
+
+    const deleteScript = async () => {
+        const res = await create.delete('/app/', {
+            params: {
+                type: 'delete_script',
+                performance_id: performance_id,
+            },
+        })
+
+        console.log(res)
+    }
+
+
+
     return (
         <>
             <div>
-                <Button>delete</Button>
+                <Button onClick={deleteScript}>delete</Button>
             </div>
         </>
     )

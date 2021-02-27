@@ -30,12 +30,11 @@ class ReadWordFiles(object):
             default_font_size = int(styles['w:styles']['w:docDefaults']['w:rPrDefault']['w:rPr']['w:sz']['@w:val']) / 2
             dom = etree.fromstring(xml_str)
             text_nodes = dom.xpath('//w:p', namespaces=xmlns)
-            text_list = {}
-            for i in range(len(text_nodes)):
-                text_node = text_nodes[i]
+            text_list = []
+            for text_node in text_nodes:
                 font_size = default_font_size
                 text = self.extract_text(text_node)
-                text_list[i] = {'text': text, 'font_size': font_size}
+                text_list.append({'text': text, 'font_size': font_size})
             self.text_list = text_list
             return text_list
 
