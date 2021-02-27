@@ -1,13 +1,13 @@
 import React, {useState, useContext, useEffect} from "react";
 import {useParams} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
-import {Input, Button} from "@material-ui/core";
+import {Input, Button, Select} from "@material-ui/core";
 import _ from "lodash";
 
 import {uploadFileAction} from "js/webApp/actions/performance_action";
 import {AppContext} from "js/webApp/contexts/AppContext";
 import {getScript} from "js/webApp/actions/performance_action";
-import {create} from "js/utils/utils"
+import {create, AlertUI} from "js/utils/utils"
 
 const useStyles = makeStyles(() => ({
     upload: {
@@ -60,24 +60,36 @@ const UploadScript = () => {
 
 const DeleteScript = () => {
     const { performance_id } = useParams<ParamsType>()
+    const [versionState, setVersionState] = useState('1');
+    const [alertState, setAlertState] = useState({
+        open: false,
+        text: '',
+    })
 
-    const deleteScript = async () => {
-        const res = await create.delete('/app/', {
-            params: {
-                type: 'delete_script',
-                performance_id: performance_id,
-            },
-        })
-
-        console.log(res)
+    const handleClose = () => {
+        setAlertState({...alertState, open: false})
     }
 
-
+    const deleteScript = async () => {
+        const confirmData = confirm('削除しますか？')
+        if(confirmData){
+            const res = await create.delete('/app/', {
+                params: {
+                    type: 'delete_script',
+                    performance_id: performance_id,
+                },
+            })
+            if (String(res.status).match(/200?/)) setAlertState({...alertState, open: true, text: '削除に成功しました'})
+        }
+        handleClose()
+    }
 
     return (
         <>
             <div>
                 <Button onClick={deleteScript}>delete</Button>
+                <AlertUI open={alertState.open} text={alertState.text} onClose={handleClose} />
+                <Select value={versionState} />
             </div>
         </>
     )

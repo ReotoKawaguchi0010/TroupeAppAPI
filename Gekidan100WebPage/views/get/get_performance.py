@@ -1,16 +1,14 @@
 from rest_framework.response import Response
 
-from Gekidan100WebPage.models.performance import Schedule, Cast, Performance_Schedule, Peformance, Staff
-from Gekidan100WebPage.models.performance.performance_script import models_get_script
+from Gekidan100WebPage.models.performance import Schedule, Cast, Performance_Schedule, Peformance, Staff, PerformanceScript
 
 
 def get_script(request, response: Response, data: dict):
     if 'performanceId' in data and 'scriptNum' in data:
         performance_id = int(data['performanceId'])
         script_num = int(data['scriptNum'])
-        script = models_get_script(performance_id, script_num)
-        if script:
-            response.data = script
+        script = PerformanceScript().json_read(performance_id, script_num)
+        response.data = script
     return response
 
 def get_performance(request, response: Response, data: dict):
