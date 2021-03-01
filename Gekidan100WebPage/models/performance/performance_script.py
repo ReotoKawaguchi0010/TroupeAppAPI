@@ -32,12 +32,12 @@ class PerformanceScript(models.Model):
             performance = Peformance.objects.get(id=performance_id)
             performance_script = self.__class__.objects.filter(performance=performance)
             if performance_script.exists():
-                return self.__class__.objects.get(performance=performance)
+                return self.__class__.objects.filter(performance=performance)
         return None
 
 
-    def json_read(self, performance_id, script_num):
-        performance_script = self.read(performance_id)
+    def json_read(self, performance_id, script_num, version):
+        performance_script = self.read(performance_id)[version]
         performance = performance_script.performance
         word_data = post_word_file(performance_script.script)
         total_page_num = math.ceil(len(word_data.text_list) / self.BUFFER_SIZE)

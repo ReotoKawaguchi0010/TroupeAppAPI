@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from "react";
 import {useParams} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
-import {Input, Button, Select} from "@material-ui/core";
+import {Input, Button, Select, MenuItem, Drawer} from "@material-ui/core";
 import _ from "lodash";
 
 import {uploadFileAction} from "js/webApp/actions/performance_action";
@@ -21,6 +21,11 @@ const useStyles = makeStyles(() => ({
     },
     pageNum: {
         textAlign: 'center',
+    },
+    scriptBox: {
+        margin: '2% 15% 0px 15%',
+        padding: 15,
+        borderRadius: 15,
     },
 }));
 
@@ -89,34 +94,20 @@ const DeleteScript = () => {
             <div>
                 <Button onClick={deleteScript}>delete</Button>
                 <AlertUI open={alertState.open} text={alertState.text} onClose={handleClose} />
-                <Select value={versionState} />
+                <Select value={versionState} >
+                    <MenuItem value={'1'}>1</MenuItem>
+                </Select>
             </div>
         </>
     )
 }
 
 interface BoxInScriptType {
-    value: any
+    open: boolean
+    onClose: () => void
 }
 
-const BoxInScript: React.FC<BoxInScriptType> = ({value}) => {
-    return (
-        <>
-            {
-                _.map(value, (script, i) => {
-                    return (
-                        <div key={i} style={{fontSize: Number(script.font_size)*1.5}}>
-                            {script.text === '' ? <br /> : script.text}
-                        </div>
-                    )
-                })
-            }
-        </>
-    )
-}
-
-
-export const Script = () => {
+const BoxInScript: React.FC<BoxInScriptType> = ({open, onClose}) => {
     const classes = useStyles()
     const { performance_id } = useParams<ParamsType>()
     const [pageState, setPageState] = useState({
@@ -151,19 +142,53 @@ export const Script = () => {
     }
 
     return (
-        <>
-            <div>{state.performanceReducer.scripts.title}</div>
-            <div>台本</div>
-            <UploadScript />
-            <DeleteScript />
+        <Drawer anchor={'top'} open={open} ModalProps={{hideBackdrop: true, onClose: onClose}} classes={{paper: classes.scriptBox}}>
             <div className={classes.book} style={{writingMode: 'vertical-rl'}}>
-                <BoxInScript value={state.performanceReducer.scripts.scripts[pageState.pageNum-1]} />
+                {
+                    _.map(state.performanceReducer.scripts.scripts[pageState.pageNum-1], (script, i) => {
+                        return (
+                            <div key={i} style={{fontSize: Number(script.font_size)*1.5}}>
+                                {script.text === '' ? <br /> : script.text}
+                            </div>
+                        )
+                    })
+                }
             </div>
+
             <div className={classes.pageNum}>
                 <Button onClick={handleLeftClick}>{'<'}</Button>
                 {pageState.pageNum}/{state.performanceReducer.scripts.totalPageNum}
                 <Button onClick={handleRightClick}>{'>'}</Button>
             </div>
+        </Drawer>
+    )
+}
+
+
+export const Script = () => {
+    const classes = useStyles()
+    const {state} = useContext(AppContext)
+    const [scriptOpenState, setScriptOpenState] = useState(false)
+
+    const handleScriptOpen = () => {
+        setScriptOpenState(true)
+    }
+
+    const scriptBoxClose = () => {
+        setScriptOpenState(false)
+    }
+
+    return (
+        <>
+            <div>{state.performanceReducer.scripts.title}</div>
+            <div>台本</div>
+            <UploadScript />
+            <DeleteScript />
+            <BoxInScript
+                open={scriptOpenState}
+                onClose={scriptBoxClose}
+            />
+            <Button onClick={handleScriptOpen}>台本をみる</Button>
         </>
     )
 }

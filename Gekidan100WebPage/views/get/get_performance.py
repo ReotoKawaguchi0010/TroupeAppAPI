@@ -7,7 +7,7 @@ def get_script(request, response: Response, data: dict):
     if 'performanceId' in data and 'scriptNum' in data:
         performance_id = int(data['performanceId'])
         script_num = int(data['scriptNum'])
-        script = PerformanceScript().json_read(performance_id, script_num)
+        script = PerformanceScript().json_read(performance_id, script_num, 0)
         response.data = script
     return response
 
