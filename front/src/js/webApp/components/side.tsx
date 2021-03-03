@@ -1,7 +1,8 @@
 import React, {useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
 import {Drawer, List, ListItem, Button, Box, useMediaQuery,
-useTheme} from "@material-ui/core";
+useTheme, IconButton} from "@material-ui/core";
+import HomeIcon from '@material-ui/icons/Home';
 import {makeStyles} from '@material-ui/core/styles';
 import _ from "lodash";
 
@@ -97,7 +98,7 @@ const listItems = [
     {
         name: 'ホームページ',
         iconComponent: DisplayIcon,
-        link: '',
+        link: 'edit_home_page',
     }
 ]
 
@@ -155,6 +156,9 @@ export const SideRoot: React.FC<SideRootArg> = ({open}) => {
                 })
             }
             <Box className={classes.sideFooter}>劇団沸管理アプリ</Box>
+            <Box className={classes.sideFooter}>
+                <IconButton><Link to={'/app'}><HomeIcon /></Link></IconButton>
+            </Box>
         </List>
     </Drawer>
     )

@@ -16,10 +16,10 @@ class PerformanceScript(models.Model):
             performance = Peformance.objects.filter(id=performanceID).exists()
             if performance:
                 self.performance = Peformance.objects.get(id=performanceID)
-            for key, value in files.items():
-                file_name = str(value)
+            for _, file in files.items():
+                file_name = str(file)
                 if '.docx' in file_name:
-                    self.script = value
+                    self.script = file
                     break
             self.save()
             return True
@@ -32,8 +32,15 @@ class PerformanceScript(models.Model):
             performance = Peformance.objects.get(id=performance_id)
             performance_script = self.__class__.objects.filter(performance=performance)
             if performance_script.exists():
-                return self.__class__.objects.filter(performance=performance)
+                return performance_script
         return None
+
+    def delete(self, using=None, keep_parents=False):
+        performance_script = self.__class__.objects.filter(performance=self.performance)
+        if performance_script.exists():
+            performance_script.delete()
+            return True
+        return False
 
 
     def json_read(self, performance_id, script_num, version):
@@ -50,11 +57,4 @@ class PerformanceScript(models.Model):
         }
         return script
 
-    def delete(self, using=None, keep_parents=False):
-        performance_script = self.__class__.objects.filter(performance=self.performance)
-        if performance_script.exists():
-            performance_script = self.__class__.objects.filter(performance=self.performance)
-            performance_script.delete()
-            return True
-        return False
 

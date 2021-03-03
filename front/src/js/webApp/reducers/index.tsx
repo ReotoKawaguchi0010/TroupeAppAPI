@@ -33,11 +33,17 @@ export interface IdeaType {
     title: string
 }
 
+export interface BudgetType {
+    fullBudget: number
+}
+
+
 export interface PerformanceReducerType {
     performances: any
     schedule: any
     scripts: any
     idea: IdeaType[]
+    budget: BudgetType
 }
 
 interface InitialStateType {
@@ -77,6 +83,9 @@ export const initialState: InitialStateType = {
             totalPageNum: 0,
         },
         idea: [{title: '', contents: [], author: ''}],
+        budget: {
+            fullBudget: 0,
+        }
     },
     viewReducer: {
         sideMenu: true,

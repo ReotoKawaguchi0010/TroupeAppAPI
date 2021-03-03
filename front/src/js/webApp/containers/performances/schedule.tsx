@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {useState, useRef, useEffect, useContext, ReactChild, ReactFragment, ReactPortal} from "react";
 import {useParams} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
@@ -240,10 +240,10 @@ interface ParamType {
     performance_id: any
 }
 
-type ReactNode = ReactChild | ReactFragment | ReactPortal | boolean | null | undefined;
 
 const Calendar = () => {
-    const {state, dispatch} = useContext(AppContext);
+    const {dispatch} = useContext(AppContext);
+    const calendarEl = useRef<any>(null);
 
     const {performance_id} = useParams<ParamType>();
     const classes = useStyles()
@@ -320,8 +320,6 @@ const Calendar = () => {
         setReadState({...readState, open: false})
     }
 
-
-    const calendarEl = useRef<any>(null);
 
     const handleNextClick = () => {
         let calendarApi = calendarEl.current.getApi()

@@ -1,7 +1,8 @@
 import React, {useState, useContext, useEffect} from "react";
 import {useParams} from "react-router";
 import {makeStyles} from "@material-ui/core/styles";
-import {Input, Button, Select, MenuItem, Drawer} from "@material-ui/core";
+import {Input, Button, Select, MenuItem, Drawer, IconButton} from "@material-ui/core";
+import CloseIcon from '@material-ui/icons/Close';
 import _ from "lodash";
 
 import {uploadFileAction} from "js/webApp/actions/performance_action";
@@ -26,6 +27,9 @@ const useStyles = makeStyles(() => ({
         margin: '2% 15% 0px 15%',
         padding: 15,
         borderRadius: 15,
+    },
+    closeBtn: {
+        textAlign: 'right',
     },
 }));
 
@@ -107,7 +111,7 @@ interface BoxInScriptType {
     onClose: () => void
 }
 
-const BoxInScript: React.FC<BoxInScriptType> = ({open, onClose}) => {
+const ReadScript: React.FC<BoxInScriptType> = ({open, onClose}) => {
     const classes = useStyles()
     const { performance_id } = useParams<ParamsType>()
     const [pageState, setPageState] = useState({
@@ -143,6 +147,7 @@ const BoxInScript: React.FC<BoxInScriptType> = ({open, onClose}) => {
 
     return (
         <Drawer anchor={'top'} open={open} ModalProps={{hideBackdrop: true, onClose: onClose}} classes={{paper: classes.scriptBox}}>
+            <div className={classes.closeBtn}><IconButton onClick={onClose}><CloseIcon /></IconButton></div>
             <div className={classes.book} style={{writingMode: 'vertical-rl'}}>
                 {
                     _.map(state.performanceReducer.scripts.scripts[pageState.pageNum-1], (script, i) => {
@@ -184,7 +189,7 @@ export const Script = () => {
             <div>台本</div>
             <UploadScript />
             <DeleteScript />
-            <BoxInScript
+            <ReadScript
                 open={scriptOpenState}
                 onClose={scriptBoxClose}
             />

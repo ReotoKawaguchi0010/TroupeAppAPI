@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from "react";
 import {Switch, Redirect} from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
-import {Container} from "@material-ui/core";
+import {Box, Container} from "@material-ui/core";
 import clsx from "clsx";
 import _ from "lodash";
 
@@ -13,7 +13,6 @@ import {Manual} from "js/webApp/containers/manual";
 import {Contract} from "js/webApp/containers/contract";
 import {Profile} from "js/webApp/containers/profile";
 import {RouteWithSubRoutes} from "js/routings/routings";
-import {Ttest} from "js/webApp/containers/edit_home_page";
 import {RoutesType} from "js/webPage/routings/routings";
 import {config} from "js/configs/config";
 import {create} from "js/utils/utils"
@@ -45,8 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const MainBody = () => {
     return (
         <Container>
-            main
-            <Ttest />
+            <Box>本日の予定</Box>
         </Container>
     )
 }

@@ -131,7 +131,7 @@ const Main = () => {
         setOpenState(true)
     }
 
-     const handleClose = () => {
+    const handleClose = () => {
         setOpenState(false)
     }
 
