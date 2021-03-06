@@ -2,6 +2,7 @@ from rest_framework.response import Response
 
 from Gekidan100WebPage.models.performance import Peformance, Schedule
 from Gekidan100WebPage.models.performance import Performance_Schedule
+from Gekidan100WebPage.models.performance import Budget
 
 
 def post_performance(request, response: Response, data: dict):
@@ -22,7 +23,14 @@ def post_schedule(request, response: Response, data: dict):
         performance_schedule.save()
     return response
 
+def post_budget(request, response: Response, data: dict):
+    performance_id = data['performanceId']
+    full_budget = data['fullBudget']
+    budget = Budget(item='test', price=300)
+    budget.create(performance_id=performance_id, full_budget=full_budget)
+    return response
+
+
 
 def upload_file(request, response: Response, data: dict):
-
     return response

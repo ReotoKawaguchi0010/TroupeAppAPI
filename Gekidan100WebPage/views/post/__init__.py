@@ -38,4 +38,6 @@ def main(request, response):
         response = post_performance.post_schedule(request, response, request_data)
     elif has_request_type(request_data, 'upload_script'):
         response = post_file.main(request, response, request_data)
+    elif has_request_type(request_data, 'create_budget'):
+        response = post_performance.post_budget(request, response, request_data)
     return response

@@ -1,10 +1,11 @@
 import React, {useState, useContext} from "react";
 import {useParams} from "react-router";
-import {IconButton, makeStyles, Drawer, TextField} from "@material-ui/core";
+import {IconButton, makeStyles, Drawer, TextField, Button} from "@material-ui/core";
 import SettingsIcon from '@material-ui/icons/Settings';
 import CloseIcon from '@material-ui/icons/Close';
 
 import {AppContext} from "js/webApp/contexts/AppContext";
+import {create} from "js/utils/utils";
 
 const useStyles = makeStyles(() => ({
     settingIcon: {
@@ -40,14 +41,34 @@ const SettingBudget: React.FC<MyDrawerProps> = ({open, onClose}) => {
 }
 
 
-const CreateBudget: React.FC = () => {
+const CreateBudget: React.FC<MyDrawerProps> = ({open, onClose}) => {
     const classes = useStyles()
+    const { performance_id } = useParams<ParamsType>()
+    const [sendState, setSendState] = useState({
+        fullBudget: '',
+    })
+
+    const postBudget = async () => {
+        const sendData = {
+            type: 'create_budget',
+            performanceId: performance_id,
+            fullBudget: sendState.fullBudget,
+        }
+        const res = await create.post('/app/', sendData)
+        if(String(res.status).match(/200?/)) onClose()
+    }
+
     return (
-        <>
+        <Drawer open={open} anchor={'top'}
+                ModalProps={{hideBackdrop: true, onClose: onClose}}
+                classes={{paper: classes.createDrawer}}>
+            <div>
+                <IconButton onClick={onClose}><CloseIcon /></IconButton>
+            </div>
             <div>この公演の予算</div>
-            <div><TextField /></div>
-            <div></div>
-        </>
+            <div><TextField onChange={(e: any) => {setSendState({...sendState, fullBudget: e.target.value})}} /></div>
+            <div><Button onClick={postBudget}>設定</Button></div>
+        </Drawer>
     )
 }
 
@@ -87,13 +108,20 @@ interface ParamsType {
 export const Budget = () => {
     const {state} = useContext(AppContext)
     const classes = useStyles()
-    const { performance_id } = useParams<ParamsType>()
+    const [createState, setCreateState] = useState({
+        open: true
+    })
+
+    const createOnClose = () => {
+        setCreateState({...createState, open: false})
+    }
 
     return (
         <>
             <div>予算</div>
             <div>
-                {state.performanceReducer.budget.fullBudget ? <ExistBudget /> : <CreateBudget />}
+                {state.performanceReducer.budget.fullBudget ? <ExistBudget /> : <CreateBudget open={createState.open}
+                                                                                              onClose={createOnClose}/>}
             </div>
         </>
     )
