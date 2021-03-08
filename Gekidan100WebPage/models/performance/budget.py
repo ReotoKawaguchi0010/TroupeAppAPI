@@ -17,3 +17,7 @@ class Budget(models.Model):
             full_budget = FullBudget(performance_id=performance_id, full_budget=full_budget)
             full_budget.save()
         return False
+
+    def read(self, performance_id):
+        full_budget = FullBudget.objects.filter(performance_id=performance_id)
+        return full_budget

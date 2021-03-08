@@ -1,6 +1,9 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import {useParams} from "react-router";
-import {IconButton, makeStyles, Drawer, TextField, Button} from "@material-ui/core";
+import {
+    IconButton, makeStyles, Drawer, TextField, Button,
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+} from "@material-ui/core";
 import SettingsIcon from '@material-ui/icons/Settings';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -74,9 +77,11 @@ const CreateBudget: React.FC<MyDrawerProps> = ({open, onClose}) => {
 
 
 
+interface BudgetDataProps {
+    data: any
+}
 
-
-const ExistBudget = () => {
+const ExistBudget: React.FC<BudgetDataProps> = ({data}) => {
     const classes = useStyles()
     const [createState, setCreateState] = useState({
         open: false
@@ -89,6 +94,8 @@ const ExistBudget = () => {
         setCreateState({...createState, open: false})
     }
 
+    console.log(data)
+
 
     return (
         <>
@@ -96,6 +103,21 @@ const ExistBudget = () => {
             <div className={classes.settingIcon}>
                 <IconButton onClick={settingOpen}><SettingsIcon /></IconButton>
             </div>
+            <TableContainer>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell colSpan={2}>予算</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell>目標予算</TableCell>
+                            <TableCell>{data.fullBudget}</TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </>
     )
 }
@@ -106,8 +128,8 @@ interface ParamsType {
 }
 
 export const Budget = () => {
-    const {state} = useContext(AppContext)
-    const classes = useStyles()
+    const { performance_id } = useParams<ParamsType>()
+    const {state, dispatch} = useContext(AppContext)
     const [createState, setCreateState] = useState({
         open: true
     })
@@ -116,11 +138,29 @@ export const Budget = () => {
         setCreateState({...createState, open: false})
     }
 
+    const getBudget = async () => {
+        const res = await create.get('/app/', {
+            params: {
+                type: 'get_budget',
+                performanceId: performance_id,
+            }
+        })
+        let data = {
+            fullBudget: res.data.full_budget
+        }
+        dispatch({type: 'get_budget', data: data})
+    }
+
+    useEffect(() => {
+        getBudget()
+    }, [])
+
+
     return (
         <>
             <div>予算</div>
             <div>
-                {state.performanceReducer.budget.fullBudget ? <ExistBudget /> : <CreateBudget open={createState.open}
+                {state.performanceReducer.budget.fullBudget ? <ExistBudget data={state.performanceReducer.budget} /> : <CreateBudget open={createState.open}
                                                                                               onClose={createOnClose}/>}
             </div>
         </>
