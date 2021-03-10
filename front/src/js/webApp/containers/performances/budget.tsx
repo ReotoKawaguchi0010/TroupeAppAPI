@@ -79,6 +79,26 @@ const CreateBudget: React.FC<MyDrawerProps> = ({open, onClose}) => {
 
 const AddBudget: React.FC<MyDrawerProps> = ({open, onClose}) => {
     const classes = useStyles()
+    const {state} = useContext(AppContext)
+    const { performance_id } = useParams<ParamsType>()
+    const [sendState, setSendState] = useState({
+        item: '',
+        price: '',
+    })
+
+    const postBudget = async () => {
+        const sendData = {
+            type: 'create_budget',
+            performanceId: performance_id,
+            fullBudget: state.performanceReducer.budget.fullBudget,
+            username: state.userReducer.user.username,
+            item: sendState.item,
+            price: sendState.price,
+        }
+        const res = await create.post('/app/', sendData)
+        if(String(res.status).match(/200?/)) onClose()
+    }
+
     return (
         <Drawer open={open} anchor={'top'}
                 ModalProps={{hideBackdrop: true, onClose: onClose}}
@@ -87,10 +107,10 @@ const AddBudget: React.FC<MyDrawerProps> = ({open, onClose}) => {
                 <IconButton onClick={onClose}><CloseIcon /></IconButton>
             </div>
             <div>内容</div>
-            <div><TextField /></div>
+            <div><TextField onChange={(e: any) => setSendState({...sendState, item: e.target.value})} /></div>
             <div>価格</div>
-            <div><TextField /></div>
-            <div><Button>追加</Button></div>
+            <div><TextField onChange={(e: any) => setSendState({...sendState, price: e.target.value})} /></div>
+            <div><Button onClick={postBudget}>追加</Button></div>
         </Drawer>
     )
 }
