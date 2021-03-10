@@ -6,6 +6,7 @@ import {
 } from "@material-ui/core";
 import SettingsIcon from '@material-ui/icons/Settings';
 import CloseIcon from '@material-ui/icons/Close';
+import AddIcon from '@material-ui/icons/Add';
 
 import {AppContext} from "js/webApp/contexts/AppContext";
 import {create} from "js/utils/utils";
@@ -76,6 +77,25 @@ const CreateBudget: React.FC<MyDrawerProps> = ({open, onClose}) => {
 }
 
 
+const AddBudget: React.FC<MyDrawerProps> = ({open, onClose}) => {
+    const classes = useStyles()
+    return (
+        <Drawer open={open} anchor={'top'}
+                ModalProps={{hideBackdrop: true, onClose: onClose}}
+                classes={{paper: classes.createDrawer}}>
+            <div>
+                <IconButton onClick={onClose}><CloseIcon /></IconButton>
+            </div>
+            <div>内容</div>
+            <div><TextField /></div>
+            <div>価格</div>
+            <div><TextField /></div>
+            <div><Button>追加</Button></div>
+        </Drawer>
+    )
+}
+
+
 
 interface BudgetDataProps {
     data: any
@@ -86,6 +106,16 @@ const ExistBudget: React.FC<BudgetDataProps> = ({data}) => {
     const [createState, setCreateState] = useState({
         open: false
     })
+    const [addState, setAddState] = useState({
+        open: false
+    })
+
+    const addOpen = () => {
+        setAddState({...addState, open: true})
+    }
+    const addClose = () => {
+        setAddState({...addState, open: false})
+    }
 
     const settingOpen = () => {
         setCreateState({...createState, open: true})
@@ -94,20 +124,20 @@ const ExistBudget: React.FC<BudgetDataProps> = ({data}) => {
         setCreateState({...createState, open: false})
     }
 
-    console.log(data)
-
-
     return (
         <>
             <SettingBudget open={createState.open} onClose={settingClose} />
+            <AddBudget open={addState.open} onClose={addClose} />
             <div className={classes.settingIcon}>
                 <IconButton onClick={settingOpen}><SettingsIcon /></IconButton>
             </div>
+            <div><IconButton onClick={addOpen}><AddIcon /></IconButton></div>
             <TableContainer>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell colSpan={2}>予算</TableCell>
+                            <TableCell>内容</TableCell>
+                            <TableCell>予算</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -160,8 +190,9 @@ export const Budget = () => {
         <>
             <div>予算</div>
             <div>
-                {state.performanceReducer.budget.fullBudget ? <ExistBudget data={state.performanceReducer.budget} /> : <CreateBudget open={createState.open}
-                                                                                              onClose={createOnClose}/>}
+                {state.performanceReducer.budget.fullBudget ?
+                    <ExistBudget data={state.performanceReducer.budget} /> :
+                    <CreateBudget open={createState.open} onClose={createOnClose}/>}
             </div>
         </>
     )
