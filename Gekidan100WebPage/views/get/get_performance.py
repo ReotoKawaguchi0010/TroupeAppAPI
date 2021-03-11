@@ -49,8 +49,6 @@ def get_schedule(request, response: Response, data: dict):
 
 def get_budget(request, response: Response, data: dict):
     performance_id = int(data['performanceId'])
-    full_budget = Budget().read(performance_id)
-    response.data = {
-        'full_budget': full_budget.get().full_budget
-    }
+    budget = Budget().read(performance_id)
+    response.data = budget
     return response

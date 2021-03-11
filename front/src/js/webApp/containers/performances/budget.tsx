@@ -7,6 +7,7 @@ import {
 import SettingsIcon from '@material-ui/icons/Settings';
 import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
+import _ from "lodash"
 
 import {AppContext} from "js/webApp/contexts/AppContext";
 import {create} from "js/utils/utils";
@@ -165,6 +166,18 @@ const ExistBudget: React.FC<BudgetDataProps> = ({data}) => {
                             <TableCell>目標予算</TableCell>
                             <TableCell>{data.fullBudget}</TableCell>
                         </TableRow>
+                        {_.map(data.budget, (v, i) => {
+                            return (
+                                <TableRow key={i}>
+                                    <TableCell>{v.item}</TableCell>
+                                    <TableCell>{v.price}</TableCell>
+                                </TableRow>
+                            )
+                        })}
+                        <TableRow>
+                            <TableCell>残金</TableCell>
+                            <TableCell>{data.balance}</TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -196,7 +209,9 @@ export const Budget = () => {
             }
         })
         let data = {
-            fullBudget: res.data.full_budget
+            fullBudget: res.data.full_budget,
+            budget: res.data.budget,
+            balance: res.data.balance
         }
         dispatch({type: 'get_budget', data: data})
     }

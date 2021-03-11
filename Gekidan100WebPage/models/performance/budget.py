@@ -33,4 +33,16 @@ class Budget(models.Model):
 
     def read(self, performance_id):
         full_budget = FullBudget.objects.filter(performance_id=performance_id)
-        return full_budget
+        budgets = self.__class__.objects.filter(full_budget=full_budget.get())
+        full_budget = full_budget.get().full_budget
+        total_price = 0
+        item_price = []
+        for budget in budgets:
+            total_price += budget.price
+            item_price.append({'item': budget.item, 'price': budget.price})
+        budget_obj = {
+            'full_budget': full_budget,
+            'budget': item_price,
+            'balance': full_budget - total_price
+        }
+        return budget_obj
