@@ -1,6 +1,9 @@
 from rest_framework.response import Response
 
-from Gekidan100WebPage.models.performance import Schedule, Cast, Performance_Schedule, Peformance, Staff, PerformanceScript
+from Gekidan100WebPage.models.performance import Performance_Schedule
+from Gekidan100WebPage.models.performance import Peformance
+from Gekidan100WebPage.models.performance import PerformanceScript
+from Gekidan100WebPage.models.performance import Budget, FullBudget
 
 
 def get_script(request, response: Response, data: dict):
@@ -42,4 +45,10 @@ def get_schedule(request, response: Response, data: dict):
                 }
                 response_data.append(event_data)
     response.data = response_data
+    return response
+
+def get_budget(request, response: Response, data: dict):
+    performance_id = int(data['performanceId'])
+    budget = Budget().read(performance_id)
+    response.data = budget
     return response

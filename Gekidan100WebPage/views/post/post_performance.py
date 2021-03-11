@@ -26,8 +26,12 @@ def post_schedule(request, response: Response, data: dict):
 def post_budget(request, response: Response, data: dict):
     performance_id = data['performanceId']
     full_budget = data['fullBudget']
-    budget = Budget(item='test', price=300)
-    budget.create(performance_id=performance_id, full_budget=full_budget)
+    username = data['username']
+    budget = Budget()
+    if 'item' in data and 'price' in data:
+        budget.item = data['item']
+        budget.price = data['price']
+    budget.create(performance_id=performance_id, full_budget=full_budget, username=username)
     return response
 
 

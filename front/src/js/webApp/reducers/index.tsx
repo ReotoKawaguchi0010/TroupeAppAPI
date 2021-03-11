@@ -33,8 +33,15 @@ export interface IdeaType {
     title: string
 }
 
+export interface Budget {
+    item: string
+    price: number
+}
+
 export interface BudgetType {
     fullBudget: number
+    budget: Budget[]
+    balance: number
 }
 
 
@@ -85,6 +92,8 @@ export const initialState: InitialStateType = {
         idea: [{title: '', contents: [], author: ''}],
         budget: {
             fullBudget: 0,
+            budget: [],
+            balance: 0,
         }
     },
     viewReducer: {
