@@ -39,6 +39,9 @@ export const performanceReducer = (
             return {...state, idea: action.data}
         case 'get_budget':
             return {...state, budget: action.data}
+        case 'get_users':
+
+            return {...state, users: action.data}
         default:
             return state
     }

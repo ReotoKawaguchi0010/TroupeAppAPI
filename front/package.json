@@ -57,6 +57,8 @@
     "react": "^16.14.0",
     "react-blob": "^2.1.0",
     "react-calendar": "^3.2.1",
+    "react-dnd": "14.0.1",
+    "react-dnd-html5-backend": "14.0.0",
     "react-dom": "^16.14.0",
     "react-google-charts": "^3.0.15",
     "react-redux": "^7.2.1",

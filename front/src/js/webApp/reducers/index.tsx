@@ -51,6 +51,7 @@ export interface PerformanceReducerType {
     scripts: any
     idea: IdeaType[]
     budget: BudgetType
+    users: UsersProps[]
 }
 
 interface InitialStateType {
@@ -59,6 +60,11 @@ interface InitialStateType {
     viewReducer: any
 }
 
+interface UsersProps {
+    username: string
+    firstName: string
+    lastName: string
+}
 
 
 export const initialState: InitialStateType = {
@@ -94,7 +100,8 @@ export const initialState: InitialStateType = {
             fullBudget: 0,
             budget: [],
             balance: 0,
-        }
+        },
+        users: [],
     },
     viewReducer: {
         sideMenu: true,
