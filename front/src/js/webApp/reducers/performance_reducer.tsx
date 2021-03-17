@@ -1,8 +1,13 @@
 import _ from "lodash"
 
-import {PerformanceType, ScheduleTime, ScriptsType,
-ScriptType, ScheduleType, InitialPerformance} from "js/types";
+import {ScriptsType, UsersProps} from "js/types/using_reducer_types";
 import {initialState} from "js/webApp/reducers";
+
+interface GetUsers {
+    username: string
+    first_name: string
+    last_name: string
+}
 
 export const performanceReducer = (
     state=initialState.performanceReducer,
@@ -40,8 +45,16 @@ export const performanceReducer = (
         case 'get_budget':
             return {...state, budget: action.data}
         case 'get_users':
-
-            return {...state, users: action.data}
+            let data: UsersProps[] = []
+            action.data.map((v: GetUsers) => {
+                let user: UsersProps = {
+                    username: v.username,
+                    firstName: v.first_name,
+                    lastName: v.last_name,
+                }
+                data.push(user)
+            })
+            return {...state, users: data}
         default:
             return state
     }
