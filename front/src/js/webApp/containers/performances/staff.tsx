@@ -1,20 +1,18 @@
 import React, {useContext, useEffect} from "react";
-import {DndProvider, useDrag, useDrop, DragSourceMonitor} from "react-dnd";
-import {HTML5Backend} from "react-dnd-html5-backend";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {Box, Card} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
-import clsx from "clsx";
+//import {makeStyles} from "@material-ui/core/styles";
 
 import {create} from "js/utils/utils"
 import {UsersProps} from "js/types/using_reducer_types";
 import {AppContext} from "js/webApp/contexts/AppContext";
 
 
-const useStyles = makeStyles((theme) => ({
-    drag: {
-        color: '#665644',
-    },
-}));
+// const useStyles = makeStyles(() => ({
+//     drag: {
+//         color: '#665644',
+//     },
+// }));
 
 
 interface UserBoxProps{
@@ -22,50 +20,21 @@ interface UserBoxProps{
     users: UsersProps
 }
 
-const styles: React.CSSProperties = {
-  border: '1px dashed gray',
-  padding: '0.5rem 1rem',
-  cursor: 'move',
-}
-
 const UserBox: React.FC<UserBoxProps> = ({index, users}) => {
-    const classes = useStyles()
-    const [{isDragging}, drag] = useDrag(() => ({
-        type: 'test',
-        collect: (monitor) => {
-            return {
-                isDragging: monitor.isDragging(),
-            }
-        },
-        item: (monitor: DragSourceMonitor) => {
-            console.log(monitor)
-            return monitor
-        },
-    }))
-    const transform = `translate3d(0px, 0px, 0)`
-    return <Card key={index} ref={drag} style={{
-    position: 'absolute',
-    transform,
-    WebkitTransform: transform,
-    // IE fallback: hide the real node using CSS when dragging
-    // because IE will ignore our custom "empty image" drag preview.
-    opacity: isDragging ? 0 : 1,
-    height: isDragging ? 0 : '',
-  }}><div style={{...styles, background: 'yellow'}} role={'Box'}>{users.firstName} {users.lastName}</div></Card>
+    return (<Draggable draggableId={String(index)} index={index} key={index}>
+        {
+            provided => (
+                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                    {users.firstName} {users.lastName}
+                </div>
+            )
+        }
+        </Draggable>)
 }
-
-
 
 
 const DragComponent = () => {
     const {state, dispatch} = useContext(AppContext)
-    const [, drop] = useDrop(() => ({
-        accept: 'test',
-        collect: (monitor) => ({
-            isOver: monitor.isOver(),
-        }),
-
-    }))
 
 
     const getUsers = async () => {
@@ -77,14 +46,16 @@ const DragComponent = () => {
         })
         dispatch({type: 'get_users', data: res.data})
     }
-
     useEffect(() => {
         getUsers()
     }, [])
 
+    const test = () => {
+        console.log('test')
+    }
 
     return (
-        <>
+        <DragDropContext onDragEnd={test}>
             <div>
                 {
                     state.performanceReducer.users.map((v: UsersProps, i: number) => {
@@ -92,7 +63,7 @@ const DragComponent = () => {
                     })
                 }
             </div>
-            <div ref={drop}>
+            <div>
                 <div>舞台監督</div>
                 <Box />
                 <div>舞台演出家</div>
@@ -102,7 +73,7 @@ const DragComponent = () => {
                 <div>衣装</div>
                 <div>音響</div>
             </div>
-        </>
+        </DragDropContext>
     )
 }
 
@@ -110,12 +81,12 @@ const DragComponent = () => {
 
 export const Staff = () => {
     return (
-        <DndProvider backend={HTML5Backend}>
+        <>
             <div>staff</div>
             <DragComponent />
             <div>
 
             </div>
-        </DndProvider>
+        </>
     )
 }
