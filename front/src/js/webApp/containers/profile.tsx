@@ -5,11 +5,13 @@ import EditIcon from "@material-ui/icons/Edit"
 import {AppContext} from "js/webApp/contexts/AppContext";
 
 export const Profile = () => {
-    const {state, dispatch} = useContext(AppContext)
+    const {state} = useContext(AppContext)
 
     return (
         <Container>
             <div>プロフィール</div>
+
+            <Button>ユーザーの作成</Button>
 
             <Card>
                 <List>

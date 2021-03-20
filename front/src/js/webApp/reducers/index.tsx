@@ -4,61 +4,12 @@ import {userReducer} from "js/webApp/reducers/user_reducer";
 import {performanceReducer} from "js/webApp/reducers/performance_reducer";
 import {viewReducer} from "js/webApp/reducers/view_reducer";
 
-import {ScheduleTime, InitialPerformance} from "js/types";
+import {ScheduleTime, InitialStateType} from "js/types/using_reducer_types";
 
 
 export const initialTime: ScheduleTime = {
     date: 0, day: '', hours: 0, minute: 0, month: 0, year: '',
 }
-
-
-interface UserInUserReducerType {
-    contact: string
-    email: string
-    firstName: string
-    lastName: string
-    introduction: string
-    profileImageUrl: string
-    username: string
-}
-
-export interface UserReducerType {
-    login: boolean
-    user: UserInUserReducerType
-}
-
-export interface IdeaType {
-    author: string
-    contents: []
-    title: string
-}
-
-export interface Budget {
-    item: string
-    price: number
-}
-
-export interface BudgetType {
-    fullBudget: number
-    budget: Budget[]
-    balance: number
-}
-
-
-export interface PerformanceReducerType {
-    performances: any
-    schedule: any
-    scripts: any
-    idea: IdeaType[]
-    budget: BudgetType
-}
-
-interface InitialStateType {
-    userReducer: UserReducerType
-    performanceReducer: PerformanceReducerType
-    viewReducer: any
-}
-
 
 
 export const initialState: InitialStateType = {
@@ -94,7 +45,8 @@ export const initialState: InitialStateType = {
             fullBudget: 0,
             budget: [],
             balance: 0,
-        }
+        },
+        users: [],
     },
     viewReducer: {
         sideMenu: true,

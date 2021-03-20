@@ -4,6 +4,7 @@ from Gekidan100WebPage.models.performance import Performance_Schedule
 from Gekidan100WebPage.models.performance import Peformance
 from Gekidan100WebPage.models.performance import PerformanceScript
 from Gekidan100WebPage.models.performance import Budget, FullBudget
+from Gekidan100WebPage.models.user import UserData
 
 
 def get_script(request, response: Response, data: dict):
@@ -52,3 +53,9 @@ def get_budget(request, response: Response, data: dict):
     budget = Budget().read(performance_id)
     response.data = budget
     return response
+
+def get_users(request, response: Response, data: dict):
+    users = UserData().read_all()
+    response.data = users
+    return response
+

@@ -3,7 +3,7 @@ import React, {useReducer} from "react";
 import reducers from "js/webPage/reducers"
 import { Routings } from "js/webPage/routings/routings";
 import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
-import {initialState, InitialStateType} from "js/webPage/reducers";
+import {initialState} from "js/webPage/reducers";
 
 interface ProvideTypes {
     children: object

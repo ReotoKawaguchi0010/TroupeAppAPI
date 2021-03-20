@@ -1,4 +1,5 @@
-import {initialState, UserReducerType} from "js/webApp/reducers";
+import {initialState} from "js/webApp/reducers";
+import {UserReducerType} from "js/types/using_reducer_types";
 
 let login: boolean
 let newState: UserReducerType
