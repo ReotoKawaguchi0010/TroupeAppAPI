@@ -1,10 +1,10 @@
-import React, {useContext, useEffect} from "react";
+import React from "react";
 import _ from "lodash";
 import {Switch} from "react-router";
 
 import { Main } from "js/webApp/components/main";
 import { Login } from "js/webApp/containers/login";
-import {RouteWithSubRoutes} from "js/routings/routings";
+import {RouteWithSubRoutes} from "js/routes/routes";
 
 const routes = [
     {
@@ -23,7 +23,7 @@ const routes = [
 ];
 
 
-export const Routings = () => {
+export const Routes = () => {
 
 
     return (

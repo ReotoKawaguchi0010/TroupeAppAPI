@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {RouteWithSubRoutes} from "../../routings/routings";
+import React, {useState} from "react";
+import {RouteWithSubRoutes} from "js/routes/routes";
 import {Switch, useHistory} from "react-router-dom";
 import _ from "lodash"
 
@@ -7,6 +7,8 @@ import {Main} from "js/webPage/components/main";
 import {Member} from "js/webPage/containers/member";
 import {Ticket} from "js/webPage/containers/ticket";
 import {Contact} from "js/webPage/containers/contact";
+import {VideoTicket} from "js/webPage/containers/video_ticket";
+import {Contents} from "js/webPage/containers/contents";
 
 import "../../../css/style.scss"
 
@@ -35,13 +37,21 @@ const routes: RoutesType[] = [
         component: Contact,
     },
     {
+        path: '/content',
+        component: VideoTicket,
+    },
+    {
+        path: '/contents',
+        component: Contents,
+    },
+    {
         path: '/',
         component: Main,
     },
 ]
 
 
-export const Routings = () => {
+export const Routes = () => {
     const [historyState, setHistoryState] = useState("")
     const history = useHistory()
     history.listen(() => {

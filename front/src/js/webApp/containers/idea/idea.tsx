@@ -8,7 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {makeStyles} from "@material-ui/core/styles";
 import _ from "lodash";
 
-import {RouteWithSubRoutes} from "js/routings/routings";
+import {RouteWithSubRoutes} from "js/routes/routes";
 import {create} from "js/utils/utils";
 import {AppContext} from "js/webApp/contexts/AppContext";
 import {createIdea} from "js/webApp/actions/actions";

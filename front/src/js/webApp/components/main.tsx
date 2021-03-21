@@ -12,8 +12,8 @@ import {Idea} from "js/webApp/containers/idea/idea";
 import {Manual} from "js/webApp/containers/manual";
 import {Contract} from "js/webApp/containers/contract";
 import {Profile} from "js/webApp/containers/profile";
-import {RouteWithSubRoutes} from "js/routings/routings";
-import {RoutesType} from "js/webPage/routings/routings";
+import {RouteWithSubRoutes} from "js/routes/routes";
+import {RoutesType} from "js/webPage/routes/routes";
 import {config} from "js/configs/config";
 import {create} from "js/utils/utils"
 
