@@ -1,13 +1,9 @@
 import _ from "lodash"
 
-import {ScriptsType, UsersProps} from "js/types/using_reducer_types";
+import {ScriptsType, UsersProps, IdeaType, IdeaContentType} from "js/types/using_reducer_types";
+import {GetUsers, GetIdea, GetIdeaContent} from "js/types/json_types";
 import {initialState} from "js/webApp/reducers";
 
-interface GetUsers {
-    username: string
-    first_name: string
-    last_name: string
-}
 
 export const performanceReducer = (
     state=initialState.performanceReducer,
@@ -39,7 +35,25 @@ export const performanceReducer = (
             }
             return {...state, scripts: scripts}
         case 'get_idea':
-            return {...state, idea: action.data}
+            let getIdeas: IdeaType[] = []
+            action.data.map((v: GetIdea) => {
+                let contents: IdeaContentType[] = []
+                let getContents: GetIdeaContent[] = v.contents
+                getContents.map((g: GetIdeaContent) => {
+                    let content: GetIdeaContent = {
+                        name: g.name,
+                        value: g.value,
+                    }
+                    contents.push(content)
+                })
+                let idea: IdeaType = {
+                    author: v.author,
+                    contents: contents,
+                    title: v.title,
+                }
+                getIdeas.push(idea)
+            })
+            return Boolean(getIdeas.length) ? {...state, idea: getIdeas} : {...state}
         case 'delete_idea':
             return {...state, idea: action.data}
         case 'get_budget':

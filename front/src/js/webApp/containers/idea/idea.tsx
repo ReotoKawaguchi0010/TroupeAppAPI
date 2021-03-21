@@ -13,6 +13,8 @@ import {create} from "js/utils/utils";
 import {AppContext} from "js/webApp/contexts/AppContext";
 import {createIdea} from "js/webApp/actions/actions";
 import {AlertUI} from "js/utils/utils";
+import {GetIdea} from "js/types/json_types";
+import {IdeaType} from "js/types/using_reducer_types";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -279,7 +281,10 @@ const IdeaRoot = () => {
                 data: 'all',
             }
         })
-        if(String(res.status).match(/200?/)) dispatch({type: 'get_idea', data: res.data})
+        if(String(res.status).match(/200?/)){
+            const jsonData: GetIdea[] = res.data
+            dispatch({type: 'get_idea', data: jsonData})
+        }
         return res.data
     }
     useEffect(() => {
@@ -301,6 +306,8 @@ const IdeaRoot = () => {
         setReadState({...readState, open: true, contentNum: contentNum})
     }
 
+
+
     return (
         <>
             <CreateIdea open={createState} onClose={createContentClose} />
@@ -313,20 +320,22 @@ const IdeaRoot = () => {
                     </Fab>
                 </div>
                 <Grid container spacing={3}>
-                    {_.map(state.performanceReducer.idea, (v: any, i: number) => {
-                        return(
-                        <Grid key={i} item xs={3}>
-                            <Paper>
-                                <Button className={classes.contentButton} onClick={() => readContentOpen(i)}>
-                                    <Box component={'h3'} className={classes.wrapContentTitle}>
-                                        {v.title}
-                                    </Box>
-                                    <Box className={classes.author}>作成者: {v.author}</Box>
-                                </Button>
-                            </Paper>
-                        </Grid>
-                        )
-                    })}
+                    {
+                        _.map(state.performanceReducer.idea, (v: IdeaType, i: number) => {
+                            return v.initial === undefined ?  (
+                                <Grid key={i} item xs={3}>(
+                                    <Paper>
+                                        <Button className={classes.contentButton} onClick={() => readContentOpen(i)}>
+                                            <Box component={'h3'} className={classes.wrapContentTitle}>
+                                                {v.title}
+                                            </Box>
+                                            <Box className={classes.author}>作成者: {v.author}</Box>
+                                        </Button>
+                                    </Paper>
+                                </Grid>
+                            ) : ''
+                        })
+                    }
                 </Grid>
             </div>
         </>

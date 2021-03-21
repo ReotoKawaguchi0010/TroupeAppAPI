@@ -18,10 +18,17 @@ export interface UserReducerType {
 
 
 //=============performanceReducer types=============
+export interface IdeaContentType{
+    name: string
+    value: string
+}
+
+
 export interface IdeaType {
     author: string
-    contents: []
+    contents: IdeaContentType[]
     title: string
+    initial? : boolean
 }
 
 export interface Budget {
