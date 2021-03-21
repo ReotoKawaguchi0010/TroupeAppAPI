@@ -21,7 +21,8 @@ interface UserBoxProps{
 }
 
 const UserBox: React.FC<UserBoxProps> = ({index, users}) => {
-    return (<Draggable draggableId={String(index)} index={index} key={index}>
+    return (
+        <Draggable draggableId={String(index)} index={index} key={index}>
         {
             provided => (
                 <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
@@ -29,7 +30,8 @@ const UserBox: React.FC<UserBoxProps> = ({index, users}) => {
                 </div>
             )
         }
-        </Draggable>)
+        </Draggable>
+    )
 }
 
 
