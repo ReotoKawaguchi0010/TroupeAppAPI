@@ -40,7 +40,7 @@ export const initialState: InitialStateType = {
             title: '',
             totalPageNum: 0,
         },
-        idea: [{title: '', contents: [], author: ''}],
+        idea: [{title: '', contents: [], author: '', initial: true}],
         budget: {
             fullBudget: 0,
             budget: [],
