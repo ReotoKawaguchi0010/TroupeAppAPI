@@ -26,13 +26,16 @@ const Main = () => {
     const classes = useStyles()
     const {path} = useRouteMatch()
     return (
-        <div className={classes.body}>
-            <Box>Contents</Box>
-            <div>
-                <div><Link to={`${path}/video`}><Button>Video</Button></Link></div>
-                <div><Link to={`${path}/music`}><Button>Music</Button></Link></div>
+        <>
+            <MenuIcon />
+            <div className={classes.body}>
+                <Box>Contents</Box>
+                <div>
+                    <div><Link to={`${path}/video`}><Button>Video</Button></Link></div>
+                    <div><Link to={`${path}/music`}><Button>Music</Button></Link></div>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 
@@ -53,7 +56,6 @@ export const Contents = () => {
     ];
     return (
         <>
-            <MenuIcon />
             <Switch>
                 {routes.map((route, i) => (
                     <RouteWithSubRoutes key={i} {...route} />

@@ -63,6 +63,7 @@ export const VideoTicket = () => {
         isLoading: false,
     })
     const classes = useStyles()
+    console.log(ticketState)
 
     const getPayPalPath = async () => {
         setTicketState({...ticketState, isLoading: true})
