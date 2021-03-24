@@ -7,6 +7,7 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 
 import {MenuIcon} from "js/webPage/components/menu"
 import {VideoTicket} from "js/webPage/containers/video_ticket";
+import {Videos} from "js/webPage/containers/video";
 import {RouteWithSubRoutes} from "js/routes/routes";
 
 
@@ -43,14 +44,13 @@ export const Contents = () => {
     const routes = [
         {
             path: `${path}/video`,
-            component: VideoTicket,
+            component: Videos,
         },
         {
             path: path,
             component: Main,
         }
     ];
-    console.log(path)
     return (
         <>
             <MenuIcon />

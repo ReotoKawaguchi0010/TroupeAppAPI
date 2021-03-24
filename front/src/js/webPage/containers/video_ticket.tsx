@@ -1,9 +1,11 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {makeStyles, createStyles, Theme} from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
 import {PayPalIcon} from "js/webPage/containers/icons";
 import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
+import {Loading} from "js/webPage/containers/loading";
+import {create} from "js/utils/utils";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -56,10 +58,28 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const VideoTicket = () => {
     const {state, dispatch} = useContext(PageStoreContext)
-    console.log(state)
+    const [ticketState, setTicketState] = useState({
+        url: '',
+        isLoading: false,
+    })
     const classes = useStyles()
+
+    const getPayPalPath = async () => {
+        setTicketState({...ticketState, isLoading: true})
+        const res = await create.get('/', {
+            params: {
+                video_ticket: 'true'
+            },
+        })
+        setTicketState({...ticketState, url: res.data.url, isLoading: false})
+    }
+
+    useEffect(() => {
+        getPayPalPath()
+    }, [])
     return (
-        <React.Fragment>
+        <>
+            {ticketState.isLoading? <Loading />: false}
             <div className={classes.body}>
                 <div>
                     <div>
@@ -79,13 +99,13 @@ export const VideoTicket = () => {
                                     <div>概要</div>
                                     <div>1500円</div>
                                 </div>
-                                <a href={'http://test'} className={classes.nextText}><div className={classes.nextBtn}>続行</div></a>
+                                <a href={ticketState.url} className={classes.nextText}><div className={classes.nextBtn}>続行</div></a>
                             </div>
                         </div>
                         <div>取引を完了するために、PayPalのセキュリティで保護されたサーバーに移動します。</div>
                     </div>
                 </div>
             </div>
-        </React.Fragment>
+        </>
     )
 }

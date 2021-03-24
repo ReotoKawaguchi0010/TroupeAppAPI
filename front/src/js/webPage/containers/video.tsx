@@ -2,8 +2,10 @@ import React, {useEffect} from "react";
 import axios from "axios";
 // @ts-ignore
 import { Player, ControlBar } from "video-react";
+import { Link } from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
-import {Redirect} from "react-router";
+import {Redirect, useRouteMatch} from "react-router";
+import {List, ListItem, Box, Button} from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +23,13 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.between('sm', 'md')]: {
            display: 'inline-block',
         },
+    },
+    wrapVideoList: {
+        padding: '100px 200px 0 200px',
+    },
+    videoListItem: {
+        display: 'block',
+        textAlign: 'left',
     },
 }));
 
@@ -43,25 +52,63 @@ export const Video = (props: any) => {
             <Redirect to='/' />
         )
     }
+
+    const getVideo = async () => {
+        try{
+            const res = await axios.get(url, {
+                responseType: 'blob',
+            })
+            let blob = new Blob([res.data])
+            let blobURL = (window.webkitURL || window.URL).createObjectURL(blob)
+            setState({...state, url: blobURL})
+        }catch (e) {
+            return e
+        }
+    }
+
     useEffect(() => {
-        axios.get(url, {
-            responseType: 'blob',
-        }).then(
-            (res) => {
-                let blob = new Blob([res.data])
-                let blobURL = (window.webkitURL || window.URL).createObjectURL(blob)
-                setState({...state, url: blobURL})
-            }
-        )
+        const err = getVideo()
+        console.log(err)
     }, [])
 
     return (
-        <React.Fragment>
+        <>
             <div onContextMenu={rightClick} className={classes.wrapPlayer}>
                 <Player src={state.url} className={classes.player}>
                     <ControlBar autoHide={false} />
                 </Player>
             </div>
-        </React.Fragment>
+        </>
     )
 }
+
+
+export const Videos = () => {
+    const {path} = useRouteMatch()
+    const classes = useStyles()
+    return (
+        <>
+            <Box className={classes.wrapVideoList}>
+                <List>
+                    <ListItem className={classes.videoListItem}>
+                        <Link to={`${path}/1`}><Button>第1回公演</Button></Link>
+                    </ListItem>
+                    <ListItem className={classes.videoListItem}>
+                        <Link to={`${path}/2`}><Button>第2回公演</Button></Link>
+                    </ListItem>
+                    <ListItem className={classes.videoListItem}>
+                        <Link to={`${path}/3`}><Button>第3回公演</Button></Link>
+                    </ListItem>
+                    <ListItem className={classes.videoListItem}>
+                        <Link to={`${path}/4`}><Button>第4回公演</Button></Link>
+                    </ListItem>
+                </List>
+            </Box>
+        </>
+    )
+}
+
+
+
+
+
