@@ -1,14 +1,15 @@
-import React, {useEffect} from "react";
-import axios from "axios";
+import React, {useEffect, useState} from "react";
+import axios, {AxiosResponse} from "axios";
 // @ts-ignore
 import { Player, ControlBar } from "video-react";
 import { Link } from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
-import {Redirect, Switch, useRouteMatch} from "react-router";
+import {Redirect, Switch, useRouteMatch, useParams} from "react-router";
 import {List, ListItem, Box, Button} from "@material-ui/core";
 import {RouteWithSubRoutes} from "../../routes/routes";
 
 import {VideoTicket} from "js/webPage/containers/video_ticket";
+import {create} from "js/utils/utils";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,12 +38,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+interface ParamsType{
+    videoId: string
+}
+
+
 export const Video = () => {
     const classes = useStyles()
+    const {videoId} = useParams<ParamsType>()
     const [state, setState] = React.useState({url: '', playing: false, classes: classes})
+    const [redirectState, setRedirectState] = useState(false)
 
-    const {params} = useRouteMatch()
-    console.log(params)
+    const {path} = useRouteMatch()
+    console.log(path)
 
 
     const rightClick = (e: any) => {
@@ -59,7 +67,7 @@ export const Video = () => {
     //     )
     // }
 
-    const getVideo = async () => {
+    const getVideo = async (url: string) => {
         try{
             const res = await axios.get(url, {
                 responseType: 'blob',
@@ -67,18 +75,36 @@ export const Video = () => {
             let blob = new Blob([res.data])
             let blobURL = (window.webkitURL || window.URL).createObjectURL(blob)
             setState({...state, url: blobURL})
+        }catch (e: Error | any) {
+            console.error(e)
+        }
+    }
+
+    const checkBuyVideoTicket = async () => {
+        try{
+            const res = await create.get('/', {
+                params: {
+                    video_id : videoId
+                },
+            })
+            if(res.data.bought_ticket){
+                const video = await getVideo(url)
+            }else{
+                setRedirectState(true)
+            }
         }catch (e) {
-            return e
+            console.error(e)
         }
     }
 
     useEffect(() => {
-        const err = getVideo()
-        console.log(err)
+        checkBuyVideoTicket()
+        getVideo(url)
     }, [])
 
     return (
         <>
+            {redirectState? <Redirect to={`${videoId}/streaming_ticket`} />: ''}
             <div onContextMenu={rightClick} className={classes.wrapPlayer}>
                 <Player src={state.url} className={classes.player}>
                     <ControlBar autoHide={false} />
@@ -105,22 +131,24 @@ export const Videos = () => {
             path: `${path}`,
             component: () => {
                 return (
-                    <Box className={classes.wrapVideoList}>
-                        <List>
-                            <ListItem className={classes.videoListItem}>
-                                <Link to={`${path}/1`}><Button>第1回公演</Button></Link>
-                            </ListItem>
-                            <ListItem className={classes.videoListItem}>
-                                <Link to={`${path}/2`}><Button>第2回公演</Button></Link>
-                            </ListItem>
-                            <ListItem className={classes.videoListItem}>
-                                <Link to={`${path}/3`}><Button>第3回公演</Button></Link>
-                            </ListItem>
-                            <ListItem className={classes.videoListItem}>
-                                <Link to={`${path}/4`}><Button>第4回公演</Button></Link>
-                            </ListItem>
-                        </List>
-                    </Box>
+                    <>
+                        <Box className={classes.wrapVideoList}>
+                            <List>
+                                <ListItem className={classes.videoListItem}>
+                                    <Link to={`${path}/1`}><Button>第1回公演</Button></Link>
+                                </ListItem>
+                                <ListItem className={classes.videoListItem}>
+                                    <Link to={`${path}/2`}><Button>第2回公演</Button></Link>
+                                </ListItem>
+                                <ListItem className={classes.videoListItem}>
+                                    <Link to={`${path}/3`}><Button>第3回公演</Button></Link>
+                                </ListItem>
+                                <ListItem className={classes.videoListItem}>
+                                    <Link to={`${path}/4`}><Button>第4回公演</Button></Link>
+                                </ListItem>
+                            </List>
+                        </Box>
+                    </>
                 )
             },
         },
