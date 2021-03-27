@@ -10,11 +10,8 @@ def has_request_type(request_data, has_data):
         return has_data in request_type
     return False
 
-def has_get_type(request, *has_data):
-    result_bool = False
-    for i in has_data:
+def has_get_type(request, *params):
+    for i in params:
         if request.GET.get(i) is None:
-            result_bool = False
-            break
-        result_bool = True
-    return result_bool
+            return False
+    return True

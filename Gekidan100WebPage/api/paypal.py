@@ -1,9 +1,7 @@
-import requests
-import json
-
 from paypalpayoutssdk.core import PayPalHttpClient, SandboxEnvironment, LiveEnvironment
 import paypalrestsdk
 
+from Gekidan100.config.config import USE_DOMAIN
 from Gekidan100WebPage.config.config import PAYPAL_SANDBOX_ACCOUNT, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET
 
 class PayPAlClient(object):
@@ -29,12 +27,11 @@ class PayPAlClient(object):
             },
             # Set redirect URLs
             "redirect_urls": {
-                "return_url": "http://localhost:3000/",
-                "cancel_url": "http://localhost:3000/"
+                "return_url": USE_DOMAIN[0],
+                "cancel_url": USE_DOMAIN[0],
             },
             # Set transaction object
             "transactions": [{
-
                 "amount": {
                     "total": "1500",
                     "currency": "JPY"

@@ -15,9 +15,10 @@ def home_page(request, response):
     twitter_text = tweet.user_timeline(5)
     recruitment_text = ''
     data = {'status': OK, 'texts': {'news': news_text, 'about_us': about_us_text, 'blog': blog_text,
-                                      'twitter': twitter_text, 'recruitment': recruitment_text}}
+                                    'twitter': twitter_text, 'recruitment': recruitment_text}}
     response.data = data
     return response
+
 
 def video_ticket(request, response):
     pay_client = PayPAlClient()
@@ -25,6 +26,7 @@ def video_ticket(request, response):
     data = {'video_ticket': 'true', 'url': pay_url}
     response.data = data
     return response
+
 
 def pay_out(request, response):
     pay_id = request.GET.get('paymentId')
@@ -36,18 +38,16 @@ def pay_out(request, response):
         response.data = data
     return response
 
+
 def is_check_video_ticket(request, response):
     if request.session.get('video_ticket') is None:
-        request.session['video_ticket'] = 'video_id'
-        if not request.session.session_key:
-            request.session.create()
-        status = {'fail': {'status_code': UNAUTHORIZED}, 'bool': 0}
-        response.data = status
-        response.set_cookie('sessionid', request.session.session_key)
+        response.data = {'bought_ticket': False, 'url': ''}
+        #request.session['video_ticket'] = 'video_id'
+        # if not request.session.session_key:
+        #     request.session.create()
+        #response.set_cookie('sessionid', request.session.session_key)
     else:
-        status = {'success': {'status_code': OK}, 'bool': 1}
-        response.data = status
-        return response
+        response.data = {'bought_ticket': True, 'url': ''}
     return response
 
 
@@ -56,7 +56,7 @@ def main(request, response: Response):
         response = video_ticket(request, response)
     elif has_get_type(request, 'paymentId', 'PayerID'):
         response = pay_out(request, response)
-    elif has_get_type('videoId'):
+    elif has_get_type(request, 'video_id'):
         response = is_check_video_ticket(request, response)
     else:
         response = home_page(request, response)

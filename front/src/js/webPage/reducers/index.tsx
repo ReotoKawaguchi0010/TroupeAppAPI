@@ -25,6 +25,7 @@ export interface HttpType {
     bool: boolean
     status: number
     texts: HttpTextType
+    contents: any
 }
 
 
@@ -43,7 +44,8 @@ export const initialState: InitialStateType = {
             recruitment: '',
             twitter: [],
         },
-    }
+        contents: {},
+    },
 }
 
 export default combineReducers({http})

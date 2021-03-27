@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from Gekidan100.config.config import PRO_SECRET_KEY, PSQL_NAME, PSQL_PASS, PSQL_USER, MODE_CORS_ORIGIN_WHITELIST
+from Gekidan100.config.config import PRO_SECRET_KEY, PSQL_NAME, PSQL_PASS, PSQL_USER, USE_DOMAIN
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -56,7 +56,7 @@ MIDDLEWARE = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = MODE_CORS_ORIGIN_WHITELIST
+CORS_ORIGIN_WHITELIST = USE_DOMAIN
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 

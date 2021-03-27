@@ -12,7 +12,6 @@ import News from "js/webPage/containers/news";
 import AboutUs from "js/webPage/containers/about_us";
 import {GET_ROOT_PATH} from "js/webPage/actions/action";
 import {getRootPath} from "js/webPage/actions/action";
-import {Parameters} from "js/webPage/containers/querys";
 import {Loading} from "js/webPage/containers/loading";
 
 
@@ -110,7 +109,7 @@ const MainFunc = () => {
         })
     }, [])
 
-    return query.toString() !== '' ? <Parameters /> :(
+    return (
             <>
                 {
                     mainState.isLoading ? <Loading /> : <></>

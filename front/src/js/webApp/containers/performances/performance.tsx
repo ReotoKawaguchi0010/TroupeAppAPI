@@ -10,7 +10,7 @@ import {Staff} from "js/webApp/containers/performances/staff";
 import {Schedule} from "js/webApp/containers/performances/schedule";
 import {Script} from "js/webApp/containers/performances/script";
 import {Budget} from "js/webApp/containers/performances/budget";
-import {RouteWithSubRoutes} from "js/routings/routings";
+import {RouteWithSubRoutes} from "js/routes/routes";
 import {create} from "js/utils/utils";
 
 const useStyles = makeStyles((theme) => ({

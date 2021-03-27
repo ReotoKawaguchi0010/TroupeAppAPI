@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Grid, Paper, Box, Container, Button, Input, Modal, useMediaQuery, useTheme} from "@material-ui/core";
 import _ from "lodash";
 
-import {RouteWithSubRoutes} from "js/routings/routings";
+import {RouteWithSubRoutes} from "js/routes/routes";
 import {Performance} from "js/webApp/containers/performances/performance";
 import {performance_action, getPerformances} from "js/webApp/actions/performance_action";
 import {AppContext} from "js/webApp/contexts/AppContext";

@@ -1,7 +1,7 @@
 import React, {useReducer} from "react";
 
 import reducers from "js/webPage/reducers"
-import { Routings } from "js/webPage/routings/routings";
+import { Routes } from "js/webPage/routes/routes";
 import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 import {initialState} from "js/webPage/reducers";
 
@@ -19,7 +19,7 @@ export const webPage = () => {
     return (
         <Provider>
             <div className="web-page">
-                <Routings />
+                <Routes />
             </div>
         </Provider>
     )

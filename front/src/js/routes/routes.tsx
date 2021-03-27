@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import {webPage} from "js/webPage";
 import {webApp} from "js/webApp";
-import {RoutesType} from "js/webPage/routings/routings";
+import {RoutesType} from "js/webPage/routes/routes";
 
 const routes: RoutesType[] = [
     {
@@ -33,7 +33,7 @@ export const RouteWithSubRoutes: React.FC<RoutesType> = (route: any) => {
 }
 
 
-export const Routing = () => {
+export const Routes = () => {
     return (
         <Router>
             <Switch>

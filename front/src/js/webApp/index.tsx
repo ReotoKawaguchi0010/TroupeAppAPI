@@ -1,6 +1,6 @@
 import React, {useEffect, useReducer} from "react";
 
-import {Routings} from "js/webApp/routings/routings";
+import {Routes} from "js/webApp/routes/routes";
 import reducers, {initialState} from "js/webApp/reducers";
 import {AppContext} from "js/webApp/contexts/AppContext";
 
@@ -22,7 +22,7 @@ export const webApp = () => {
     return (
         <React.Fragment>
             <Provider>
-                <Routings />
+                <Routes />
             </Provider>
         </React.Fragment>
     )
