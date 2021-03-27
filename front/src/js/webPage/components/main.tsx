@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
 
 import {Header} from "js/webPage/components/header";
@@ -13,6 +12,7 @@ import AboutUs from "js/webPage/containers/about_us";
 import {GET_ROOT_PATH} from "js/webPage/actions/action";
 import {getRootPath} from "js/webPage/actions/action";
 import {Loading} from "js/webPage/containers/loading";
+
 
 
 const pcStyles = {
@@ -100,8 +100,6 @@ const MainFunc = () => {
     const [mainState, setMainState] = useState({isLoading: false})
     const classes = useStyles()
 
-    const query = new URLSearchParams(String(useLocation().search))
-
     useEffect(() => {
         setMainState({...mainState, isLoading: true})
         getRootPath({type: GET_ROOT_PATH, state: state}, dispatch).then(() => {
@@ -143,6 +141,7 @@ const MainFunc = () => {
 }
 
 export const Main = () => {
+
     return (
         <React.Fragment>
             <MainFunc />

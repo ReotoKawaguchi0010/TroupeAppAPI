@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {RouteWithSubRoutes} from "js/routes/routes";
-import {Switch, useHistory} from "react-router-dom";
+import {Switch, useHistory, useLocation, } from "react-router-dom";
+import {History} from "history";
 import _ from "lodash"
 
 import {Main} from "js/webPage/components/main";
@@ -51,8 +52,14 @@ const routes: RoutesType[] = [
 ]
 
 
+interface ParamsSplit{
+    () : {}
+}
+
+
 export const Routes = () => {
     const [historyState, setHistoryState] = useState("")
+    const [paramsState, setParamsState] = useState({})
     const history = useHistory()
     history.listen(() => {
         if(historyState !== history.location.pathname) {
@@ -60,6 +67,8 @@ export const Routes = () => {
             window.scroll(0, 0)
         }
     })
+
+    console.log(useLocation().search)
 
     return (
         <>
