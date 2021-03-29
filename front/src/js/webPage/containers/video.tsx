@@ -99,7 +99,6 @@ export const Video = () => {
 
     useEffect(() => {
         checkBuyVideoTicket()
-        getVideo(url)
     }, [])
 
     return (
