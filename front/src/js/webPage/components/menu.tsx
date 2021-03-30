@@ -1,36 +1,45 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {createStyles, withStyles, makeStyles} from "@material-ui/core/styles";
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import CloseIcon from '@material-ui/icons/Close';
 import {Drawer} from "@material-ui/core";
 import {Link} from "react-router-dom";
-import { makeStyles } from '@material-ui/core/styles';
 
 import youtubeIcon from "images/icons/youtube_logo_official.png";
 import instagramIcon from "images/icons/instagram_logo_official.png";
 import twitterIcon from "images/icons/twitter_logo_official.png";
-import logo from "images/futsu_logo.png"
+import logo from "images/futsu_logo.png";
 
-const pcStyles = {
+
+const useStyles = makeStyles((theme) => createStyles({
     headImg: {
         width: "15%",
         height: 'auto',
+        [theme.breakpoints.between('xs', 'md')]: {
+            width: "25%",
+        },
     },
     logo: {
         position: 'fixed',
         top: '30px',
         left: '2%',
-        zIndex: '1',
+        zIndex: 1,
     },
     menuIcon: {
         position: 'fixed',
         top: '30px',
         left: 'calc(100% - 100px)',
-        zIndex: '1',
+        zIndex: 1,
+        [theme.breakpoints.between('xs', 'md')]: {
+            left: 'calc(100% - 170px)',
+        },
     },
     menuHeader: {
         display: 'flex',
         height: '150px',
+        [theme.breakpoints.between('xs', 'md')]: {
+            height: '300px',
+        },
     },
     menuLogo: {
         width: '100%',
@@ -46,6 +55,10 @@ const pcStyles = {
         textAlign: 'center',
         color: '#ffffff',
         height: '110px',
+        [theme.breakpoints.between('xs', 'md')]: {
+            height: '220px',
+            fontSize: '50px',
+        },
     },
     menuFooter: {
         display: 'flex',
@@ -69,7 +82,10 @@ const pcStyles = {
     iconStyle: {
         color: '#C14949',
         fontSize: '70px',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        [theme.breakpoints.between('xs', 'md')]: {
+            fontSize: '150px',
+        },
     },
     closeIconStyle:{
         fontSize: '70px',
@@ -78,94 +94,17 @@ const pcStyles = {
         position: 'absolute',
         right: 30,
         top: 30,
+        [theme.breakpoints.between('xs', 'md')]: {
+            fontSize: '150px',
+        },
     },
     linkStyle:{
         justifyContent: 'center',
         color: '#ffffff',
         textDecoration: 'none',
     },
-}
-
-const mobStyles = {
-    headImg: {
-        width: "25%",
-        height: 'auto',
-    },
-    logo: {
-        position: 'fixed',
-        top: '30px',
-        left: '2%',
-        zIndex: '1',
-    },
-    menuIcon: {
-        position: 'fixed',
-        top: '30px',
-        left: 'calc(100% - 170px)',
-        zIndex: '1',
-    },
-    menuHeader: {
-        display: 'flex',
-        height: '300px',
-    },
-    menuLogo: {
-        width: '100%',
-        textAlign: 'center',
-        color: '#ffffff',
-        position: 'absolute',
-        top: '30px',
-    },
-    menuImage: {
-        width: '15%',
-    },
-    menuContent: {
-        textAlign: 'center',
-        color: '#ffffff',
-        height: '220px',
-        fontSize: '50px',
-    },
-    menuFooter: {
-        display: 'flex',
-        width: '100%',
-    },
-    youtubeIco:{
-        width: '33%',
-        textAlign: 'right',
-    },
-    instagramIco:{
-        width: '33%',
-        textAlign: 'center',
-    },
-    twitterIco:{
-        width: '33%',
-        textAlign: 'left',
-    },
-    img: {
-        width: '70%',
-    },
-    iconStyle: {
-        color: '#C14949',
-        fontSize: '150px',
-        cursor: 'pointer'
-    },
-    closeIconStyle:{
-        fontSize: '150px',
-        cursor: 'pointer',
-        color: '#C14949',
-        position: 'absolute',
-        right: 30,
-        top: 30,
-    },
-    linkStyle:{
-        justifyContent: 'center',
-        color: '#ffffff',
-        textDecoration: 'none',
-    },
-}
-
-const useStyles = makeStyles((theme) => ({
-    [theme.breakpoints.between('md', 'xl')]: pcStyles,
-    [theme.breakpoints.between('xs', 'md')]: mobStyles,
 }));
+
 
 const StyledDrawer = withStyles((theme) => ({
     [theme.breakpoints.between('md', 'xl')]: {
@@ -182,9 +121,8 @@ const StyledDrawer = withStyles((theme) => ({
 }))(Drawer)
 
 
-
-
-function HeadIcon(){
+export const MenuIcon = () => {
+    const classes = useStyles()
     const [state, setState] = React.useState({
         anchor: false,
     });
@@ -202,11 +140,8 @@ function HeadIcon(){
     const mouseOut = (e: any) => {
         e.currentTarget.style.color = '#C14949';
     }
-
-    const classes = useStyles()
-
     return (
-        <React.Fragment>
+        <>
             <div>
                 <div className={classes.logo}><Link to="/"><img className={classes.headImg} src={logo} alt="Logo" /></Link></div>
                 <div className={classes.menuIcon}>
@@ -242,14 +177,6 @@ function HeadIcon(){
                     </div>
                 </div>
             </StyledDrawer>
-        </React.Fragment>
-    )
-}
-
-export const MenuIcon = () => {
-    return (
-        <React.Fragment>
-           <HeadIcon />
-        </React.Fragment>
+        </>
     )
 }

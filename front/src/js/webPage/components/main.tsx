@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 
 import {Header} from "js/webPage/components/header";
-import Footer from "js/webPage/components/footer";
+import {Footer} from "js/webPage/components/footer";
 import { PageStoreContext } from "js/webPage/contexts/PageStoreContext"
 import Twitter from "js/webPage/containers/twitter"
 import AmeBlo from "js/webPage/containers/ameba_blog";
@@ -12,90 +12,91 @@ import AboutUs from "js/webPage/containers/about_us";
 import {GET_ROOT_PATH} from "js/webPage/actions/action";
 import {getRootPath} from "js/webPage/actions/action";
 import {Loading} from "js/webPage/containers/loading";
+import mainGif from "../../../images/main_gif.gif";
 
 
-
-const pcStyles = {
+const useStyles = makeStyles((theme) => ({
     main: {
         background: '#f5f5f5',
     },
     aboutUs: {
         display: 'flex',
+        [theme.breakpoints.between('xs', 'md')]: {
+            display: 'block',
+            textAlign: 'center',
+        },
     },
     news: {
         marginLeft: 'calc(50% - 1.5em * 4)',
+        [theme.breakpoints.between('xs', 'md')]: {
+            marginLeft: '0',
+            textAlign: 'center',
+        },
     },
     blogTwt: {
         display: 'flex',
+        [theme.breakpoints.between('xs', 'md')]: {
+            display: 'block',
+        },
     },
     blog: {
         width:'50%',
         textAlign:'center',
+        [theme.breakpoints.between('xs', 'md')]: {
+            width:'100%',
+        },
     },
     twt: {
         width:'50%',
         textAlign:'center',
+        [theme.breakpoints.between('xs', 'md')]: {
+            width:'100%',
+        },
     },
     history: {
         padding: '0 150px',
     },
     historyTitle: {
         textAlign: 'center',
-    },
-    typography:{},
-    videoTicket: {
-        title: {
-            textAlign: 'center',
-        }
-    },
-}
-
-const mobStyles = {
-    main: {
-        background: '#f5f5f5',
-    },
-    aboutUs: {
-        display: 'block',
-        textAlign: 'center',
-    },
-    news: {
-        marginLeft: '0',
-        textAlign: 'center',
-    },
-    blogTwt: {
-        display: 'block',
-    },
-    blog: {
-        width:'100%',
-        textAlign:'center',
-    },
-    twt: {
-        width:'100%',
-        textAlign:'center',
-    },
-    history: {
-        padding: '0 150px',
-    },
-    historyTitle: {
-        fontSize: '50px',
-        textAlign: 'center',
+        [theme.breakpoints.between('xs', 'md')]: {
+            fontSize: '50px',
+        },
     },
     typography:{
-        padding: '0 25px'
+        [theme.breakpoints.between('xs', 'md')]: {
+            padding: '0 25px',
+        },
     },
-    videoTicket: {
-        title: {
-            textAlign: 'center',
-        }
+    mainHeader: {
+        height: 935,
     },
-}
-
-const useStyles = makeStyles((theme) => ({
-    [theme.breakpoints.between('md', 'xl')]: pcStyles,
-    [theme.breakpoints.between('xs', 'md')]: mobStyles,
+    figure: {
+        margin: 0,
+        position: 'relative',
+    },
+    img: {
+        width: '100vw',
+        height: '935px',
+    },
+    title: {
+        position: 'absolute',
+        top: '30%',
+        width: '100%',
+        color: '#ffffff',
+    },
+    jaTitle: {
+        textAlign: 'center',
+        fontSize: 105,
+        lineHeight: '105px',
+    },
+    enTitle: {
+        textAlign: 'center',
+        fontSize: 26,
+    },
 }));
 
-const MainFunc = () => {
+
+export const Main = () => {
     const {state, dispatch} = useContext(PageStoreContext)
     const [mainState, setMainState] = useState({isLoading: false})
     const classes = useStyles()
@@ -106,45 +107,44 @@ const MainFunc = () => {
             setMainState({...mainState, isLoading: false})
         })
     }, [])
-
     return (
-            <>
-                {
-                    mainState.isLoading ? <Loading /> : <></>
-                }
-                <Header />
-                <main className={classes.main}>
-                    <div className={classes.typography}>
-                        <div className={classes.aboutUs}>
-                            <AboutUs />
+        <>
+            {
+                mainState.isLoading ? <Loading /> : <></>
+            }
+            <Header />
+            <header className={classes.mainHeader}>
+                <figure className={classes.figure}>
+                    <div><img src={mainGif} alt={"mainGif"} className={classes.img} /></div>
+                    <div className={classes.title}>
+                        <div className={classes.jaTitle}>劇団沸</div>
+                        <div className={classes.enTitle}>Futsu Theater Company</div>
+                    </div>
+                </figure>
+            </header>
+            <main className={classes.main}>
+                <div className={classes.typography}>
+                    <div className={classes.aboutUs}>
+                        <AboutUs />
+                    </div>
+                    <div className={classes.news}>
+                        <News />
+                    </div>
+                    <div className={classes.blogTwt}>
+                        <div className={classes.blog}>
+                            <AmeBlo />
                         </div>
-                        <div className={classes.news}>
-                            <News />
-                        </div>
-                        <div className={classes.blogTwt}>
-                            <div className={classes.blog}>
-                                <AmeBlo />
-                            </div>
-                            <div className={classes.twt}>
-                                <Twitter />
-                            </div>
+                        <div className={classes.twt}>
+                            <Twitter />
                         </div>
                     </div>
-                    <div className={classes.history}>
-                        <h2 className={classes.historyTitle}>History</h2>
-                       <div><History /></div>
-                    </div>
-                </main>
-                <Footer />
-            </>
-        )
-}
-
-export const Main = () => {
-
-    return (
-        <React.Fragment>
-            <MainFunc />
-        </React.Fragment>
+                </div>
+                <div className={classes.history}>
+                    <h2 className={classes.historyTitle}>History</h2>
+                   <div><History /></div>
+                </div>
+            </main>
+            <Footer />
+        </>
     )
 }

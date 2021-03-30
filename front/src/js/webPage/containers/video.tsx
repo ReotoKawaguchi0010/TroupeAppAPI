@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
 // @ts-ignore
 import { Player, ControlBar } from "video-react";
 import { Link } from "react-router-dom";
@@ -59,13 +59,6 @@ export const Video = () => {
     }
 
     let url = 'https://dl.dropboxusercontent.com/s/3e2v703d33resr0/%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%E3%82%BA%E3%80%8ETEXT%E3%80%8F%E3%82%88%E3%82%8A%E3%80%8C%E9%8A%80%E6%B2%B3%E9%89%84%E9%81%93%E3%81%AE%E5%A4%9C%E3%81%AE%E3%82%88%E3%81%86%E3%81%AA%E5%A4%9C%E3%80%8D_480p.mp4'
-
-
-    // if(!Boolean(props.data.bool)){
-    //     return(
-    //         <Redirect to='/' />
-    //     )
-    // }
 
     const getVideo = async (url: string) => {
         try{

@@ -14,7 +14,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import _ from "lodash";
 
 import {MenuIcon} from "js/webPage/components/menu";
-import Footer from "js/webPage/components/footer";
+import {Footer} from "js/webPage/components/footer";
 import {Loading} from "js/webPage/containers/loading";
 import {create} from "js/utils/utils";
 

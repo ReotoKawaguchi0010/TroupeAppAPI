@@ -3,7 +3,7 @@ import { Avatar, Paper } from "@material-ui/core";
 import _ from "lodash";
 import { makeStyles } from '@material-ui/core/styles';
 
-import Footer from "js/webPage/components/footer";
+import {Footer} from "js/webPage/components/footer";
 import {MenuIcon} from "js/webPage/components/menu"
 import Tatsuya from "images/members/takayuki_square_image.jpg"
 import Dai from "images/members/dai_square_image.jpg"
@@ -147,7 +147,7 @@ const MemberList = () =>{
     ))
 }
 
-const MemberFunc = () => {
+export const Member = () => {
     const classes = useStyles();
     return (
         <div className={classes.wrapMember}>
@@ -163,13 +163,4 @@ const MemberFunc = () => {
             <Footer />
         </div>
     )
-}
-
-export const Member = () =>{
-    return (
-        <React.Fragment>
-            <MemberFunc />
-        </React.Fragment>
-    )
-
 }

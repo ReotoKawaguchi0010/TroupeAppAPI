@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function FooterFunc(){
+export const Footer = () =>{
     const classes = useStyles();
     return (
         <footer>
@@ -124,14 +124,4 @@ function FooterFunc(){
             </figure>
         </footer>
     )
-}
-
-export default class Footer extends React.Component{
-    render(){
-        return (
-            <React.Fragment>
-                <FooterFunc />
-            </React.Fragment>
-        )
-    }
 }
