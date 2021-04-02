@@ -33,9 +33,13 @@ def pay_out(request, response):
     payer_id = request.GET.get('PayerID')
     pay_client = PayPAlClient()
     exec = pay_client.get_execute_payment(pay_id, payer_id)
-    if exec:
-        data = {'exec': exec}
-        response.data = data
+    print(exec)
+    if exec['bool']:
+        request.session['video_ticket'] = 'video_id'
+        if not request.session.session_key:
+            request.session.create()
+        response.set_cookie('sessionid', request.session.session_key)
+        response.data = {'exec': exec, 'buy': True}
     return response
 
 

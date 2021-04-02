@@ -65,18 +65,22 @@ export const VideoTicket = () => {
     const classes = useStyles()
     console.log(ticketState)
 
-    const getPayPalPath = async () => {
+    const getPayPalPath = async (isMounted: boolean) => {
         setTicketState({...ticketState, isLoading: true})
         const res = await create.get('/', {
             params: {
                 video_ticket: 'true'
             },
         })
-        setTicketState({...ticketState, url: res.data.url, isLoading: false})
+        if(isMounted)setTicketState({...ticketState, url: res.data.url, isLoading: false})
     }
 
     useEffect(() => {
-        getPayPalPath()
+        let isMounted = true
+        getPayPalPath(isMounted)
+        return () => {
+            isMounted = false
+        }
     }, [])
     return (
         <>

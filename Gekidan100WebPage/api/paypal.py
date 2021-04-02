@@ -51,14 +51,15 @@ class PayPAlClient(object):
         try:
             exec_payment = paypalrestsdk.Payment.find(pay_id)
             if exec_payment.execute({'payer_id': payer_id}):
-                return True
+                return {'bool': True}
             else:
                 err = exec_payment.error
+                err['bool'] = True
                 if(err['name'] == 'exec_payment.error'):
-                    err = {'status': 200, 'bool': 'true'}
+                    err = {'status': 200, 'bool': True}
                 return err
         except:
-            return {'status': 404, 'bool': 'false'}
+            return {'status': 404, 'bool': False}
 
 
 if __name__ == '__main__':
