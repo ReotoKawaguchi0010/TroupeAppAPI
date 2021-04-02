@@ -1,15 +1,8 @@
 import React from "react";
 import {Paper, Drawer, Button} from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
 
 import {API_PATH} from "js/configs/config";
-
-
-const useStyle = makeStyles(() => ({
-
-}))
-
 
 export interface AlertUIType {
     open: boolean
@@ -34,18 +27,12 @@ export const AlertUI: React.FC<AlertUIType> = ({open, text, onClose}) => {
 
 
 
-
-
-
-
-
-
 export const paramObj = (locationSearch: string) => {
-    let paramObj: any = {};
-    let searchArray = locationSearch.substr(1).split('&');
+    let paramObj: {[key: string]: string}  = {};
+    let searchArray: string[] = locationSearch.substr(1).split('&');
     for(let i in searchArray){
-        let splitSearch = searchArray[i].split('=');
-        paramObj[splitSearch[0]] = splitSearch[1];
+        let splitSearch: string[] = searchArray[i].split('=');
+        paramObj[splitSearch[0]] = splitSearch[1]
     }
     return paramObj
 }

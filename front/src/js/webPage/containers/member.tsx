@@ -3,7 +3,7 @@ import { Avatar, Paper } from "@material-ui/core";
 import _ from "lodash";
 import { makeStyles } from '@material-ui/core/styles';
 
-import Footer from "js/webPage/components/footer";
+import {Footer} from "js/webPage/components/footer";
 import {MenuIcon} from "js/webPage/components/menu"
 import Tatsuya from "images/members/takayuki_square_image.jpg"
 import Dai from "images/members/dai_square_image.jpg"
@@ -76,78 +76,70 @@ const members = {
     },
 }
 
-const pcStyle = {
+
+const useStyles = makeStyles((theme) => ({
     memberContent: {
         display: 'flex',
-        padding: '10px',
+        padding: 10,
         borderBottom: 'solid 1px #000000',
     },
     avatarStyle: {
         width: 100,
         height: 100,
+        [theme.breakpoints.between('sm', 'md')]: {
+            width: '30%',
+            height: 'auto',
+        },
     },
     wrapMember: {
         background: '#f5f5f5',
     },
     memberTitle: {
         textAlign: 'center',
-        height: '150px',
+        height: 150,
+        [theme.breakpoints.between('sm', 'md')]: {
+            fontSize: '50px',
+        },
     },
     memberList: {
         padding: '0 300px',
-    },
-    name: {},
-    message: {},
-}
-
-const mobStyle = {
-    memberContent: {
-        display: 'flex',
-        padding: '10px',
-        borderBottom: 'solid 1px #000000',
-    },
-    avatarStyle: {
-        width: '30%',
-        height: 'auto',
-    },
-    wrapMember: {
-        background: '#f5f5f5',
-    },
-    memberTitle: {
-        fontSize: '50px',
-        textAlign: 'center',
-    },
-    memberList: {
-        padding: '0 65px',
+        [theme.breakpoints.between('sm', 'md')]: {
+            padding: '0 65px',
+        },
     },
     name: {
-        fontSize: '40px',
-        fontWeight: 'bold',
+        [theme.breakpoints.between('sm', 'md')]: {
+            fontSize: '40px',
+            fontWeight: 'bold',
+        },
     },
     message: {
-        fontSize: '25px',
+        [theme.breakpoints.between('sm', 'md')]: {
+            fontSize: '25px',
+        },
     },
-}
-
-const useStyles = makeStyles((theme) => ({
-    [theme.breakpoints.between('md', 'xl')]: pcStyle,
-    [theme.breakpoints.between('sm', 'md')]: mobStyle,
 }));
 
 const MemberList = () =>{
     const classes = useStyles()
-    return _.map(members, member => (
-        <div key={member.id} className={classes.memberContent}>
-            <Avatar alt="tatsuya" src={member.image} className={classes.avatarStyle} />
-            <div>
-                <div className={classes.name}>{member.name}</div>
-                <div className={classes.message}>{member.message}</div>
-            </div>
-        </div>
-    ))
+    return (
+        <>
+             {
+            _.map(members, member => (
+                <div key={member.id} className={classes.memberContent}>
+                    <Avatar alt="tatsuya" src={member.image} className={classes.avatarStyle} />
+                    <div>
+                        <div className={classes.name}>{member.name}</div>
+                        <div className={classes.message}>{member.message}</div>
+                    </div>
+                </div>
+            ))
+        }
+        </>
+    )
 }
 
-const MemberFunc = () => {
+export const Member = () => {
     const classes = useStyles();
     return (
         <div className={classes.wrapMember}>
@@ -156,20 +148,11 @@ const MemberFunc = () => {
                 <h3 className={classes.memberTitle}>MEMBER</h3>
                 <div className={classes.memberList}>
                     <Paper elevation={3}>
-                        { MemberList() }
+                        <MemberList />
                     </Paper>
                 </div>
             </div>
             <Footer />
         </div>
     )
-}
-
-export const Member = () =>{
-    return (
-        <React.Fragment>
-            <MemberFunc />
-        </React.Fragment>
-    )
-
 }
