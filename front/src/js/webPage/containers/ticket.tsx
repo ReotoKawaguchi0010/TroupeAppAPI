@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Ticket = () => {
     const classes = useStyles();
     return (
-        <React.Fragment>
+        <>
             <div className={classes.body}>
                 <MenuIcon/>
                 <div style={{padding: 100}}>
@@ -41,7 +41,7 @@ export const Ticket = () => {
                 </div>
                 <Footer/>
             </div>
-        </React.Fragment>
+        </>
     )
 }
 

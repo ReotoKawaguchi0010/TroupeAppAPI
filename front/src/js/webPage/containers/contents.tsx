@@ -5,8 +5,7 @@ import {Box, Button} from "@material-ui/core";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 
 
-import {MenuIcon} from "js/webPage/components/menu"
-import {VideoTicket} from "js/webPage/containers/video_ticket";
+import {MenuIcon} from "js/webPage/components/menu";
 import {Videos} from "js/webPage/containers/video";
 import {RouteWithSubRoutes} from "js/routes/routes";
 

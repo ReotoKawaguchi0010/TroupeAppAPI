@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {RouteWithSubRoutes} from "js/routes/routes";
-import {Switch, useHistory, useLocation, Redirect} from "react-router-dom";
+import {Switch, useHistory} from "react-router-dom";
 import _ from "lodash"
 
 import {Main} from "js/webPage/components/main";
@@ -9,8 +9,8 @@ import {Ticket} from "js/webPage/containers/ticket";
 import {Contact} from "js/webPage/containers/contact";
 import {VideoTicket} from "js/webPage/containers/video_ticket";
 import {Contents} from "js/webPage/containers/contents";
-import {paramObj} from "js/utils/utils";
 import {Loading} from "js/webPage/containers/loading";
+
 
 import "../../../css/style.scss"
 
@@ -47,10 +47,6 @@ const routes: RoutesType[] = [
         component: Contents,
     },
     {
-        path: '/check',
-        component: () => <Loading />,
-    },
-    {
         path: '/',
         component: Main,
     },
@@ -67,20 +63,13 @@ export const Routes = () => {
         }
     })
 
-    const params = paramObj(useLocation().search)
-
-
     return (
         <>
-            {
-                params.PayerID !== undefined ? <Redirect to={'/check'} /> : (
-                    <Switch>
-                        {_.map(routes, (route, i) => (
-                            <RouteWithSubRoutes key={i} {...route} />
-                        ))}
-                    </Switch>
-                )
-            }
+            <Switch>
+                {_.map(routes, (route, i) => (
+                    <RouteWithSubRoutes key={i} {...route} />
+                ))}
+            </Switch>
         </>
     )
 }
