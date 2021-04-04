@@ -80,11 +80,9 @@ export const Video = () => {
                     video_id : videoId
                 },
             })
-            console.log(res.data)
             if(res.data.bought_ticket){
                 const video = await getVideo(url)
             }else{
-                console.log(res)
                 setRedirectState(true)
             }
         }catch (e) {
@@ -93,11 +91,8 @@ export const Video = () => {
     }
 
     useEffect(() => {
-        let isMounted = true
-        if(isMounted) checkBuyVideoTicket()
-        return () => {
-            isMounted = false
-        }
+        checkBuyVideoTicket()
+        return () => console.log('un')
     }, [])
 
     return (

@@ -133,7 +133,7 @@ const GetRootContent = () => {
 
     return (
         <>
-            <Redirect to={'/contents/video/4'} />
+            {redirectState? <Redirect to={'/contents/video/4'} />: ''}
             <Loading />
         </>
     )
