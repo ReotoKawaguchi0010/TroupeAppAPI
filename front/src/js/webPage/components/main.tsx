@@ -31,11 +31,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     news: {
-        marginLeft: 'calc(50% - 1.5em * 4)',
-        [theme.breakpoints.between('xs', 'md')]: {
-            marginLeft: '0',
-            textAlign: 'center',
-        },
+        textAlign: 'center',
     },
     blogTwt: {
         display: 'flex',
