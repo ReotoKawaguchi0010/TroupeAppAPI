@@ -4,7 +4,7 @@ import axios from "axios";
 import { Player, ControlBar } from "video-react";
 import { Link } from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
-import {Redirect, Switch, useRouteMatch, useParams} from "react-router";
+import {Redirect, Switch, useRouteMatch, useParams, useHistory} from "react-router";
 import {List, ListItem, Box, Button} from "@material-ui/core";
 import {RouteWithSubRoutes} from "../../routes/routes";
 
@@ -42,16 +42,18 @@ interface ParamsType{
     videoId: string
 }
 
+interface CheckBuyTicketJson {
+    video_exits: boolean
+    bought_ticket? : boolean
+    url?: string
+}
+
 
 export const Video = () => {
     const classes = useStyles()
     const {videoId} = useParams<ParamsType>()
     const [state, setState] = React.useState({url: '', playing: false, classes: classes})
     const [redirectState, setRedirectState] = useState(false)
-
-    const {path} = useRouteMatch()
-    console.log(path)
-
 
     const rightClick = (e: any) => {
         e.preventDefault();
@@ -80,7 +82,8 @@ export const Video = () => {
                     video_id : videoId
                 },
             })
-            if(res.data.bought_ticket){
+            const data: CheckBuyTicketJson = res.data
+            if(data.bought_ticket){
                 const video = await getVideo(url)
             }else{
                 setRedirectState(true)
@@ -92,12 +95,12 @@ export const Video = () => {
 
     useEffect(() => {
         checkBuyVideoTicket()
-        return () => console.log('un')
     }, [])
 
     return (
         <>
             {redirectState? <Redirect to={`${videoId}/streaming_ticket`} />: ''}
+            {videoId !== '4' ? <Redirect to={{pathname: '/contents/video'}} />: ''}
             <div onContextMenu={rightClick} className={classes.wrapPlayer}>
                 <Player src={state.url} className={classes.player}>
                     <ControlBar autoHide={false} />
