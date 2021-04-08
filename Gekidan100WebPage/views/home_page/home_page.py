@@ -23,7 +23,7 @@ def home_page(request, response):
 def video_ticket(request, response):
     pay_client = PayPAlClient()
     pay_url = pay_client.get_payment_url()
-    data = {'video_ticket': 'true', 'url': pay_url}
+    data = {'video_ticket': True, 'url': pay_url}
     response.data = data
     return response
 
@@ -44,14 +44,17 @@ def pay_out(request, response):
 
 
 def is_check_video_ticket(request, response):
+    if request.GET.get('video_id') != '4':
+        response.data = {'video_exits': False}
+        return response
     if request.session.get('video_ticket') is None:
-        response.data = {'bought_ticket': False, 'url': ''}
+        response.data = {'bought_ticket': False, 'url': '', 'video_exits': True}
         #request.session['video_ticket'] = 'video_id'
         # if not request.session.session_key:
         #     request.session.create()
         #response.set_cookie('sessionid', request.session.session_key)
     else:
-        response.data = {'bought_ticket': True, 'url': ''}
+        response.data = {'bought_ticket': True, 'url': '', 'video_exits': True}
     return response
 
 
