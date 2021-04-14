@@ -234,7 +234,6 @@ const ReadIdea: React.FC<ReadContentType> = ({open, onClose, contentNum}) => {
         if(isDelete) deleteIdea(state.performanceReducer.idea[contentNum], 'delete_idea')
     }
 
-
     return (
         <Drawer anchor={'top'} open={open} ModalProps={{hideBackdrop: true, onClose: onClose}} classes={{paper: classes.readIdeaPaper}}>
             <Box className={classes.createWrapCloseBtn}><IconButton onClick={onClose}>

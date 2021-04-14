@@ -38,7 +38,7 @@ interface NewsData {
 
 const data: NewsData = {
     title: 'News',
-    contents: [{content: '第4回公演「ゲキダン！〜テクノロジーの惑星から愛の使者がやってきた〜」', link: 'https://stage.corich.jp/stage/111501/ticket_apply'}]
+    contents: [{content: '第4回公演「ゲキダン！〜テクノロジーの惑星から愛の使者がやってきた〜」チケット！', link: 'https://stage.corich.jp/stage/111501/ticket_apply'}]
 }
 
 
