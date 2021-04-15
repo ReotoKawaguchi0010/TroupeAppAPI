@@ -6,6 +6,7 @@ import {PayPalIcon} from "js/webPage/containers/icons";
 import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 import {Loading} from "js/webPage/containers/loading";
 import {create} from "js/utils/utils";
+import {MenuItem, Select, TextField} from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -83,25 +84,21 @@ export const VideoTicket = () => {
             <div className={classes.body}>
                 <div>
                     <div>
-                        <div className={classes.title}>劇団沸改名記念公演「あの星空の匂いがする」</div>
+                        <div className={classes.title}>劇団沸第4回公演「ゲキダン！」</div>
                         <div className={classes.subTitle}>配信チケット</div>
-                        <div className={classes.message}>
-                            支払いは現在PayPalからのみとなっております。
-                            その他の方法は<Link to='/contact'>お問い合わせ</Link>からご確認ください。
+
+                        <div>
+                            <div><TextField /></div>
+                            <div><TextField /></div>
+                            <div>
+                                <Select>
+                                    <MenuItem>PayPal</MenuItem>
+                                    <MenuItem>振り込み</MenuItem>
+                                </Select>
+                            </div>
                         </div>
 
-                        <div className={classes.paypalExp}>
-                            <div>
-                                <PayPalIcon className={classes.icon} />
-                            </div>
-                            <div className={classes.overview}>
-                                <div>
-                                    <div>概要</div>
-                                    <div>1500円</div>
-                                </div>
-                                <a href={ticketState.url} className={classes.nextText}><div className={classes.nextBtn}>続行</div></a>
-                            </div>
-                        </div>
+
                         <div>取引を完了するために、PayPalのセキュリティで保護されたサーバーに移動します。</div>
                     </div>
                 </div>
