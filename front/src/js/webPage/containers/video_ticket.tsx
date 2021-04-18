@@ -1,12 +1,14 @@
 import React, {useContext, useEffect, useState} from "react";
 import {makeStyles, createStyles, Theme} from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import _ from "lodash";
+
 
 import {PayPalIcon} from "js/webPage/containers/icons";
 import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 import {Loading} from "js/webPage/containers/loading";
 import {create} from "js/utils/utils";
-import {MenuItem, Select, TextField} from "@material-ui/core";
+import {Button, FormControl, MenuItem, Select, TextField} from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -63,6 +65,12 @@ export const VideoTicket = () => {
         url: '',
         isLoading: false,
     })
+    const [userState, setUserState] = useState({
+        name: '',
+        mailAddress: '',
+        payment: '',
+
+    })
     const classes = useStyles()
 
     const getPayPalPath = async () => {
@@ -78,6 +86,27 @@ export const VideoTicket = () => {
     useEffect(() => {
         getPayPalPath()
     }, [])
+
+    const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        switch (e.target.name) {
+            case 'name':
+                setUserState({...userState, name: e.target.value})
+                break
+            case 'mailAddress':
+                setUserState({...userState, mailAddress: e.target.value})
+                break
+            case 'payment':
+                setUserState({...userState, payment: ''})
+                break
+        }
+    }
+
+
+    const sendBuyTicket = async () => {
+        _.map(userState, (v) => {
+            console.log(v)
+        })
+    }
     return (
         <>
             {ticketState.isLoading? <Loading />: false}
@@ -88,17 +117,20 @@ export const VideoTicket = () => {
                         <div className={classes.subTitle}>配信チケット</div>
 
                         <div>
-                            <div><TextField /></div>
-                            <div><TextField /></div>
+                            <div>お名前<TextField name={'name'} onChange={handleTextChange} /></div>
+                            <div>メールアドレス<TextField name={'mailAddress'} onChange={handleTextChange} /></div>
                             <div>
-                                <Select>
-                                    <MenuItem>PayPal</MenuItem>
-                                    <MenuItem>振り込み</MenuItem>
-                                </Select>
+                                <FormControl variant="outlined">
+                                    <Select name={'payment'} onChange={handleTextChange} value={userState.payment}>
+                                        <MenuItem value={'PayPal'}>PayPal</MenuItem>
+                                        <MenuItem value={'振り込み'}>振り込み</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div>
+                                <Button onClick={sendBuyTicket}>決定</Button>
                             </div>
                         </div>
-
-
                         <div>取引を完了するために、PayPalのセキュリティで保護されたサーバーに移動します。</div>
                     </div>
                 </div>

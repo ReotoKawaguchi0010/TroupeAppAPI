@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 
+from Gekidan100WebPage.models.models import VideoTicket
 from Gekidan100WebPage.api import ameba_api
 from Gekidan100WebPage.api.paypal import PayPAlClient
 from Gekidan100WebPage.api.twitter_api import TwitterApi
