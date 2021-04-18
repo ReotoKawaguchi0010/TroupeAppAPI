@@ -1,7 +1,10 @@
 from django.db import models
 
+from Gekidan100WebPage.utils.util import encode_sha256
+
 
 class VideoTicket(models.Model):
+    permit = models.BooleanField
     mail_address = models.CharField(max_length=256)
     payment_id = models.CharField(max_length=256)
     payer_id = models.CharField(max_length=256)
@@ -9,6 +12,27 @@ class VideoTicket(models.Model):
     payment_id_hash = models.CharField(max_length=70)
     payer_id_hash = models.CharField(max_length=70)
     token_hash = models.CharField(max_length=70)
+
+    def permit_check(self):
+        return True
+
+    def create(self, mail_address, payment_id, payer_id, token):
+        try:
+            self.permit = self.permit_check()
+            self.mail_address = mail_address
+            self.payer_id = payer_id
+            self.payment_id = payment_id
+            self.token = token
+            self.payment_id_hash = encode_sha256(payment_id)
+            self.payment_id_hash = encode_sha256(payer_id)
+            self.token_hash = encode_sha256(token)
+            self.save()
+            return True
+        except:
+            print('failed')
+            return False
+
+
 
 class Idea(models.Model):
     id = models.IntegerField(primary_key=True)
