@@ -4,7 +4,7 @@ from Gekidan100WebPage.utils.util import encode_sha256
 
 
 class VideoTicket(models.Model):
-    permit = models.BooleanField
+    permit = models.BooleanField(null=True)
     mail_address = models.CharField(max_length=256)
     payment_id = models.CharField(max_length=256)
     payer_id = models.CharField(max_length=256)
@@ -24,7 +24,7 @@ class VideoTicket(models.Model):
             self.payment_id = payment_id
             self.token = token
             self.payment_id_hash = encode_sha256(payment_id)
-            self.payment_id_hash = encode_sha256(payer_id)
+            self.payer_id_hash = encode_sha256(payer_id)
             self.token_hash = encode_sha256(token)
             self.save()
             return True

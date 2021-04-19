@@ -96,16 +96,27 @@ export const VideoTicket = () => {
                 setUserState({...userState, mailAddress: e.target.value})
                 break
             case 'payment':
-                setUserState({...userState, payment: ''})
+                setUserState({...userState, payment: e.target.value})
                 break
         }
     }
 
+    const hasAllUserState = () => {
+        let all = true
+       _.map(userState, (v) => {
+            if(v === ''){
+                all = false
+            }
+        })
+        return all
+    }
+
 
     const sendBuyTicket = async () => {
-        _.map(userState, (v) => {
-            console.log(v)
-        })
+        if(hasAllUserState()){
+            const res = await create.post('/', userState)
+            console.log(res)
+        }
     }
     return (
         <>
