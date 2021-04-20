@@ -14,6 +14,7 @@ class VideoTicket(models.Model):
     token_hash = models.CharField(max_length=70)
 
     def permit_check(self):
+
         return True
 
     def create(self, mail_address, payment_id, payer_id, token):
@@ -90,5 +91,3 @@ class IdeaContents(models.Model):
             self.value = v['value']
             self.save()
         return None
-
-

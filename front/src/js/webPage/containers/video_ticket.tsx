@@ -66,6 +66,7 @@ export const VideoTicket = () => {
         isLoading: false,
     })
     const [userState, setUserState] = useState({
+        type: 'buy_video_ticket',
         name: '',
         mailAddress: '',
         payment: '',
@@ -114,7 +115,13 @@ export const VideoTicket = () => {
 
     const sendBuyTicket = async () => {
         if(hasAllUserState()){
-            const res = await create.post('/', userState)
+            let sendData = {
+                type: userState.type,
+                name: userState.name,
+                mail_address: userState.mailAddress,
+                payment: userState.payment,
+            }
+            const res = await create.post('/', sendData)
             console.log(res)
         }
     }
