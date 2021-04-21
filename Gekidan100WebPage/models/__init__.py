@@ -1,5 +1,5 @@
 from Gekidan100WebPage.models.user import UserData
-from Gekidan100WebPage.models.models import VideoTicket
+from Gekidan100WebPage.models.video_ticket import VideoTicket
 from Gekidan100WebPage.models.models import Idea
 from Gekidan100WebPage.models.models import IdeaContents
 from Gekidan100WebPage.models.performance.performance import Peformance
