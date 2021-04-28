@@ -51,8 +51,10 @@ class TwitterApi():
 
 if __name__ == '__main__':
     twt_api = TwitterApi()
-    #print(twt_api.search('ハリーポッター', 5))
-    id = 1323233049971052549
+    print(twt_api.search('ハリーポッター', 5))
+    print(twt_api.user_timeline(6))
 
-    print(twt_api.get_id_content(id).json())
+
+
+    #print(twt_api.search('1117297527047376896'))
 

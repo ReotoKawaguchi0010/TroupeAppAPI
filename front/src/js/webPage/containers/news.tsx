@@ -38,7 +38,7 @@ interface NewsData {
 
 const data: NewsData = {
     title: 'News',
-    contents: [{content: '第4回公演「ゲキダン！〜テクノロジーの惑星から愛の使者がやってきた〜」チケット！', link: 'https://stage.corich.jp/stage/111501/ticket_apply'}]
+    contents: [{content: '第4回公演「ゲキダン！〜テクノロジーの惑星から愛の使者がやってきた〜」公演延期のお知らせ', link: 'https://pbs.twimg.com/media/Ez8Q5oNVgAA_2V6?format=jpg&name=medium'}]
 }
 
 
@@ -52,7 +52,7 @@ export default function News(props: any){
                 { data.contents.map((newsContent, key) => (
                         <li key={key}>
                             {newsContent.link !== '' ? (
-                                <a href={newsContent.link}>
+                                <a href={newsContent.link} target={'_blank'} rel={'noopener noreferrer'}>
                                     <Button>{newsContent.content}</Button>
                                 </a>
                             ) : newsContent.content

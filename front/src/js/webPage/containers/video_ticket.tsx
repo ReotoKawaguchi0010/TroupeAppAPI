@@ -9,7 +9,6 @@ import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 import {Loading} from "js/webPage/containers/loading";
 import {create} from "js/utils/utils";
 import {Button, FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
-import {preventDefault} from "@fullcalendar/react";
 
 
 const useStyles = makeStyles((theme: Theme) =>

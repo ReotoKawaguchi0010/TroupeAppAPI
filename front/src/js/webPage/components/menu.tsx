@@ -157,7 +157,7 @@ export const MenuIcon = () => {
                     <div className={classes.menuContent}><Link to="/member" className={classes.linkStyle}>Member</Link><hr /></div>
                     <div className={classes.menuContent}><Link to="/ticket" className={classes.linkStyle}>Ticket</Link><hr /></div>
                     <div className={classes.menuContent}><Link to="/contact" className={classes.linkStyle}>Contact</Link><hr /></div>
-                    <div className={classes.menuContent}><Link to="/contents" className={classes.linkStyle}>Contents</Link><hr /></div>
+                    {/*<div className={classes.menuContent}><Link to="/contents" className={classes.linkStyle}>Contents</Link><hr /></div>*/}
                     <div className={classes.menuFooter}>
                         <div className={classes.youtubeIco}>
                             <a href="https://www.youtube.com/channel/UC2avfYxoYQZxchEmVxypnrg" target="_blank" rel="noopener norefferer">
