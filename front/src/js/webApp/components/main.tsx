@@ -101,7 +101,7 @@ export const Main = () => {
     return (
         <React.Fragment>
             {
-                config.devMode ? '' : state.reducerFunc ? !state.reducerFunc.login ? <Redirect to="/app/login" /> : <></> : <></>
+                Boolean(config.devMode) ? '': !state.reducerFunc.login ? <Redirect to="/app/login" /> : <></>
             }
             <Header />
             <div className={clsx(classes.main, {
