@@ -294,10 +294,10 @@ const Calendar = () => {
             endTIme: '24:00',
         },
         weekends: true,
-        titleFormat: {
-            year: 'numeric',
-            month: 'short'
-        },
+        // titleFormat: {
+        //     year: 'numeric',
+        //     month: 'short'
+        // },
         headerToolbar: {
             start: '',
             end: '',
@@ -362,7 +362,7 @@ const Calendar = () => {
                 selectable={config.selectable}
                 businessHours={config.businessHours}
                 weekends={config.weekends}
-                titleFormat={config.titleFormat}
+                // titleFormat={config.titleFormat}
                 headerToolbar={config.headerToolbar}
                 dateClick={handleDayClick}
                 events={eventsState.events}
