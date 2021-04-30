@@ -14,7 +14,7 @@ class VideoTicket(models.Model):
 
     def permit_check(self):
 
-        return True
+        return False
 
     def create(self, payment_methods, mail_address, payment_id, payer_id, token):
         try:
