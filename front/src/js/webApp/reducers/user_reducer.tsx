@@ -6,7 +6,8 @@ let newState: UserReducerType
 export const userReducer = (state=initialState.userReducer, action: any) =>{
     switch (action.type){
         case 'login':
-            login = action.data.bool
+            login = action.data.login === 'true'
+            console.log(login)
             newState = {
                 login: login,
                 user: {

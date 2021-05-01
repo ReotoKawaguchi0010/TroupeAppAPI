@@ -87,7 +87,7 @@ if __name__ == '__main__':
     date2 = datetime.datetime(2020, 12, 28, 20, 50, 12, 7721)
     print(time_subtraction(date2))
 
-
+    joint = encode_sha256(encode_sha256(str('1619880169.748476')) + 'reoto' + str(False))
 
 
 

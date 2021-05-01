@@ -11,14 +11,18 @@ class VideoTicket(models.Model):
     token = models.CharField(max_length=256)
     payment_id_hash = models.CharField(max_length=70)
     payer_id_hash = models.CharField(max_length=70)
+    timestamp = models.CharField(max_length=128)
+    joint = models.CharField(max_length=256)
 
-    def permit_check(self):
 
+    def permit_check(self, payment_methods):
+        if payment_methods == 'paypal':
+            return True
         return False
 
     def create(self, payment_methods, mail_address, payment_id, payer_id, token):
         try:
-            self.permit = self.permit_check()
+            self.permit = self.permit_check(payment_methods)
             self.payment_methods = payment_methods
             self.mail_address = mail_address
             self.payer_id = payer_id

@@ -96,12 +96,13 @@ export const Main = () => {
         getUserData('get_user_data')
     }, [])
 
-
+    console.log(state)
 
     return (
         <React.Fragment>
             {
-                Boolean(config.devMode) ? '': !state.reducerFunc.login ? <Redirect to="/app/login" /> : <></>
+                //Boolean(config.devMode) ? '': !state.reducerFunc.login ? <Redirect to="/app/login" /> : <></>
+                !state.userReducer.login ? <Redirect to="/app/login" /> : <></>
             }
             <Header />
             <div className={clsx(classes.main, {

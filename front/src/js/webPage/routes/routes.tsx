@@ -42,10 +42,10 @@ const routes: RoutesType[] = [
         path: '/content',
         component: VideoTicket,
     },
-    // {
-    //     path: '/contents',
-    //     component: Contents,
-    // },
+    {
+        path: '/contents',
+        component: Contents,
+    },
     {
         path: '/',
         component: Main,
