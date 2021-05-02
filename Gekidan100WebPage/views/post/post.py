@@ -11,7 +11,6 @@ from Gekidan100WebPage.utils.util import time_subtraction
 
 
 def session_time_out(request, response):
-
     request.session.delete('user')
     request.session.delete('username')
     request.session.delete('time')
@@ -48,7 +47,7 @@ def login(request, response: Response, data: dict):
                     }
     else:
         if time_subtraction(request.session.get('time')) > 8000:
-            session_time_out(request, response)
+            return session_time_out(request, response)
         user_data = request.session.get('user')
         response.data = {
             'status': OK, 'bool': True, 'login': 'success',

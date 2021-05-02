@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 from Gekidan100WebPage.utils.util import encode_sha256
@@ -21,17 +23,18 @@ class VideoTicket(models.Model):
         return False
 
     def create(self, payment_methods, mail_address, payment_id, payer_id, token):
-        try:
-            self.permit = self.permit_check(payment_methods)
-            self.payment_methods = payment_methods
-            self.mail_address = mail_address
-            self.payer_id = payer_id
-            self.payment_id = payment_id
-            self.token = token
-            self.payment_id_hash = encode_sha256(payment_id)
-            self.payer_id_hash = encode_sha256(payer_id)
-            self.save()
-            return True
-        except:
-            print('failed')
-            return False
+        self.permit = self.permit_check(payment_methods)
+        self.payment_methods = payment_methods
+        self.mail_address = mail_address
+        self.payer_id = payer_id
+        self.payment_id = payment_id
+        self.token = token
+        self.payment_id_hash = encode_sha256(payment_id)
+        self.payer_id_hash = encode_sha256(payer_id)
+        self.timestamp = str(datetime.datetime.now().timestamp())
+        self.joint = encode_sha256(encode_sha256(self.timestamp) + self.payer_id + str(self.permit))
+        self.save()
+
+
+    def read_all(self):
+        return self.__class__.objects.all()
