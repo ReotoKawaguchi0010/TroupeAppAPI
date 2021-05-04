@@ -5,6 +5,7 @@ from django.db import models
 
 from Gekidan100WebPage.utils.util import encode_sha256
 
+
 class VideoTicket(models.Model):
     name = models.CharField(max_length=137)
     permit = models.BooleanField(null=True)
@@ -19,17 +20,18 @@ class VideoTicket(models.Model):
     timestamp = models.CharField(max_length=128)
     joint = models.CharField(max_length=256)
 
-
     def create(self, data: dict):
         if self.has_need_payment_data(data):
             self.__select_payment_methods_create(data)
 
-    def permit_check(self, payment_methods):
+    @staticmethod
+    def permit_check(payment_methods):
         if payment_methods == 'paypal':
             return True
         return False
 
-    def has_need_payment_data(self, data):
+    @staticmethod
+    def has_need_payment_data(data):
         if data.keys() >= {
             'name',
             'payment_methods',
@@ -63,7 +65,6 @@ class VideoTicket(models.Model):
                                           phone_number=data['phone_number'])
         return None
 
-
     def __transfer_create(self, name, payment_methods, mail_address, phone_number):
         self.name = name
         self.permit = self.permit_check(payment_methods)
@@ -94,7 +95,6 @@ class VideoTicket(models.Model):
         self.timestamp = str(datetime.datetime.now().timestamp())
         self.joint = encode_sha256(encode_sha256(self.timestamp) + self.payer_id + str(self.permit))
         self.save()
-
 
     def read_all(self):
         return self.__class__.objects.all()

@@ -2,7 +2,7 @@ import json
 
 from rest_framework.response import Response
 
-
+from Gekidan100WebPage.utils.http import has_request_type
 
 
 def video(request, response: Response):
@@ -32,6 +32,9 @@ def video(request, response: Response):
     return response
 
 
-
-
-
+def main(request, response: Response):
+    request_data = request.body.decode('utf-8')
+    request_data = json.loads(request_data)
+    if has_request_type(request_data, 'video'):
+        return video(request, response)
+    return response

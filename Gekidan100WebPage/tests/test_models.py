@@ -1,17 +1,7 @@
-
-
 from django.test import TestCase
 
 from Gekidan100WebPage.models.video_ticket import VideoTicket
 from Gekidan100WebPage.models.performance.script import Script
-
-
-
-TEST_PAYMENT_ID = 'PAYID-MCIEGCI6GX50624X8279010B'
-TEST_PAYER_ID = 'ZQFR8L8CNFDC6'
-TEST_TOKEN = 'EC-0XH30116YU841021E'
-
-
 
 
 class VideoTicketModelTests(TestCase):
