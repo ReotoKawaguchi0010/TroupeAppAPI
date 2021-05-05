@@ -7,7 +7,6 @@ from Gekidan100WebPage.models.performance.cast import Cast
 from Gekidan100WebPage.models.performance.staff import Staff
 from Gekidan100WebPage.models.performance.schedule import Schedule
 from Gekidan100WebPage.models.performance.performance_schedule import Performance_Schedule
-from Gekidan100WebPage.models.performance.script import Script
 from Gekidan100WebPage.models.performance.performance_script import PerformanceScript
 from Gekidan100WebPage.models.performance.full_budget import FullBudget
 from Gekidan100WebPage.models.performance.budget import Budget

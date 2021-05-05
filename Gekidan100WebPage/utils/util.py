@@ -7,7 +7,6 @@ def encode_sha256(encode_letter):
     return s256
 
 
-
 def change_oct_bit(bin: str):
     bin = bin.replace('0b', '')
     if len(bin) < 8:
@@ -68,27 +67,5 @@ def has_request_type(request_data, has_data):
         request_type = request_data['type']
         return has_data in request_type
     return False
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-    # str1 = 'PAYID-L67255A76683099VG284801U'
-    # str2 = 'ZQFR8L8CNFDC6'
-    #
-    # encode = my_cipher_encode(str1)
-    # decode = my_cipher_decode(encode)
-    # print(decode == encode_sha256(str1))
-
-    date2 = datetime.datetime(2020, 12, 28, 20, 50, 12, 7721)
-    print(time_subtraction(date2))
-
-    joint = encode_sha256(encode_sha256(str('1619880169.748476')) + 'reoto' + str(False))
-
-
 
 

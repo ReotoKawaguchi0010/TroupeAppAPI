@@ -4,10 +4,14 @@ import secrets
 from django.db import models
 
 from Gekidan100WebPage.utils.util import encode_sha256
+from Gekidan100WebPage.models.performance_video_list import PerformanceVideoList
 
 
 class VideoTicket(models.Model):
+    payment_method = ''
+
     name = models.CharField(max_length=137)
+    kana_name = models.CharField(max_length=400)
     permit = models.BooleanField(null=True)
     payment_methods = models.CharField(max_length=256)
     mail_address = models.CharField(max_length=256)
@@ -19,6 +23,8 @@ class VideoTicket(models.Model):
     payer_id_hash = models.CharField(max_length=70)
     timestamp = models.CharField(max_length=128)
     joint = models.CharField(max_length=256)
+    performance_video_list_num = models.ForeignKey(PerformanceVideoList, on_delete=models.CASCADE)
+    auth_code = models.CharField(max_length=256)
 
     def create(self, data: dict):
         if self.has_need_payment_data(data):
@@ -31,9 +37,16 @@ class VideoTicket(models.Model):
         return False
 
     @staticmethod
+    def get_performance_video_list(performance_num):
+        performance_num = PerformanceVideoList.objects.get(performance_num=int(performance_num))
+        return performance_num
+
+    @staticmethod
     def has_need_payment_data(data):
         if data.keys() >= {
             'name',
+            'performance_num',
+            'kana_name',
             'payment_methods',
             'mail_address',
             'phone_number',
@@ -42,6 +55,8 @@ class VideoTicket(models.Model):
             'token'
         } or data.keys() >= {
             'name',
+            'performance_num',
+            'kana_name',
             'payment_methods',
             'mail_address'
             'phone_number',
@@ -52,6 +67,8 @@ class VideoTicket(models.Model):
     def __select_payment_methods_create(self, data):
         if data['payment_methods'] == 'paypal':
             return self.__paypal_create(name=data['name'],
+                                        kana_name=data['kana_name'],
+                                        performance_num=data['performance_num'],
                                         payment_methods=data['payment_methods'],
                                         mail_address=data['mail_address'],
                                         phone_number=data['phone_number'],
@@ -60,13 +77,17 @@ class VideoTicket(models.Model):
                                         token=data['token'])
         elif data['payment_methods'] == 'transfer':
             return self.__transfer_create(name=data['name'],
+                                          kana_name=data['kana_name'],
+                                          performance_num=data['performance_num'],
                                           payment_methods=data['payment_methods'],
                                           mail_address=data['mail_address'],
                                           phone_number=data['phone_number'])
         return None
 
-    def __transfer_create(self, name, payment_methods, mail_address, phone_number):
+    def __transfer_create(self, name, kana_name, performance_num, payment_methods, mail_address, phone_number):
         self.name = name
+        self.kana_name = kana_name
+        self.performance_video_list_num = self.get_performance_video_list(performance_num)
         self.permit = self.permit_check(payment_methods)
         self.payment_methods = payment_methods
         self.mail_address = mail_address
@@ -78,11 +99,15 @@ class VideoTicket(models.Model):
         self.payer_id_hash = encode_sha256(self.payer_id)
         self.timestamp = str(datetime.datetime.now().timestamp())
         self.joint = encode_sha256(encode_sha256(self.timestamp) + self.payer_id + str(self.permit))
+        self.auth_code = self.__create_auth_code()
         self.save()
         return
 
-    def __paypal_create(self, name, payment_methods, mail_address, phone_number, payment_id, payer_id, token):
+    def __paypal_create(self, name, kana_name, performance_num, payment_methods, mail_address, phone_number,
+                        payment_id, payer_id, token):
         self.name = name
+        self.kana_name = kana_name
+        self.performance_video_list_num = self.get_performance_video_list(performance_num)
         self.permit = self.permit_check(payment_methods)
         self.payment_methods = payment_methods
         self.mail_address = mail_address
@@ -94,7 +119,12 @@ class VideoTicket(models.Model):
         self.payer_id_hash = encode_sha256(payer_id)
         self.timestamp = str(datetime.datetime.now().timestamp())
         self.joint = encode_sha256(encode_sha256(self.timestamp) + self.payer_id + str(self.permit))
+        self.auth_code = self.__create_auth_code()
         self.save()
+
+    def __create_auth_code(self):
+        auth_num = encode_sha256(self.payer_id) + encode_sha256(self.payment_id) + encode_sha256(self.token)
+        return encode_sha256(auth_num)
 
     def read_all(self):
         return self.__class__.objects.all()

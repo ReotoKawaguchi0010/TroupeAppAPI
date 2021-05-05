@@ -1,1 +1,1 @@
-from Gekidan100WebPage.tests import tests, test_models, test_views
+from Gekidan100WebPage.tests.web import test_models

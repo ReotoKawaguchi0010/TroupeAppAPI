@@ -1,10 +1,11 @@
 from rest_framework.response import Response
 
 from Gekidan100WebPage.api import ameba_api
+from Gekidan100WebPage.api.paypal import PayPAlClient
 from Gekidan100WebPage.api.twitter_api import TwitterApi
 from Gekidan100WebPage.utils.status_codes import OK
-from Gekidan100WebPage.api.paypal import PayPAlClient
 from Gekidan100WebPage.utils.http import has_get_type
+from Gekidan100WebPage.views.session.web.payer_transient_info import SessionPayerTransientInfo
 
 
 def home_page(request, response):
@@ -55,11 +56,12 @@ def get_has_video_ticket_session(request, response):
     return response
 
 
-
 def main(request, response: Response):
     if has_get_type(request, 'video_ticket'):
         response = get_has_video_ticket(request, response)
     elif has_get_type(request, 'paymentId', 'PayerID'):
+        payer_session = SessionPayerTransientInfo(request, response).get_payer_transient_info()
+        print(payer_session.first_name)
         response = get_paypal_pay_out(request, response)
     elif has_get_type(request, 'video_id'):
         response = get_has_video_ticket_session(request, response)

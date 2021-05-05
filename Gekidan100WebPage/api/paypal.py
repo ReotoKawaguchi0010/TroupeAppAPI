@@ -1,8 +1,9 @@
-from paypalpayoutssdk.core import PayPalHttpClient, SandboxEnvironment, LiveEnvironment
+from paypalpayoutssdk.core import PayPalHttpClient, SandboxEnvironment  # LiveEnvironment
 import paypalrestsdk
 
 from Gekidan100.config.config import USE_DOMAIN
-from Gekidan100WebPage.config.config import PAYPAL_SANDBOX_ACCOUNT, PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET
+from Gekidan100WebPage.config.config import PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET  # PAYPAL_SANDBOX_ACCOUNT
+
 
 class PayPAlClient(object):
 
@@ -47,7 +48,8 @@ class PayPAlClient(object):
                     redirect_url = link.href
                     return redirect_url
 
-    def get_execute_payment(self, pay_id, payer_id):
+    @staticmethod
+    def get_execute_payment(pay_id, payer_id):
         try:
             exec_payment = paypalrestsdk.Payment.find(pay_id)
             if exec_payment.execute({'payer_id': payer_id}):
@@ -55,17 +57,8 @@ class PayPAlClient(object):
             else:
                 err = exec_payment.error
                 err['bool'] = True
-                if(err['name'] == 'exec_payment.error'):
+                if err['name'] == 'exec_payment.error':
                     err = {'status': 200, 'bool': True}
                 return err
-        except:
+        except ValueError:
             return {'status': 404, 'bool': False}
-
-
-if __name__ == '__main__':
-    client = PayPAlClient()
-
-
-
-
-
