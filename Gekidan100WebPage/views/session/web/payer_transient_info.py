@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 
-from Gekidan100WebPage.views.session.web import SessionAdminWebPage
+from Gekidan100WebPage.views.session import SessionAdminWebPage
 
 
 class SessionPayerTransientInfo(SessionAdminWebPage):

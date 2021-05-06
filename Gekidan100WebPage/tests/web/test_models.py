@@ -6,6 +6,7 @@ from django.test import TestCase
 from Gekidan100WebPage.models.video_ticket import VideoTicket
 from Gekidan100WebPage.models.performance_video_list import PerformanceVideoList
 
+
 class VideoTicketModelTests(TestCase):
     def setUp(self):
         data = {
@@ -21,8 +22,6 @@ class VideoTicketModelTests(TestCase):
 
         PerformanceVideoList().create(data)
 
-
-
         data = {
             'name': '河口 怜和人',
             'performance_num': 4,
@@ -36,7 +35,6 @@ class VideoTicketModelTests(TestCase):
         }
 
         video_ticket = VideoTicket()
-
         video_ticket.create(data)
 
     def test_create_video_ticket_model(self):

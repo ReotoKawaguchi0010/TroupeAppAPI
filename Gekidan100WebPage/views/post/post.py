@@ -19,10 +19,13 @@ def session_time_out(request, response):
     return response
 
 def login(request, response: Response, data: dict):
+    data = data['send_data']
     if request.session.get('username') is None and request.session.get('time') is None:
         if 'username' in data and 'password' in data:
             username = data['username']
             password = data['password']
+            test = UserData().login(username, password)
+            print(test)
             if User.objects.filter(username=username).exists():
                 user = User.objects.get(username=username)
                 user_data = UserData.objects.get(user=user)

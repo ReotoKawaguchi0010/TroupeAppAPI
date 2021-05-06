@@ -34,6 +34,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+interface SendDataType{
+    username: string,
+    password: string,
+}
+
+interface SendJsonType{
+    type: string,
+    send_data: SendDataType
+}
 
 
 const Main = () => {
@@ -58,6 +67,13 @@ const Main = () => {
     }
 
     const handleClickSubmit = () => {
+        const sendData: SendJsonType = {
+            type: 'login',
+            send_data: {
+                username: loginState.sendData.username,
+                password: loginState.sendData.password
+            }
+        }
         login({type: 'login', sendData: loginState.sendData}, dispatch)
     }
 
