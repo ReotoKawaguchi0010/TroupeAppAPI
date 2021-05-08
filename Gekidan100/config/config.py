@@ -14,3 +14,5 @@ PSQL_PASS = conf['psql']['password']
 
 USE_DOMAIN = ['http://localhost:3000',
     'http://127.0.0.1:3000',] if conf['mode']['dev'] == 'true' else ['https://futsu100.com']
+
+CUSTOM_SESSION_COOKIE_NAME = conf['project']['session_cookie_name']

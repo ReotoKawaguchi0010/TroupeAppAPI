@@ -1,11 +1,7 @@
-import datetime
-import json
-
-from django.contrib.auth.models import User
 from rest_framework.response import Response
+
 from Gekidan100WebPage.models.models import Idea, IdeaContents
-from Gekidan100WebPage.utils.status_codes import UNAUTHORIZED, OK
-from Gekidan100WebPage.utils.util import time_subtraction
+from Gekidan100WebPage.views.session.app.user import SessionUserAdminWebApp
 
 
 def get_idea(request, response: Response, data: dict):
@@ -31,18 +27,9 @@ def get_idea(request, response: Response, data: dict):
 
 
 def get_user_data(request, response: Response):
-    user_data = request.session.get('user')
-    if user_data is not None:
+    user_data = SessionUserAdminWebApp(request=request, response=response)
+    if user_data.is_login():
         response.data = {
             'login': 'true',
-            'user': {
-                'username': user_data.user.username,
-                'first_name': user_data.user.first_name,
-                'last_name': user_data.user.last_name,
-                'email': user_data.user.email,
-                'introduction': user_data.introduction,
-                'profile_image': user_data.profile_image,
-                'contract': user_data.contract,
-            },
         }
     return response

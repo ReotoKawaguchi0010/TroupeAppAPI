@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -39,6 +41,16 @@ class UserData(models.Model):
             user_data = self.__class__.objects.get(user__username=username)
             return user_data.check_password(password)
         return None
+
+    def json_serializer(self):
+        data = {
+            'username': self.user.username,
+            'name': f'{self.user.first_name} {self.user.last_name}',
+            'introduction': self.introduction,
+            'profile_image': self.profile_image,
+            'contract': self.contract,
+        }
+        return json.dumps(data)
 
     def pprint(self):
         print('-' * 40)

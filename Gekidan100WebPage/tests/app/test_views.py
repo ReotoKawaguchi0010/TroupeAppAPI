@@ -1,3 +1,5 @@
+import json
+
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.contrib.sessions.backends.cache import SessionStore
@@ -9,19 +11,23 @@ from Gekidan100WebPage.models.user import UserData
 
 class APITestLogin(APITestCase, TestCase):
     def setUp(self):
-        user = User(username='reoto_kawaguchi', password='reoto_kawaguchi', is_superuser=True)
-        user.save()
-        user_data = UserData(user=User.objects.get(username='reoto_kawaguchi'), introduction='into', profile_image='https://test.com', contract='mail')
-        user_data.save()
+        UserData().create_user(username='reoto_kawaguchi', email='test@test.com', password='reoto_pass',
+                               introduction='int', profile_image='https://test.com', contract='test@test.com')
 
     def test_login(self):
-        self.client = APIClient()
-        self.res: Response = self.client.post('/api/app/', {
+        client = APIClient()
+        res: Response = client.post('/api/app/', {
             'type': 'login',
             'send_data': {
                 'username': 'reoto_kawaguchi',
-                'password': 'reoto_kawaguchi',
+                'password': 'reoto_pass',
             },
         }, format='json')
+        self.assertIsNotNone(res)
 
-        print(self.res.data)
+        print(res.data)
+
+        client.force_login(User.objects.get(username=res.data['user']['username']))
+
+        res = client.get('/api/app/?type=get_user_data')
+        print(res.data)
