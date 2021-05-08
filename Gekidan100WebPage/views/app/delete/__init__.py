@@ -1,4 +1,4 @@
-from Gekidan100WebPage.views.delete.delete_performance import delete_idea, delete_script
+from Gekidan100WebPage.views.app.delete.delete_performance import delete_idea, delete_script
 from Gekidan100WebPage.utils.util import has_request_type
 
 

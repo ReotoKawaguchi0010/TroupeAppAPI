@@ -1,12 +1,17 @@
 import json
 
-from Gekidan100WebPage.views.post import post, post_performance, post_file
+from django.http.request import HttpRequest
+from rest_framework.response import Response
+
+from Gekidan100WebPage.views.app.post import post_performance
+from Gekidan100WebPage.views.app.post import post, post_file
 from Gekidan100WebPage.utils.util import has_request_type
 
 
 def post_word_file(request, response):
 
     return response
+
 
 def has_post_key(request, key):
     post_keys = dict(request.POST).keys()
@@ -16,8 +21,7 @@ def has_post_key(request, key):
     return False
 
 
-
-def main(request, response):
+def main(request: HttpRequest, response: Response):
     request_data = ''
     if request.content_type == 'application/json':
         request_data = request.body.decode('utf-8')

@@ -33,25 +33,6 @@ def video(request, response: Response):
     return response
 
 
-def has_payer_transient_info(data):
-    return data.keys() >= {
-        'first_name',
-        'second_name',
-        'kana_first_name',
-        'kana_second_name',
-        'mail_address',
-        'phone_number',
-    }
-
-
-def payer_transient_info(request, response: Response, data: dict):
-    if has_payer_transient_info(data):
-        if request.session.get('payer_transient_info') is None:
-            request.session['payer_transient_info'] = data
-
-    return response
-
-
 def main(request, response: Response):
     request_data = request.body.decode('utf-8')
     request_data = json.loads(request_data)

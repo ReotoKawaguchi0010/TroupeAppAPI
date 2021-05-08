@@ -1,4 +1,4 @@
-from Gekidan100WebPage.views.get import get, get_performance
+from Gekidan100WebPage.views.app.get import get, get_performance
 from Gekidan100WebPage.utils.util import has_request_type
 
 

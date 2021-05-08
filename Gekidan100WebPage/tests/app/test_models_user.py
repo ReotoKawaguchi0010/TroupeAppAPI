@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
 
 from Gekidan100WebPage.models.user import UserData
 
@@ -7,13 +6,13 @@ from Gekidan100WebPage.models.user import UserData
 class TestUserModel(TestCase):
 
     def setUp(self):
-        user = User(username='reoto_kawaguchi', password='reoto_kawaguchi', is_superuser=True)
-        user.save()
-
-        user_data = UserData(user=user, introduction='into', profile_image='https://test.com', contract='mail')
-        user_data.save()
+        UserData().create_user(username='reoto_kawaguchi', email='test@test.com', password='reoto_pass',
+                               introduction='int', profile_image='https://test.com', contract='test@test.com')
 
     def test_is_admin_user(self):
+        user_data = UserData().login('reoto_kawaguchi', 'reoto_pass')
 
-        user_data = UserData.objects.get(user__username='reoto_kawaguchi')
-        print(user_data.is_admin_user())
+        if user_data is not None:
+            user_data.pprint()
+
+        self.assertIsNotNone(user_data)

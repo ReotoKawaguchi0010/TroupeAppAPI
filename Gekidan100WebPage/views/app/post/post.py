@@ -25,7 +25,7 @@ def login(request, response: Response, data: dict):
             username = data['username']
             password = data['password']
             test = UserData().login(username, password)
-            print(test)
+
             if User.objects.filter(username=username).exists():
                 user = User.objects.get(username=username)
                 user_data = UserData.objects.get(user=user)
