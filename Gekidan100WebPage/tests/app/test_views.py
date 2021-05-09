@@ -1,8 +1,5 @@
-import json
-
 from django.test import TestCase
 from django.contrib.auth.models import User
-from django.contrib.sessions.backends.cache import SessionStore
 from rest_framework.response import Response
 from rest_framework.test import APITestCase, APIClient
 
@@ -26,8 +23,6 @@ class APITestLogin(APITestCase, TestCase):
         self.assertIsNotNone(res)
 
         print(res.data)
-
-        client.force_login(User.objects.get(username=res.data['user']['username']))
 
         res = client.get('/api/app/?type=get_user_data')
         print(res.data)

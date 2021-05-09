@@ -29,7 +29,5 @@ def get_idea(request, response: Response, data: dict):
 def get_user_data(request, response: Response):
     user_data = SessionUserAdminWebApp(request=request, response=response)
     if user_data.is_login():
-        response.data = {
-            'login': 'true',
-        }
+        response.data = user_data.get_session()
     return response

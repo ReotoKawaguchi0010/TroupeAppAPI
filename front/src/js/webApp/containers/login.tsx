@@ -74,7 +74,7 @@ const Main = () => {
                 password: loginState.sendData.password
             }
         }
-        login({type: 'login', sendData: loginState.sendData}, dispatch)
+        login({type: 'login', sendData: sendData}, dispatch)
     }
 
     return (

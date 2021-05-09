@@ -6,8 +6,7 @@ let newState: UserReducerType
 export const userReducer = (state=initialState.userReducer, action: any) =>{
     switch (action.type){
         case 'login':
-            login = action.data.login === 'true'
-            console.log(login)
+            login = action.data.bool
             newState = {
                 login: login,
                 user: {
@@ -24,7 +23,7 @@ export const userReducer = (state=initialState.userReducer, action: any) =>{
         case 'logout':
             return state
         case 'get_user_data':
-            login = action.data.login === 'true'
+            login = action.data.bool
             if(login){
                 state = {
                     login: login,

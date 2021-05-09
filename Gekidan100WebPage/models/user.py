@@ -45,10 +45,13 @@ class UserData(models.Model):
     def json_serializer(self):
         data = {
             'username': self.user.username,
-            'name': f'{self.user.first_name} {self.user.last_name}',
+            'first_name': self.user.first_name,
+            'last_name': self.user.last_name,
+            'email': self.user.email,
             'introduction': self.introduction,
             'profile_image': self.profile_image,
             'contract': self.contract,
+            'is_superuser': self.user.is_superuser,
         }
         return json.dumps(data)
 

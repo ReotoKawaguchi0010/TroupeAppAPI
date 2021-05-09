@@ -17,6 +17,7 @@ export const login = async (action: any, dispatch: any) => {
         sendData.type = action.type
         const res = await create.post(`/app/`, JSON.stringify(sendData))
         action.data = res.data
+        console.log(res.data)
         dispatch(action)
     }catch (e) {
         console.log(e)

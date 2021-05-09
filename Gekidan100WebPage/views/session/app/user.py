@@ -1,7 +1,9 @@
+import json
+
 from django.http.request import HttpRequest
-from django.contrib.sessions.backends.db import SessionStore
 from rest_framework.response import Response
 
+from Gekidan100.config.config import CUSTOM_SESSION_COOKIE_NAME
 from Gekidan100WebPage.models.user import UserData
 from Gekidan100WebPage.views.session import SessionAdminWebPage
 
@@ -13,6 +15,7 @@ class SessionUserAdminWebApp(SessionAdminWebPage):
         super().__init__(request, response)
         self.user_data = user_data
         self.request.session.set_expiry(60*60)
+        self.session_data = ''
 
     @staticmethod
     def has_payer_transient_info(data):
@@ -29,13 +32,17 @@ class SessionUserAdminWebApp(SessionAdminWebPage):
             }
         return False
 
+    def json_serializer(self):
+        return self.user_data.json_serializer()
+
+    def json_unserializer(self):
+        return json.loads(self.session_data)
+
     def create_session(self):
         if self.user_data is not None:
-            s = SessionStore()
-            s[self.name] = self.user_data.json_serializer()
-            s.create()
-            s = SessionStore(session_key=s.session_key)
-            self.request.session = s
+            self.request.session[self.name] = self.json_serializer()
+            self.request.session.create()
+            self.response.set_cookie(CUSTOM_SESSION_COOKIE_NAME, self.request.session.session_key)
             self.response.data = {
                 'status': '200', 'bool': True, 'login': 'success',
                 'user': {
@@ -51,8 +58,31 @@ class SessionUserAdminWebApp(SessionAdminWebPage):
             }
         return self.response
 
+    def delete_session(self):
+        if self.is_login():
+            self.request.session.delete(self.name)
+            return True
+        return False
+
     def is_login(self):
         user_data = self.request.session.get(self.name)
         if user_data is None:
             return False
         return True
+
+    def get_session(self):
+        self.session_data = self.request.session.get(self.name)
+        data = self.json_unserializer()
+        return {
+            'status': '200', 'bool': True, 'login': 'success',
+            'user': {
+                'username': data['username'],
+                'first_name': data['first_name'],
+                'last_name': data['last_name'],
+                'email': data['email'],
+                'introduction': data['introduction'],
+                'profile_image': data['profile_image'],
+                'contract': data['contract'],
+                'is_superuser': data['is_superuser'],
+            }
+        }
