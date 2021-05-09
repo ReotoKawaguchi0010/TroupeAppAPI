@@ -1,14 +1,20 @@
 import datetime
 import json
 
-from django.test import TestCase
+from rest_framework.response import Response
+from rest_framework.test import APITestCase, APIClient
 
+from Gekidan100WebPage.models.user import UserData
 from Gekidan100WebPage.models.video_ticket import VideoTicket
 from Gekidan100WebPage.models.performance_video_list import PerformanceVideoList
 
 
-class VideoTicketModelTests(TestCase):
+class APITestChangePermitVideoTicket(APITestCase):
     def setUp(self):
+        UserData().create_user(username='reoto_kawaguchi', email='test@test.com', password='reoto_pass',
+                               introduction='int', profile_image='https://test.com', contract='test@test.com',
+                               is_superuser=True)
+
         data = {
             'performance_num': 4,
             'item_name': 'ゲキダン！〜テクノロジーの惑星から愛の使者がやってきた〜',
@@ -19,7 +25,6 @@ class VideoTicketModelTests(TestCase):
             'synopsis': 'texttexttexttexttexttexttext',
             'images': json.dumps([{"url": "test.com", "title": "text"}, {"url": "test.com", "title": "text"}]),
         }
-
         PerformanceVideoList().create(data)
 
         data = {
@@ -33,35 +38,26 @@ class VideoTicketModelTests(TestCase):
             'payer_id': 'testtes53798hofas3',
             'token': 'gsgoiifaf',
         }
+        VideoTicket().create(data)
 
-        video_ticket = VideoTicket()
-        video_ticket.create(data)
+        self.client = APIClient()
+        self.res: Response = self.client.post('/api/app/', {
+            'type': 'login',
+            'send_data': {
+                'username': 'reoto_kawaguchi',
+                'password': 'reoto_pass',
+            },
+        }, format='json')
 
-    def test_create_video_ticket_model(self):
-        video_tickets = VideoTicket().read_all()
+        print(self.res.data)
 
-        for video_ticket in video_tickets:
-            print(video_ticket.id)
-            print(video_ticket.auth_code)
-            print(video_ticket.token)
-
-        self.assertEqual(len(video_tickets) >= 1, True)
-
-    def test_get_auth_code(self):
-        video_ticket = VideoTicket.objects.get(id=1)
-        auth_code = video_ticket.auth_code
-
-        video_ticket = VideoTicket.objects.get(auth_code=auth_code)
-        video_ticket.print()
-
-    def test_change_permit(self):
-        video_ticket = VideoTicket.objects.get(id=1)
-        video_ticket.print()
-
-        print('')
-
-        video_ticket.permit_change()
-        video_ticket = VideoTicket.objects.get(id=1)
-        video_ticket.print()
-
-
+    def test_permit_change(self):
+        self.res = self.client.post('/api/app/', {
+            'type': 'video_ticket_permit',
+            'send_data': {
+                'video_ticket_num': 1,
+                'previous_permit': False,
+                'next_permit': True,
+            }
+        }, format='json')
+        print(self.res.data)

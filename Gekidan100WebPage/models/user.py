@@ -56,12 +56,7 @@ class UserData(models.Model):
         return json.dumps(data)
 
     def pprint(self):
-        print('-' * 40)
-        print(f'username: {self.user.username}')
-        print('-'*40)
-        print(f'email: {self.user.email}')
-        print('-' * 40)
-        print(f'is_superuser: {self.user.is_superuser}')
-        print('-' * 40)
-        print(f'name: {self.user.get_full_name()}')
-        print('-' * 40)
+        for k, v in self.__getstate__().items():
+            print('*' * 50)
+            print(f'* {k} = {v}')
+        print('*' * 50)

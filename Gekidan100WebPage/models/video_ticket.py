@@ -126,5 +126,20 @@ class VideoTicket(models.Model):
         auth_num = encode_sha256(self.payer_id) + encode_sha256(self.payment_id) + encode_sha256(self.token)
         return encode_sha256(auth_num)
 
+    def permit_change(self, send_data: dict):
+        if 'video_ticket_num' and 'previous_permit' and 'next_permit' in send_data:
+            video_ticket = self.__class__.objects.get(id=send_data['video_ticket_num'])
+            if video_ticket.permit == send_data['previous_permit']:
+                video_ticket.permit = send_data['next_permit']
+                video_ticket.save()
+                return video_ticket
+        return self
+
     def read_all(self):
         return self.__class__.objects.all()
+
+    def print(self):
+        for k, v in self.__getstate__().items():
+            print('*'*50)
+            print(f'* {k} = {v}')
+        print('*'*50)

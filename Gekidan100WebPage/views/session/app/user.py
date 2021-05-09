@@ -53,7 +53,7 @@ class SessionUserAdminWebApp(SessionAdminWebPage):
                     'introduction': self.user_data.introduction,
                     'profile_image': self.user_data.profile_image,
                     'contract': self.user_data.contract,
-                    'is_super_user': self.user_data.user.is_superuser
+                    'is_superuser': self.user_data.user.is_superuser
                 }
             }
         return self.response
@@ -69,6 +69,14 @@ class SessionUserAdminWebApp(SessionAdminWebPage):
         if user_data is None:
             return False
         return True
+
+    def is_superuser(self):
+        if self.is_login():
+            self.session_data = self.request.session.get(self.name)
+            data = self.json_unserializer()
+            user_data = UserData.objects.get(user__username=data['username'])
+            return user_data.is_admin_user()
+        return False
 
     def get_session(self):
         self.session_data = self.request.session.get(self.name)

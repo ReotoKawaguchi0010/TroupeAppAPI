@@ -44,4 +44,6 @@ def main(request: HttpRequest, response: Response):
         response = post_file.main(request, response, request_data)
     elif has_request_type(request_data, 'create_budget'):
         response = post_performance.post_budget(request, response, request_data)
+    elif has_request_type(request_data, 'video_ticket_permit'):
+        response = post.video_ticket_permit(request, response, request_data)
     return response

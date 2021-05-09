@@ -2,6 +2,7 @@ from rest_framework.response import Response
 
 from Gekidan100WebPage.models.models import IdeaContents
 from Gekidan100WebPage.models.user import UserData
+from Gekidan100WebPage.models.video_ticket import VideoTicket
 from Gekidan100WebPage.views.session.app.user import SessionUserAdminWebApp
 
 
@@ -36,3 +37,11 @@ def idea(request, response: Response, data: dict):
         idea_contents = IdeaContents()
         idea_contents.create(title=title, author=author, values=in_idea_contents_data)
     return response
+
+def video_ticket_permit(request, response: Response, data: dict):
+    session = SessionUserAdminWebApp(request=request, response=response)
+    if session.is_superuser() and 'send_data' in data:
+        VideoTicket().permit_change(data['send_data'])
+        response.data = {'status': '200', 'change_permit': 'success'}
+    return response
+
