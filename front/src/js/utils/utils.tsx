@@ -1,8 +1,9 @@
 import React from "react";
-import {Paper, Drawer, Button} from "@material-ui/core";
+import {Button, Drawer, Paper} from "@material-ui/core";
 import axios from "axios";
 
 import {API_PATH} from "js/configs/config";
+import _ from "lodash";
 
 export interface AlertUIType {
     open: boolean
@@ -62,4 +63,24 @@ export const scrollTop = (path: string, prevPath: string) => {
     if(path !== prevPath){
         window.scrollTo(0, 0);
     }
+}
+
+
+
+interface CamelCaseForResType{
+    [key: string]: string | number
+}
+
+interface JsonObjectType{
+    [key: string]: string | number
+}
+
+export const changeCamelCase = <T,>(data: object, t: T): T => {
+    let camelCaseData: CamelCaseForResType = {}
+    _.map(data, (v:string | number, k: string | number) => {
+        let key: string = _.camelCase(String(k))
+        camelCaseData[key] = v
+    })
+
+    return t
 }

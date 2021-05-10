@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {changeCamelCase} from "js/utils/utils";
 // @ts-ignore
 import { Player, ControlBar } from "video-react";
 import { Link } from "react-router-dom";
@@ -112,6 +113,26 @@ export const Video = () => {
 
 
 export const Videos = () => {
+    interface VideosData {
+        performanceNum: number,
+        itemNum: string
+    }
+
+    const test_a: VideosData =  {
+        performanceNum: 0,
+        itemNum:''
+    }
+
+    const resData = {
+        performance_num: 4,
+        item_name: '',
+    }
+
+
+
+    const test: VideosData = changeCamelCase<VideosData>(resData, test_a)
+
+
     const {path} = useRouteMatch()
     const classes = useStyles()
     const routes = [
