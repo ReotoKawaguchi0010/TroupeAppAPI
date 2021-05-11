@@ -1,11 +1,14 @@
 import { GET_ROOT_PATH, SEND_MAIL } from "js/webPage/actions/action"
-import {initialState, InitialStateType} from "js/webPage/reducers";
+import {initialState, InitialStateType, HttpType} from "js/webPage/reducers";
+import {changeCamelCase} from "../../utils/utils";
 
 
 export default (state: InitialStateType=initialState, action: any) => {
     switch (action.type){
         case GET_ROOT_PATH:
-            return {...action.state.http, ...action.data}
+            let data: HttpType = changeCamelCase<HttpType>(action.data, initialState.http)
+            console.log(data)
+            return {...action.state.http, ...data}
         case SEND_MAIL:
             let status = action.data.status_code
             let bool = action.data.bool === 'true'

@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import _ from "lodash";
+
 import {changeCamelCase} from "js/utils/utils";
 // @ts-ignore
 import { Player, ControlBar } from "video-react";
 import { Link } from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
-import {Redirect, Switch, useRouteMatch, useParams, useHistory} from "react-router";
+import {Redirect, Switch, useRouteMatch, useParams} from "react-router";
 import {List, ListItem, Box, Button} from "@material-ui/core";
 import {RouteWithSubRoutes} from "../../routes/routes";
 
@@ -113,25 +115,50 @@ export const Video = () => {
 
 
 export const Videos = () => {
-    interface VideosData {
-        performanceNum: number,
+    interface ImagesType{
+        url: string
+        title: string
+    }
+
+    interface PerformanceVideoListType{
+        performanceNum: number
         itemNum: string
+        topImage: string
+        releaseDate: string
+        price: string
+        paymentMethods: string[]
+        synopsis: string
+        images: ImagesType[]
     }
 
-    const test_a: VideosData =  {
-        performanceNum: 0,
-        itemNum:''
+    const initialState: PerformanceVideoListType = {
+        performanceNum: 0, images: [], topImage: '', price: '', paymentMethods: [], synopsis: '',
+        releaseDate: '', itemNum: ''
     }
 
-    const resData = {
-        performance_num: 4,
-        item_name: '',
-    }
+    const [videoListState, setVideoListState] = useState(initialState);
+    useEffect(() => {
+        const resData = {
+            performance_num: 4,
+            item_name: 'ゲキダン！〜テクノロジーの惑星から愛の使者がやってきた〜',
+            top_image: 'https://test/com',
+            release_date: '2021-05-12 03:10:33.166093',
+            price: '1500',
+            payment_methods: ['paypal', '振り込み'],
+            synopsis: 'texttexttexttexttexttexttext',
+            images: [
+                {url: 'test.com', title: 'text'},
+                {url: 'test.com', title: 'text'},
+            ],
+        }
+
+        const data: PerformanceVideoListType = changeCamelCase<PerformanceVideoListType>(resData, initialState)
 
 
+        setVideoListState({...data})
+    }, [])
 
-    const test: VideosData = changeCamelCase<VideosData>(resData, test_a)
-
+    console.log(videoListState)
 
     const {path} = useRouteMatch()
     const classes = useStyles()
@@ -149,6 +176,12 @@ export const Videos = () => {
             component: () => {
                 return (
                     <>
+
+                        <div>{videoListState.performanceNum}</div>
+                        <div>{videoListState.price}</div>
+
+
+
                         <Box className={classes.wrapVideoList}>
                             <List>
                                 <ListItem className={classes.videoListItem}>
