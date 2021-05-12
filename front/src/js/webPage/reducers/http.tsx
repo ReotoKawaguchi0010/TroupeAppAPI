@@ -1,6 +1,6 @@
 import { GET_ROOT_PATH, SEND_MAIL } from "js/webPage/actions/action"
 import {initialState, InitialStateType, HttpType} from "js/webPage/reducers";
-import {changeCamelCase} from "../../utils/utils";
+import {changeCamelCase} from "js/utils/utils";
 
 
 export default (state: InitialStateType=initialState, action: any) => {
