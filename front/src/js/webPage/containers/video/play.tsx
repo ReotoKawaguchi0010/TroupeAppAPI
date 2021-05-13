@@ -96,7 +96,7 @@ export const Play = () => {
 
     return (
         <>
-            {redirectState? <Redirect to={`${videoId}/streaming_ticket`} />: ''}
+            {redirectState? <Redirect to={`${videoId}/ticket`} />: ''}
             {videoId !== '4' ? <Redirect to={{pathname: '/contents/video'}} />: ''}
             <div onContextMenu={rightClick} className={classes.wrapPlayer}>
                 <Player src={state.url} className={classes.player}>

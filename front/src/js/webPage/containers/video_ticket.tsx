@@ -1,5 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
+import {Button, FormControl, InputLabel, MenuItem, Select, TextField, Box} from "@material-ui/core";
 import {makeStyles, createStyles, Theme} from "@material-ui/core/styles";
+import {Switch, useRouteMatch} from "react-router";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 
@@ -7,8 +9,7 @@ import _ from "lodash";
 import {PayPalIcon} from "js/webPage/containers/icons";
 import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
 import {Loading} from "js/webPage/containers/loading";
-import {create} from "js/utils/utils";
-import {Button, FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
+import {create, changeCamelCase, changeSnakeCase} from "js/utils/utils";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -118,27 +119,144 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-
-interface ResBuyTicketType {
-    payment: string
-    redirect: boolean
+interface PayerType{
+    paymentMethod: string
+    firstName: string
+    secondName: string
+    kanaFirstName: string
+    kanaSecondName: string
+    mailAddress: string
+    phoneNumber: string
 }
 
-export const VideoTicket = () => {
+interface PayerTransientInfoType{
+    type: string
+    payer: PayerType
+}
+
+const StepOne = () => {
     const {state, dispatch} = useContext(PageStoreContext)
+    const userInitialState: PayerTransientInfoType = {
+        type: 'payer_transient_info',
+        payer: {
+            paymentMethod: '',
+            firstName: '',
+            secondName: '',
+            kanaFirstName: '',
+            kanaSecondName: '',
+            mailAddress: '',
+            phoneNumber: '',
+        },
+    }
+    const [userState, setUserState] = useState(userInitialState)
+    const classes = useStyles()
+
+    const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let payer: PayerType = userState.payer
+        switch (e.target.name) {
+            case 'name':
+                payer = {...payer, firstName: e.target.value}
+                setUserState({...userState, payer: payer})
+                break
+            case 'mailAddress':
+                payer = {...payer, mailAddress: e.target.value}
+                setUserState({...userState, payer: payer})
+                break
+            case 'paymentMethod':
+                payer = {...payer, paymentMethod: e.target.value}
+                setUserState({...userState, payer: payer})
+                break
+        }
+    }
+
+    const hasAllUserState = () => {
+        let all = true
+        _.map(userState, (v) => {
+            if(v === ''){
+                all = false
+            }
+        })
+    return all
+    }
+    const sendBuyTicket = async (e: any) => {
+        if(hasAllUserState()){
+            const res = await create.post('/', changeSnakeCase(userState))
+            console.log(res)
+            return true
+        }
+        return e.preventDefault()
+    }
+
+    return (
+        <div className={classes.body}>
+            <div className={classes.title}>劇団沸第4回公演「ゲキダン！」</div>
+            <div className={classes.subTitle}>配信チケット</div>
+
+            <div>
+                <div>
+                    <div className={classes.wrapForm}>
+                        <TextField
+                            name={'name'}
+                            label="お名前"
+                            variant="outlined"
+                            className={classes.singleTextField}
+                            onChange={handleTextChange}
+                        />
+                    </div>
+                </div>
+
+                <div>
+                    <div className={classes.wrapForm}>
+                        <TextField
+                            name={'name'}
+                            label="お名前"
+                            variant="outlined"
+                            className={classes.singleTextField}
+                            onChange={handleTextChange}
+                        />
+                    </div>
+                </div>
+
+                <div>
+                    <div className={classes.wrapForm}>
+                        <TextField
+                            name={'mailAddress'}
+                            label="メールアドレス"
+                            variant="outlined"
+                            className={classes.singleTextField}
+                            onChange={handleTextChange}
+                        />
+                    </div>
+                </div>
+
+                <div>
+                    <div className={classes.wrapForm}>
+                        <FormControl variant="outlined">
+                            <InputLabel id="address-place" className={classes.selectInLabel}>
+                                支払い方法
+                            </InputLabel>
+                            <Select
+                                name={'payment'}
+                                onChange={handleTextChange}
+                                value={userState.payer.paymentMethod}
+                                className={classes.selectField}
+                            >
+                                <MenuItem value={'PayPal'}>PayPal</MenuItem>
+                                <MenuItem value={'振り込み'}>振り込み</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+const StepTwo = () => {
     const [ticketState, setTicketState] = useState({
         url: '',
         isLoading: false,
     })
-    const [userState, setUserState] = useState({
-        type: 'buy_video_ticket',
-        name: '',
-        mailAddress: '',
-        payment: '',
-
-    })
-    const [paymentState, setPaymentState] = useState('')
-    const classes = useStyles()
 
     const getPayPalPath = async () => {
         setTicketState({...ticketState, isLoading: true})
@@ -153,100 +271,60 @@ export const VideoTicket = () => {
     useEffect(() => {
         getPayPalPath()
     }, [])
-
-    const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        switch (e.target.name) {
-            case 'name':
-                setUserState({...userState, name: e.target.value})
-                break
-            case 'mailAddress':
-                setUserState({...userState, mailAddress: e.target.value})
-                break
-            case 'payment':
-                setUserState({...userState, payment: e.target.value})
-                break
-        }
-    }
-
-    const hasAllUserState = () => {
-        let all = true
-       _.map(userState, (v) => {
-            if(v === ''){
-                all = false
-            }
-        })
-        return all
-    }
-
-
-    const sendBuyTicket = async (e: any) => {
-        if(hasAllUserState()){
-            let sendData = {
-                type: userState.type,
-                name: userState.name,
-                mail_address: userState.mailAddress,
-                payment: userState.payment,
-            }
-            const res = await create.post('/', sendData)
-            const data: ResBuyTicketType = res.data
-            return true
-        }
-        return e.preventDefault()
-    }
     return (
         <>
-            {ticketState.isLoading? <Loading />: false}
-            <div className={classes.body}>
-                <div>
-                    <div>
-                        <div className={classes.title}>劇団沸第4回公演「ゲキダン！」</div>
-                        <div className={classes.subTitle}>配信チケット</div>
+            test
+            {/*{ticketState.isLoading? <Loading />: false}*/}
 
-                        <div>
-                            <div>
-                                <div className={classes.wrapForm}>
-                                    <TextField name={'name'} label="お名前" variant="outlined" className={classes.singleTextField}
-                                               onChange={handleTextChange}  />
-                                </div>
+        </>
+    )
+}
 
-                            </div>
-                            <div>
-                                <div className={classes.wrapForm}>
-                                    <TextField name={'mailAddress'} label="メールアドレス" variant="outlined" className={classes.singleTextField}
-                                               onChange={handleTextChange}  />
-                                </div>
-                            </div>
-                            <div>
-                                <div className={classes.wrapForm}>
-                                    <FormControl variant="outlined">
-                                        <InputLabel id="address-place" className={classes.selectInLabel}>支払い方法</InputLabel>
-                                        <Select name={'payment'} onChange={handleTextChange} value={userState.payment} className={classes.selectField}>
-                                            <MenuItem value={'PayPal'}>PayPal</MenuItem>
-                                            <MenuItem value={'振り込み'}>振り込み</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </div>
-                            </div>
-                            {
-                                userState.payment === 'PayPal' ? (
-                                    <div className={classes.sendBtn}>
-                                        <Button onClick={sendBuyTicket}>
-                                            <a href={ticketState.url}>決定</a>
-                                        </Button>
-                                        <div>取引を完了するために、PayPalのセキュリティで保護されたサーバーに移動します。</div>
-                                        <div><PayPalIcon /></div>
-                                    </div>
-                                ) : (
-                                    <div className={classes.sendBtn}>
-                                        <Button onClick={sendBuyTicket}>
-                                            決定
-                                        </Button>
-                                    </div>
-                                )
-                            }
-                        </div>
-                    </div>
-                </div>
+const StepThree = () => {
+    return (
+        <>
+
+        </>
+    )
+}
+
+interface StepsType{
+    label: string,
+    component: React.FC
+}
+
+
+export const VideoTicket = () => {
+    const [activeStep, setActiveStep] = React.useState(0);
+    const steps: StepsType[] = [
+        {
+            label: 'step1',
+            component: StepOne,
+        },
+        {
+            label: 'step2',
+            component: StepTwo,
+        },
+        {
+            label: 'step3',
+            component: StepThree,
+        },
+    ]
+
+    const handleNext = () => {
+        setActiveStep(activeStep+1)
+    }
+
+
+
+    return (
+        <>
+            <div>ticket</div>
+            <Box>
+
+            </Box>
+            <div>
+                <Button onClick={handleNext}>next</Button>
             </div>
         </>
     )

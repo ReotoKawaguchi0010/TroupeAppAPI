@@ -51,16 +51,38 @@ const useStyles = makeStyles((theme) => ({
     },
     videoList: {
         width: '60%',
+        '& li': {
+            borderBottom: 'solid 2px #BEBDBE',
+        },
     },
     listItemTitle: {
         background: '#FF232C',
         color: '#ffffff',
-        fontSize: '10px',
+        fontSize: '12px',
+        padding: 5,
+        borderRadius: 4,
+        fontWeight: 500,
+    },
+    wrapSendBtn: {
+        textAlign: 'center',
+        margin: '10px 0',
     },
     sendButton: {
         alignItems: 'center',
         background: '#FF232C',
         color: '#ffffff',
+        fontSize: 20,
+        padding: 10,
+        '&:hover': {
+            backgroundColor: '#B21721',
+            borderColor: '#B21721',
+            boxShadow: 'none',
+        },
+        '&:active': {
+            boxShadow: 'none',
+            backgroundColor: '#B21721',
+            borderColor: '#B21721',
+        },
     },
     wrapImages: {
         display: 'flex',
@@ -73,6 +95,9 @@ const useStyles = makeStyles((theme) => ({
     gridList: {
         flexWrap: 'nowrap',
         transform: 'translateZ(0)',
+    },
+    link: {
+        textDecoration: 'none',
     },
 }));
 
@@ -87,11 +112,26 @@ interface PerformanceVideoListType{
     topImage: string
     releaseDate: string
     price: string
-    paymentMethods: string[]
+    paymentMethods: {[key: number]: any}
     synopsis: string
-    images: ImagesType[]
+    images: {[key: number]: ImagesType}
 }
 
+const resData = {
+    performance_num: 4,
+    item_name: 'ゲキダン！〜テクノロジーの惑星から愛の使者がやってきた〜',
+    top_image: 'https://stage-image.corich.jp/img_stage/m/910/stage_91055.png',
+    release_date: '2021-05-12 03:10:33.166093',
+    price: '1500',
+    payment_methods: ['paypal', '振り込み'],
+    synopsis: 'texttexttexttexttexttexttext',
+    images: [
+        {url: 'https://pics.prcm.jp/03d230127a560/84396884/jpeg/84396884_220x220.jpeg', title: 'text'},
+        {url: 'https://pics.prcm.jp/53ffabcef77e1/83761991/jpeg/83761991_220x220.jpeg', title: 'text'},
+        {url: 'https://pics.prcm.jp/53ffabcef77e1/83761991/jpeg/83761991_220x220.jpeg', title: 'text'},
+        {url: 'https://pics.prcm.jp/53ffabcef77e1/83761991/jpeg/83761991_220x220.jpeg', title: 'text'},
+    ],
+}
 
 
 export const Videos = () => {
@@ -101,25 +141,7 @@ export const Videos = () => {
     }
     const [videoListState, setVideoListState] = useState(initialState);
     useEffect(() => {
-        const resData = {
-            performance_num: 4,
-            item_name: 'ゲキダン！〜テクノロジーの惑星から愛の使者がやってきた〜',
-            top_image: 'https://stage-image.corich.jp/img_stage/m/910/stage_91055.png',
-            release_date: '2021-05-12 03:10:33.166093',
-            price: '1500',
-            payment_methods: ['paypal', '振り込み'],
-            synopsis: 'texttexttexttexttexttexttext',
-            images: [
-                {url: 'https://pics.prcm.jp/03d230127a560/84396884/jpeg/84396884_220x220.jpeg', title: 'text'},
-                {url: 'https://pics.prcm.jp/53ffabcef77e1/83761991/jpeg/83761991_220x220.jpeg', title: 'text'},
-                {url: 'https://pics.prcm.jp/53ffabcef77e1/83761991/jpeg/83761991_220x220.jpeg', title: 'text'},
-                {url: 'https://pics.prcm.jp/53ffabcef77e1/83761991/jpeg/83761991_220x220.jpeg', title: 'text'},
-            ],
-        }
-
         const data: PerformanceVideoListType = changeCamelCase<PerformanceVideoListType>(resData, initialState)
-
-
         setVideoListState({...data})
     }, [])
 
@@ -127,7 +149,7 @@ export const Videos = () => {
     const classes = useStyles()
     const routes = [
         {
-            path: `${path}/:videoId/streaming_ticket`,
+            path: `${path}/:videoId/ticket`,
             component: VideoTicket,
         },
         {
@@ -140,12 +162,13 @@ export const Videos = () => {
                 return (
                     <>
                         <Box component={'h3'} className={classes.title}>Item List</Box>
+                        <Box component={'h1'}>過去の公演動画</Box>
                         <Box className={classes.wrapVideoList}>
                             <Box className={classes.wrapVideoListItem}>
                                 <div className={classes.performanceNum}>【劇団沸第{videoListState.performanceNum}回公演】</div>
                                 <div className={classes.mainContent}>
                                     <div className={classes.topImage}>
-                                        <img src={videoListState.topImage}  alt={'キービジュアル'}/>
+                                        <img src={videoListState.topImage} alt={'キービジュアル'}/>
                                     </div>
                                     <div className={classes.videoList}>
                                         <List>
@@ -163,7 +186,7 @@ export const Videos = () => {
                                             </ListItem>
                                             <ListItem>
                                                 <div className={classes.listItemTitle}>お支払い方法</div>
-                                                {videoListState.paymentMethods[0]}
+                                                {}
                                             </ListItem>
                                             <ListItem>
                                                 <div className={classes.listItemTitle}>あらすじ</div>
@@ -181,7 +204,11 @@ export const Videos = () => {
                                         ))}
                                     </GridList>
                                 </div>
-                                <div><Button className={classes.sendButton}>購入画面へ {'>'}</Button></div>
+                                <div className={classes.wrapSendBtn}>
+                                    <Link className={classes.link} to={`${path}/${videoListState.performanceNum}`}>
+                                        <Button className={classes.sendButton}>購入画面へ {'>'}</Button>
+                                    </Link>
+                                </div>
                             </Box>
                         </Box>
                     </>
