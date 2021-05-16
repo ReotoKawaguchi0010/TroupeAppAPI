@@ -1,10 +1,9 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Button, FormControl, InputLabel, MenuItem, Select, TextField, Box} from "@material-ui/core";
 import {makeStyles, createStyles, Theme} from "@material-ui/core/styles";
-import {Switch, useRouteMatch} from "react-router";
+import {useRouteMatch, useHistory} from "react-router";
 import { Link } from "react-router-dom";
 import _ from "lodash";
-
 
 import {PayPalIcon} from "js/webPage/containers/icons";
 import {PageStoreContext} from "js/webPage/contexts/PageStoreContext";
@@ -288,44 +287,47 @@ const StepThree = () => {
     )
 }
 
-interface StepsType{
-    label: string,
-    component: React.FC
-}
-
-
 export const VideoTicket = () => {
+    const maxStep = 2;
     const [activeStep, setActiveStep] = React.useState(0);
-    const steps: StepsType[] = [
-        {
-            label: 'step1',
-            component: StepOne,
-        },
-        {
-            label: 'step2',
-            component: StepTwo,
-        },
-        {
-            label: 'step3',
-            component: StepThree,
-        },
-    ]
+    const history = useHistory()
 
     const handleNext = () => {
-        setActiveStep(activeStep+1)
+        if(activeStep >= 0 && activeStep <= maxStep) setActiveStep(activeStep+1)
     }
 
+    const handleBack = () => {
+        if(activeStep >= 0 && activeStep <= maxStep) setActiveStep(activeStep-1)
+    }
 
+    const handleCancel = () => {
+        history.push('/contents/video')
+    }
+
+    const StepComponent = () => {
+        switch (activeStep){
+            case 0:
+                return <StepOne />
+            case 1:
+                return <StepTwo />
+            case 2:
+                return <StepThree />
+            default:
+                return <StepOne />
+        }
+    }
 
     return (
         <>
             <div>ticket</div>
             <Box>
-
+                <StepComponent />
             </Box>
-            <div>
-                <Button onClick={handleNext}>next</Button>
-            </div>
+            <Box>
+                <Button onClick={handleBack}>前の画面</Button>
+                <Button onClick={handleNext}>次の画面</Button>
+                <Button onClick={handleCancel}>キャンセル</Button>
+            </Box>
         </>
     )
 }

@@ -12,18 +12,18 @@ import logo from "images/futsu_logo.png";
 
 
 const useStyles = makeStyles((theme) => createStyles({
-    headImg: {
-        width: "15%",
-        height: 'auto',
-        [theme.breakpoints.between('xs', 'md')]: {
-            width: "25%",
-        },
-    },
     logo: {
+        width: '5%',
         position: 'fixed',
         top: '30px',
         left: '2%',
         zIndex: 1,
+        '& a': {
+            width: '100%',
+        },
+        '& img': {
+            width: '100%',
+        },
     },
     menuIcon: {
         position: 'fixed',
@@ -143,29 +143,56 @@ export const MenuIcon = () => {
     return (
         <>
             <div>
-                <div className={classes.logo}><Link to="/"><img className={classes.headImg} src={logo} alt="Logo" /></Link></div>
+                <div className={classes.logo}>
+                    <Link to="/"><img src={logo} alt="Logo" /></Link>
+                </div>
                 <div className={classes.menuIcon}>
-                    <DehazeIcon className={classes.iconStyle} onMouseOver={mouseOver} onMouseOut={mouseOut} onClick={handleClick}/>
+                    <DehazeIcon className={classes.iconStyle}
+                                onMouseOver={mouseOver}
+                                onMouseOut={mouseOut}
+                                onClick={handleClick}/>
                 </div>
             </div>
             <StyledDrawer open={state.anchor} onClose={drawerClose} anchor={'right'}>
                 <div className="menu">
                     <div className={classes.menuHeader}>
-                        <div className={classes.menuLogo}><Link to="/" className={classes.linkStyle}><img className={classes.menuImage} src={logo} alt="Logo" /></Link></div>
-                        <div className="menu-close-icon"><CloseIcon onClick={drawerClose} className={classes.closeIconStyle} /></div>
+                        <div className={classes.menuLogo}>
+                            <Link to="/" className={classes.linkStyle}>
+                                <img className={classes.menuImage} src={logo} alt="Logo" />
+                            </Link>
+                        </div>
+                        <div className="menu-close-icon">
+                            <CloseIcon onClick={drawerClose} className={classes.closeIconStyle} />
+                        </div>
                     </div>
-                    <div className={classes.menuContent}><Link to="/member" className={classes.linkStyle}>Member</Link><hr /></div>
-                    <div className={classes.menuContent}><Link to="/ticket" className={classes.linkStyle}>Ticket</Link><hr /></div>
-                    <div className={classes.menuContent}><Link to="/contact" className={classes.linkStyle}>Contact</Link><hr /></div>
-                    <div className={classes.menuContent}><Link to="/contents" className={classes.linkStyle}>Contents</Link><hr /></div>
+                    <div className={classes.menuContent}>
+                        <Link to="/member" className={classes.linkStyle}>Member</Link>
+                        <hr />
+                    </div>
+                    <div className={classes.menuContent}>
+                        <Link to="/ticket" className={classes.linkStyle}>Ticket</Link>
+                        <hr />
+                    </div>
+                    <div className={classes.menuContent}>
+                        <Link to="/contact" className={classes.linkStyle}>Contact</Link>
+                        <hr />
+                    </div>
+                    <div className={classes.menuContent}>
+                        <Link to="/contents" className={classes.linkStyle}>Contents</Link>
+                        <hr />
+                    </div>
                     <div className={classes.menuFooter}>
                         <div className={classes.youtubeIco}>
-                            <a href="https://www.youtube.com/channel/UC2avfYxoYQZxchEmVxypnrg" target="_blank" rel="noopener norefferer">
+                            <a href="https://www.youtube.com/channel/UC2avfYxoYQZxchEmVxypnrg"
+                               target="_blank"
+                               rel="noopener norefferer">
                                 <img className={classes.img} src={youtubeIcon} alt={'youtubeIcon'} />
                             </a>
                         </div>
                         <div className={classes.instagramIco}>
-                            <a href="https://www.instagram.com/gekidan_futsu" target="_blank" rel="noopener norefferer">
+                            <a href="https://www.instagram.com/gekidan_futsu"
+                               target="_blank"
+                               rel="noopener norefferer">
                                 <img className={classes.img} src={instagramIcon} alt={'instagramIcon'} />
                             </a>
                         </div>

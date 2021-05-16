@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {Switch, useRouteMatch} from "react-router";
-import {Box, Button} from "@material-ui/core";
+import {Box, Button, List, ListItem} from "@material-ui/core";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 
 
@@ -16,6 +16,20 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: '120px 0',
             padding: '0 7%',
         },
+        title: {
+            textAlign: 'center',
+        },
+        list: {
+            '& li': {
+                borderBottom: 'solid 1px #000000',
+            },
+            '& div': {
+                textAlign: 'center',
+            },
+        },
+        contentsLink: {
+            textDecoration: 'none',
+        },
     })
 );
 
@@ -27,11 +41,23 @@ const Main = () => {
     return (
         <>
             <div className={classes.body}>
-                <Box>Contents</Box>
-                <div>
-                    <div><Link to={`${path}/video`}><Button>Video</Button></Link></div>
-                    <div><Link to={`${path}/music`}><Button>Music</Button></Link></div>
-                </div>
+                <Box className={classes.title} component={'h3'}>Contents</Box>
+                <List className={classes.list}>
+                    <Link className={classes.contentsLink} to={`${path}/video`}>
+                        <Button>
+                            <ListItem>
+                                <div>Video</div>
+                            </ListItem>
+                        </Button>
+                    </Link>
+                    <Link className={classes.contentsLink} to={`${path}/music`}>
+                        <Button>
+                            <ListItem>
+                                <div>Music</div>
+                            </ListItem>
+                        </Button>
+                    </Link>
+                </List>
             </div>
         </>
     )
