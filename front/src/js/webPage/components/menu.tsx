@@ -2,7 +2,7 @@ import React from "react";
 import {createStyles, withStyles, makeStyles} from "@material-ui/core/styles";
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import CloseIcon from '@material-ui/icons/Close';
-import {Drawer} from "@material-ui/core";
+import {Drawer, Button} from "@material-ui/core";
 import {Link} from "react-router-dom";
 
 import youtubeIcon from "images/icons/youtube_logo_official.png";
@@ -13,7 +13,7 @@ import logo from "images/futsu_logo.png";
 
 const useStyles = makeStyles((theme) => createStyles({
     logo: {
-        width: '5%',
+        width: '4%',
         position: 'fixed',
         top: '30px',
         left: '2%',
@@ -102,6 +102,10 @@ const useStyles = makeStyles((theme) => createStyles({
         justifyContent: 'center',
         color: '#ffffff',
         textDecoration: 'none',
+        '& button': {
+            color: '#ffffff',
+            padding: 0,
+        },
     },
 }));
 
@@ -134,23 +138,20 @@ export const MenuIcon = () => {
     const drawerClose = () => {
         setState({anchor: false})
     }
-    const mouseOver = (e: any) => {
-        e.currentTarget.style.color = '#4c1c1c';
-    }
-    const mouseOut = (e: any) => {
-        e.currentTarget.style.color = '#C14949';
-    }
+
     return (
         <>
             <div>
                 <div className={classes.logo}>
-                    <Link to="/"><img src={logo} alt="Logo" /></Link>
+                    <Link to="/">
+                        <Button><img src={logo} alt="Logo" /></Button>
+                    </Link>
                 </div>
                 <div className={classes.menuIcon}>
-                    <DehazeIcon className={classes.iconStyle}
-                                onMouseOver={mouseOver}
-                                onMouseOut={mouseOut}
-                                onClick={handleClick}/>
+                    <Button>
+                        <DehazeIcon className={classes.iconStyle}
+                                    onClick={handleClick}/>
+                    </Button>
                 </div>
             </div>
             <StyledDrawer open={state.anchor} onClose={drawerClose} anchor={'right'}>
@@ -158,27 +159,39 @@ export const MenuIcon = () => {
                     <div className={classes.menuHeader}>
                         <div className={classes.menuLogo}>
                             <Link to="/" className={classes.linkStyle}>
-                                <img className={classes.menuImage} src={logo} alt="Logo" />
+                                <Button>
+                                    <img className={classes.menuImage} src={logo} alt="Logo" />
+                                </Button>
                             </Link>
                         </div>
                         <div className="menu-close-icon">
-                            <CloseIcon onClick={drawerClose} className={classes.closeIconStyle} />
+                            <Button>
+                                <CloseIcon onClick={drawerClose} className={classes.closeIconStyle} />
+                            </Button>
                         </div>
                     </div>
                     <div className={classes.menuContent}>
-                        <Link to="/member" className={classes.linkStyle}>Member</Link>
+                        <Link to="/member" className={classes.linkStyle}>
+                            <Button>Member</Button>
+                        </Link>
                         <hr />
                     </div>
                     <div className={classes.menuContent}>
-                        <Link to="/ticket" className={classes.linkStyle}>Ticket</Link>
+                        <Link to="/ticket" className={classes.linkStyle}>
+                            <Button>Ticket</Button>
+                        </Link>
                         <hr />
                     </div>
                     <div className={classes.menuContent}>
-                        <Link to="/contact" className={classes.linkStyle}>Contact</Link>
+                        <Link to="/contact" className={classes.linkStyle}>
+                            <Button>Contact</Button>
+                        </Link>
                         <hr />
                     </div>
                     <div className={classes.menuContent}>
-                        <Link to="/contents" className={classes.linkStyle}>Contents</Link>
+                        <Link to="/contents" className={classes.linkStyle}>
+                            <Button>Contents</Button>
+                        </Link>
                         <hr />
                     </div>
                     <div className={classes.menuFooter}>
@@ -186,19 +199,25 @@ export const MenuIcon = () => {
                             <a href="https://www.youtube.com/channel/UC2avfYxoYQZxchEmVxypnrg"
                                target="_blank"
                                rel="noopener norefferer">
-                                <img className={classes.img} src={youtubeIcon} alt={'youtubeIcon'} />
+                                <Button>
+                                    <img className={classes.img} src={youtubeIcon} alt={'youtubeIcon'} />
+                                </Button>
                             </a>
                         </div>
                         <div className={classes.instagramIco}>
                             <a href="https://www.instagram.com/gekidan_futsu"
                                target="_blank"
                                rel="noopener norefferer">
-                                <img className={classes.img} src={instagramIcon} alt={'instagramIcon'} />
+                                <Button>
+                                    <img className={classes.img} src={instagramIcon} alt={'instagramIcon'} />
+                                </Button>
                             </a>
                         </div>
                         <div className={classes.twitterIco}>
                             <a href="https://twitter.com/100doooc" target="_blank" rel="noopener norefferer">
-                                <img className={classes.img} src={twitterIcon} alt={'twitterIcon'} />
+                                <Button>
+                                    <img className={classes.img} src={twitterIcon} alt={'twitterIcon'} />
+                                </Button>
                             </a>
                         </div>
                     </div>

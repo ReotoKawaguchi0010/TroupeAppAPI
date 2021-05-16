@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {Button} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 
 import { StyledBreadcrumbs } from "js/webPage/styles/style"
@@ -86,6 +87,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.between('xs', 'md')]: {
             color: '#ffffff',
         },
+        '& button': {
+            color: '#ffffff'
+        },
     },
 }));
 
@@ -97,26 +101,36 @@ export const Footer = () =>{
                 <img src={footerImage} alt={'footerImage'} className={classes.footerImg} />
                 <div className={classes.icons}>
                     <div className={classes.youtubeIco}>
-                        <a href="https://www.youtube.com/channel/UC2avfYxoYQZxchEmVxypnrg" target="_blank" rel="noopener norefferer">
-                            <img src={youtubeIcon} alt={'youtubeIcon'} />
+                        <a href="https://www.youtube.com/channel/UC2avfYxoYQZxchEmVxypnrg"
+                           target="_blank"
+                           rel="noopener norefferer">
+                            <Button><img src={youtubeIcon} alt={'youtubeIcon'} /></Button>
                         </a>
                     </div>
                     <div className={classes.instagramIco}>
-                        <a href="https://www.instagram.com/gekidan_futsu" target="_blank" rel="noopener norefferer">
-                            <img src={instagramIcon} alt={'instagramIcon'} />
+                        <a href="https://www.instagram.com/gekidan_futsu"
+                           target="_blank"
+                           rel="noopener norefferer">
+                            <Button><img src={instagramIcon} alt={'instagramIcon'} /></Button>
                         </a>
                     </div>
                     <div className={classes.twitterIco}>
                         <a href="https://twitter.com/100doooc" target="_blank" rel="noopener norefferer">
-                            <img src={twitterIcon} alt={'twitterIcon'} />
+                            <Button><img src={twitterIcon} alt={'twitterIcon'} /></Button>
                         </a>
                     </div>
                 </div>
                 <div className={classes.footerLink}>
                     <StyledBreadcrumbs aria-label="breadcrumb" maxItems={3} separator="|">
-                        <Link className={classes.link} to="/member">member</Link>
-                        <Link className={classes.link} to="/ticket">ticket</Link>
-                        <Link className={classes.link} to="/contact">contact</Link>
+                        <Link className={classes.link} to="/member">
+                            <Button>member</Button>
+                        </Link>
+                        <Link className={classes.link} to="/ticket">
+                            <Button>ticket</Button>
+                        </Link>
+                        <Link className={classes.link} to="/contact">
+                            <Button>contact</Button>
+                        </Link>
                     </StyledBreadcrumbs>
                 </div>
                 <div className={classes.privacyPolicy}>プライバシーポリシー</div>
