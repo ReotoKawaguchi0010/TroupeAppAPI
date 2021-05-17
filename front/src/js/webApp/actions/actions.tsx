@@ -19,8 +19,10 @@ export const login = async (action: any, dispatch: any) => {
         action.data = res.data
         console.log(res.data)
         dispatch(action)
+        return res.status
     }catch (e) {
         console.log(e)
+        return false
     }
 }
 

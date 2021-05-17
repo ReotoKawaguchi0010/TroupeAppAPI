@@ -97,6 +97,9 @@ const useStyles = makeStyles((theme) => createStyles({
         [theme.breakpoints.between('xs', 'md')]: {
             fontSize: '150px',
         },
+        '& svg': {
+            fontSize: 60,
+        },
     },
     linkStyle:{
         justifyContent: 'center',
@@ -165,8 +168,8 @@ export const MenuIcon = () => {
                             </Link>
                         </div>
                         <div className="menu-close-icon">
-                            <Button>
-                                <CloseIcon onClick={drawerClose} className={classes.closeIconStyle} />
+                            <Button className={classes.closeIconStyle}>
+                                <CloseIcon onClick={drawerClose} />
                             </Button>
                         </div>
                     </div>

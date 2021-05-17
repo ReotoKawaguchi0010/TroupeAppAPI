@@ -23,20 +23,9 @@ export const userReducer = (state=initialState.userReducer, action: any) =>{
         case 'logout':
             return state
         case 'get_user_data':
-            login = action.data.bool
-            if(login){
-                state = {
-                    login: login,
-                    user: {
-                        username: action.data.user.username,
-                        contact: action.data.user.contact,
-                        email: action.data.user.email,
-                        introduction: action.data.user.introduction,
-                        firstName: action.data.user.first_name,
-                        lastName: action.data.user.last_name,
-                        profileImageUrl: action.data.user.profile_image,
-                    },
-                }
+            console.log(action.data.bool)
+            if(action.data.bool){
+                return {...state, login: true}
             }
             return state
         default:

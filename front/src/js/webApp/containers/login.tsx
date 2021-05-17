@@ -1,13 +1,14 @@
-import React, {useState, useContext} from "react";
-import {Input, Button, InputAdornment, IconButton} from '@material-ui/core';
+import React, {useContext, useEffect, useState} from "react";
+import {Button, IconButton, Input, InputAdornment} from '@material-ui/core';
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect} from "react-router";
 
 import {AppContext} from "js/webApp/contexts/AppContext";
 import {login} from "js/webApp/actions/actions";
+import {getUserData} from "js/webApp/actions/user_action";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     main: {
         width: '100vw',
         height: '100vh',
@@ -66,7 +67,7 @@ const Main = () => {
         loginState.type === 'password' ? setLoginState({...loginState, type: 'text'}) : setLoginState({...loginState, type: 'password'})
     }
 
-    const handleClickSubmit = () => {
+    const handleClickSubmit = async () => {
         const sendData: SendJsonType = {
             type: 'login',
             send_data: {
@@ -74,8 +75,12 @@ const Main = () => {
                 password: loginState.sendData.password
             }
         }
-        login({type: 'login', sendData: sendData}, dispatch)
+        return await login({type: 'login', sendData: sendData}, dispatch)
     }
+
+    useEffect(() => {
+        getUserData({type: 'get_user_data'}, dispatch)
+    }, [])
 
     return (
         <>
