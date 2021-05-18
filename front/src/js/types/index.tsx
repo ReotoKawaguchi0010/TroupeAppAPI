@@ -1,3 +1,0 @@
-interface ProvideTypes {
-    children: object
-}
