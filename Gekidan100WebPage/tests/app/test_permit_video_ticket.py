@@ -61,3 +61,7 @@ class APITestChangePermitVideoTicket(APITestCase):
             }
         }, format='json')
         print(self.res.data)
+
+    def test_get_ticket_member_list(self):
+        video_tickets = VideoTicket.get_performance_video_list(4)
+        print(video_tickets.__dict__)
