@@ -82,7 +82,8 @@ class SessionUserAdminWebApp(SessionAdminWebPage):
         self.session_data = self.request.session.get(self.name)
         data = self.json_unserializer()
         return {
-            'status': '200', 'bool': True, 'login': 'success',
+            'status': '300', 'bool': True, 'login': 'success',
+            'run': False, 'to': '',
             'user': {
                 'username': data['username'],
                 'first_name': data['first_name'],

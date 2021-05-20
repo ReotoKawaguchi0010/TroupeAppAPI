@@ -18,4 +18,6 @@ def main(request, response):
         response = get_performance.get_budget(request, response, request_data)
     elif has_request_type(request_data, 'get_users'):
         response = get_performance.get_users(request, response, request_data)
+    elif has_request_type(request_data, 'get_purchased_video_ticket_user'):
+        response = get.get_purchased_video_ticket_user(request, response, request_data)
     return response
