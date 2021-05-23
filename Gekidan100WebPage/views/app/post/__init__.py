@@ -28,8 +28,8 @@ def main(request: HttpRequest, response: Response):
         request_data = json.loads(request_data)
     else:
         if has_post_key(request, 'type') and has_post_key(request, 'performanceID'):
-            request_data = {'type': request.POST['type'], 'files': request.FILES, 'performanceID': request.POST['performanceID']}
-
+            request_data = {'type': request.POST['type'], 'files': request.FILES,
+                            'performanceID': request.POST['performanceID']}
     if has_request_type(request_data, 'login'):
         response = post.login(request, response, request_data)
     elif has_request_type(request_data, 'idea'):

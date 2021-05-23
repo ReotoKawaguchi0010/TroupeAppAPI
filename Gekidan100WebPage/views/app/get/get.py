@@ -27,7 +27,7 @@ def get_idea(request, response: Response, data: dict):
     return response
 
 
-def get_user_data(request, response: Response):
+def get_user_data(request, response: Response, data: dict):
     user_data = SessionUserAdminWebApp(request=request, response=response)
     response.data = {
         'status': 300,
@@ -35,7 +35,7 @@ def get_user_data(request, response: Response):
         'to': '/app/login',
     }
     if user_data.is_login():
-        response.data = user_data.get_session()
+        response.data = user_data.get_session(data['url'])
     return response
 
 def get_purchased_video_ticket_user(request, response: Response, data: dict):

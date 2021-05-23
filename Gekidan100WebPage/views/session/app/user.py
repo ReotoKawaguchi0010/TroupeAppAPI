@@ -45,6 +45,7 @@ class SessionUserAdminWebApp(SessionAdminWebPage):
             self.response.set_cookie(CUSTOM_SESSION_COOKIE_NAME, self.request.session.session_key)
             self.response.data = {
                 'status': '200', 'bool': True, 'login': 'success',
+                'run': True, 'to': '/app',
                 'user': {
                     'username': self.user_data.user.username,
                     'first_name': self.user_data.user.first_name,
@@ -78,12 +79,17 @@ class SessionUserAdminWebApp(SessionAdminWebPage):
             return user_data.is_admin_user()
         return False
 
-    def get_session(self):
+    def get_session(self, url):
+        run = False
+        to = url
+        if 'login' in url:
+            run = True
+            to = '/app'
         self.session_data = self.request.session.get(self.name)
         data = self.json_unserializer()
         return {
             'status': '300', 'bool': True, 'login': 'success',
-            'run': False, 'to': '',
+            'run': run, 'to': to,
             'user': {
                 'username': data['username'],
                 'first_name': data['first_name'],

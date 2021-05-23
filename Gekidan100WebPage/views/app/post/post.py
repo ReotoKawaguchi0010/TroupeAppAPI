@@ -21,6 +21,10 @@ def logout(request, response: Response, data: dict):
         request.session.delete('username')
         request.session.delete('time')
         response.delete_cookie('sessionid')
+        response.data = {
+            'run': True,
+            'to': '/app/login'
+        }
     return response
 
 
