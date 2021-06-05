@@ -21,7 +21,8 @@ class Idea(models.Model):
         return None
 
     def read(self):
-        if self.__class__.objects.filter(title=self.title).exists() and self.__class__.objects.filter(author=self.author):
+        if self.__class__.objects.filter(title=self.title).exists() and \
+                self.__class__.objects.filter(author=self.author):
             return self.__class__.objects.get(title=self.title, author=self.author)
         return False
 
@@ -30,6 +31,7 @@ class Idea(models.Model):
             idea = self.__class__.objects.get(title=self.title)
             return idea
         return False
+
 
 class IdeaContents(models.Model):
     name = models.CharField(max_length=256)

@@ -1,9 +1,13 @@
-from v1.config.config import TWT_ACCESS_SECRET, TWT_ACCESS_TOKEN, TWT_API_KEY, TWT_API_SECRET
-
 from requests_oauthlib import OAuth1Session
 import json
 
-class TwitterApi():
+from v1.config import TWT_ACCESS_SECRET
+from v1.config import TWT_ACCESS_TOKEN
+from v1.config import TWT_API_KEY
+from v1.config import TWT_API_SECRET
+
+
+class TwitterApi(object):
     def __init__(self):
         API_KEY = TWT_API_KEY
         API_SECRET_KEY = TWT_API_SECRET
@@ -43,18 +47,7 @@ class TwitterApi():
 
         return data_list
 
-    def get_id_content(self, id):
-        url = f'https://api.twitter.com/1.1/statuses/show.json?id={id}'
+    def get_id_content(self, user_id):
+        url = f'https://api.twitter.com/1.1/statuses/show.json?id={user_id}'
         res = self.twitter.get(url)
         return res
-
-
-if __name__ == '__main__':
-    twt_api = TwitterApi()
-    print(twt_api.search('ハリーポッター', 5))
-    print(twt_api.user_timeline(6))
-
-
-
-    #print(twt_api.search('1117297527047376896'))
-

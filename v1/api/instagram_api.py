@@ -1,5 +1,5 @@
 import requests
-from v1.config.config import ISG_API_KEY
+from v1.config import ISG_API_KEY
 
 
 def req_insta():

@@ -1,18 +1,20 @@
 from django.test import TestCase
 from django.contrib.sessions.backends.cache import SessionStore
 from rest_framework.response import Response
-from rest_framework.test import APITestCase, APIClient
+from rest_framework.test import APITestCase
+from rest_framework.test import APIClient
 
-TEST_PAYMENT_ID = 'PAYID-MCIEGCI6GX50624X8279010B'
-TEST_PAYER_ID = 'ZQFR8L8CNFDC6'
-TEST_TOKEN = 'EC-0XH30116YU841021E'
+from v1.config import PAYPAL_TEST_PAYMENT_ID
+from v1.config import PAYPAL_TEST_PAYER_ID
+from v1.config import PAYPAL_TEST_TOKEN
+from v1.config import ENDPOINT
 
 
 class APITestRequestPayment(APITestCase, TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.res = self.client.post('/api/', {
+        self.res = self.client.post(ENDPOINT, {
             'type': 'payer_transient_info',
             'payer': {
                 'payment_method': 'paypal',
@@ -29,7 +31,7 @@ class APITestRequestPayment(APITestCase, TestCase):
         session: SessionStore = self.client.session
         print(session.values())
         self.res: Response = self.client.get(
-            f'/api/?paymentId={TEST_PAYMENT_ID}&PayerID={TEST_PAYER_ID}&token={TEST_TOKEN}',
+            f'/api/?paymentId={PAYPAL_TEST_PAYMENT_ID}&PayerID={PAYPAL_TEST_PAYER_ID}&token={PAYPAL_TEST_TOKEN}',
             format='json')
         print(self.res.data)
         self.assertEqual(self.res.data != '', True)
@@ -39,6 +41,6 @@ class APITestRequest(APITestCase):
 
     def test_api(self):
         client = APIClient()
-        res: Response = client.get('/api/', {'video_ticket': 'true'}, format='json')
+        res: Response = client.get(ENDPOINT, {'video_ticket': 'true'}, format='json')
         self.assertEqual(res.data != {}, True)
         print(type(res.data))

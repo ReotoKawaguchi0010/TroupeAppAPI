@@ -5,7 +5,6 @@ from v1.models.user import UserData, User
 
 
 class Budget(models.Model):
-
     item = models.TextField()
     price = models.IntegerField()
     user = models.ForeignKey(UserData, on_delete=models.CASCADE, null=True)
@@ -16,7 +15,6 @@ class Budget(models.Model):
         if user.exists():
             self.user = UserData.objects.get(user_id=user.get().id)
         return None
-
 
     def create(self, performance_id, full_budget, username):
         full_budget = int(full_budget)

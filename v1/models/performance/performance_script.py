@@ -11,11 +11,11 @@ class PerformanceScript(models.Model):
     performance = models.ForeignKey(Peformance, on_delete=models.CASCADE)
     script = models.FileField()
 
-    def create(self, files, performanceID=None):
-        if performanceID is not None:
-            performance = Peformance.objects.filter(id=performanceID).exists()
+    def create(self, files, performance_id=None):
+        if performance_id is not None:
+            performance = Peformance.objects.filter(id=performance_id).exists()
             if performance:
-                self.performance = Peformance.objects.get(id=performanceID)
+                self.performance = Peformance.objects.get(id=performance_id)
             for _, file in files.items():
                 file_name = str(file)
                 if '.docx' in file_name:
@@ -24,7 +24,6 @@ class PerformanceScript(models.Model):
             self.save()
             return True
         return False
-
 
     def read(self, performance_id):
         performance = Peformance.objects.filter(id=performance_id)
@@ -42,7 +41,6 @@ class PerformanceScript(models.Model):
             return True
         return False
 
-
     def json_read(self, performance_id, script_num, version):
         performance_script = self.read(performance_id)[version]
         performance = performance_script.performance
@@ -56,5 +54,3 @@ class PerformanceScript(models.Model):
             'scripts': word_data.text_list[script_page_num: script_page_num + self.BUFFER_SIZE]
         }
         return script
-
-

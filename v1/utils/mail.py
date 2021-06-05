@@ -4,7 +4,11 @@ from email.utils import formatdate
 import smtplib
 import logging
 
-from v1.config.config import FROM_ADDR, PASSWORD, SMTP_SERVER, SMTP_PORT
+from v1.config import FROM_ADDR
+from v1.config import PASSWORD
+from v1.config import SMTP_SERVER
+from v1.config import SMTP_PORT
+
 
 def body_from_dict(dict):
     name = '名前:' + dict['secondName'] + ' ' + dict['firstName'] + '\n'
@@ -16,6 +20,7 @@ def body_from_dict(dict):
     profession = '職業:' + dict['profession'] + '\n'
     text_area = 'その他お問い合わせ:' + dict['textArea']
     return name + phonetic + mail_address + address + cities + house_number + profession + text_area
+
 
 def response_send_mail_address(dict):
     body = body_from_dict(dict)
@@ -43,6 +48,7 @@ def response_send_mail_address(dict):
     """
     return resp_body
 
+
 def info_send_mail(to_addr, dict_body, subject):
     try:
         smtpobj = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
@@ -63,6 +69,7 @@ def info_send_mail(to_addr, dict_body, subject):
         return False
     return True
 
+
 def info_response_mail(to_addr, dict_body, subject):
     try:
         smtpobj = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
@@ -82,6 +89,7 @@ def info_response_mail(to_addr, dict_body, subject):
         logging.log(logging.FATAL, 'error')
         return False
     return True
+
 
 if __name__ == '__main__':
     print('')

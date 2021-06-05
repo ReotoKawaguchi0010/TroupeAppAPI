@@ -7,6 +7,7 @@ conf = configparser.ConfigParser()
 READ_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/config/config.ini'
 conf.read(READ_PATH)
 
+ENDPOINT = conf['endpoint']['endpoint']
 
 TWT_API_KEY = conf['twitter']['api_key']
 TWT_API_SECRET = conf['twitter']['api_secret_key']
@@ -32,6 +33,9 @@ DROPBOX_SECRET_KEY = conf['dropbox']['secret_key']
 PAYPAL_SANDBOX_ACCOUNT = conf['paypal']['sandbox_account']
 PAYPAL_CLIENT_ID = conf['paypal']['client_id']
 PAYPAL_CLIENT_SECRET = conf['paypal']['client_secret']
+PAYPAL_TEST_PAYMENT_ID = conf['paypal']['test_payment_id']
+PAYPAL_TEST_PAYER_ID = conf['paypal']['test_payer_id']
+PAYPAL_TEST_TOKEN = conf['paypal']['test_token']
 
 CIPHER_HASH_COUNT = conf['cipher']['hash_count']
 CIPHER_KEY = conf['cipher']['key']

@@ -9,7 +9,7 @@ import dropbox
 import requests
 import xmltodict
 
-from v1.config.config import DROPBOX_TOKEN
+from v1.config import DROPBOX_TOKEN
 from v1.utils.read_word import ReadWordFiles
 
 test_file_name =  __file__.replace(os.path.basename(__file__), '')+'test.txt'

@@ -3,6 +3,7 @@ from django.db import models
 from v1.models.performance.cast import Cast
 from v1.models.performance.staff import Staff
 
+
 class Peformance(models.Model):
     title = models.fields.CharField(max_length=256)
     performance_date = models.fields.DateTimeField(max_length=256, null=True)

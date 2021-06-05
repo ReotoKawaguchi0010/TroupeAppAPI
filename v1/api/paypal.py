@@ -4,7 +4,8 @@ from paypalcheckoutsdk.core import PayPalHttpClient, SandboxEnvironment  # LiveE
 import paypalrestsdk
 
 from futsu100_api.config.config import USE_DOMAIN
-from v1.config.config import PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET  # PAYPAL_SANDBOX_ACCOUNT
+from v1.config import PAYPAL_CLIENT_ID  # PAYPAL_SANDBOX_ACCOUNT
+from v1.config import PAYPAL_CLIENT_SECRET  # PAYPAL_SANDBOX_ACCOUNT
 
 
 class PayPAlClient(object):
@@ -71,16 +72,22 @@ class PayPAlClient(object):
         for key, value in itr:
             if key.startswith("__"):
                 continue
-            result[key] = self.array_to_json_array(value) if isinstance(value, list) else \
-                self.object_to_json(value) if not self.is_primittive(value) else value
+
+            if self.is_primittive(value):
+                result[key] = self.array_to_json_array(value)
+            elif not isinstance(value, list):
+                result[key] = self.object_to_json(value)
         return result
 
     def array_to_json_array(self, json_array):
         result = []
         if isinstance(json_array, list):
             for item in json_array:
-                result.append(self.object_to_json(item) if not self.is_primittive(item) \
-                                  else self.array_to_json_array(item) if isinstance(item, list) else item)
+                if isinstance(item, list):
+                    if self.is_primittive(item):
+                        result.append(self.array_to_json_array(item))
+                else:
+                    result.append(item)
         return result
 
     def get_payment_url(self):
@@ -89,4 +96,3 @@ class PayPAlClient(object):
                 if link.method == 'REDIRECT':
                     redirect_url = link.href
                     return redirect_url
-

@@ -1,6 +1,5 @@
 import requests
 import xmltodict
-import re
 
 
 def get_ameba_content():

@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Schedule(models.Model):
     title = models.fields.CharField(max_length=256)
     start = models.fields.CharField(max_length=256)
