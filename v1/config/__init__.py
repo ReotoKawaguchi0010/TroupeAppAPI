@@ -16,7 +16,7 @@ TWT_ACCESS_SECRET = conf['twitter']['access_secret']
 
 FROM_ADDR = conf['mail']['from_addr']
 PASSWORD = conf['mail']['password']
-SMTP_SERVER = conf['mail']['smtp_addr']
+SMTP_HOST = conf['mail']['smtp_addr']
 SMTP_PORT = conf['mail']['smtp_port']
 
 ISG_API_KEY = conf['instagram']['api_key']

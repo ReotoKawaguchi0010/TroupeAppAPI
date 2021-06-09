@@ -7,7 +7,7 @@ import logging
 
 from v1.config import FROM_ADDR
 from v1.config import PASSWORD
-from v1.config import SMTP_SERVER
+from v1.config import SMTP_HOST
 from v1.config import SMTP_PORT
 
 
@@ -36,7 +36,7 @@ class AutoContactMail(object):
 番地・建物名: {self.house_number}
 職業: {self.profession}
 その他お問い合わせ: {self.text_area}
-        '''
+'''
 
     def to_sender_mail_text(self):
         return f'''
@@ -62,7 +62,7 @@ class AutoContactMail(object):
 
     def to_sender_mail(self, subject):
         try:
-            smtpobj = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+            smtpobj = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
             smtpobj.ehlo()
             smtpobj.starttls()
             smtpobj.ehlo()
@@ -80,7 +80,7 @@ class AutoContactMail(object):
 
     def to_recipient_mail(self, subject):
         try:
-            smtpobj = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+            smtpobj = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
             smtpobj.ehlo()
             smtpobj.starttls()
             smtpobj.ehlo()
