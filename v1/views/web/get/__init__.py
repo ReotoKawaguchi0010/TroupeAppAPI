@@ -61,7 +61,6 @@ def main(request, response: Response):
         response = get_has_video_ticket(request, response)
     elif has_get_type(request, 'paymentId', 'PayerID'):
         payer_session = SessionPayerTransientInfo(request, response).get_payer_transient_info()
-        print(payer_session.first_name)
         response = get_paypal_pay_out(request, response)
     elif has_get_type(request, 'video_id'):
         response = get_has_video_ticket_session(request, response)

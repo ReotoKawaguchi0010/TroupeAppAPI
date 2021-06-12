@@ -1,9 +1,7 @@
-from email.mime.text import MIMEText
-from email.utils import formatdate
-
-from smtplib import SMTPException
 import smtplib
 import logging
+from email.mime.text import MIMEText
+from email.utils import formatdate
 
 from v1.config import FROM_ADDR
 from v1.config import PASSWORD
@@ -60,45 +58,46 @@ class AutoContactMail(object):
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 '''
 
-    def to_sender_mail(self, subject):
+    def to_sender_mail(self, subject, smtpobj: smtplib.SMTP):
         try:
-            smtpobj = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
-            smtpobj.ehlo()
-            smtpobj.starttls()
-            smtpobj.ehlo()
-            smtpobj.login(FROM_ADDR, PASSWORD)
             msg = MIMEText(self.to_sender_mail_text())
             msg['Subject'] = subject
             msg['From'] = FROM_ADDR
             msg['To'] = self.mail_address
             msg['Date'] = formatdate()
             smtpobj.sendmail(FROM_ADDR, self.mail_address, msg.as_string())
-            smtpobj.close()
-        except SMTPException:
+        except smtplib.__all__:
             return False
         return True
 
-    def to_recipient_mail(self, subject):
+    def to_recipient_mail(self, subject, smtpobj: smtplib.SMTP):
         try:
-            smtpobj = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
-            smtpobj.ehlo()
-            smtpobj.starttls()
-            smtpobj.ehlo()
-            smtpobj.login(FROM_ADDR, PASSWORD)
             msg = MIMEText(self.text_sender_data)
             msg['Subject'] = subject
             msg['From'] = FROM_ADDR
             msg['To'] = self.mail_address
             msg['Date'] = formatdate()
             smtpobj.sendmail(FROM_ADDR, FROM_ADDR, msg.as_string())
-            smtpobj.close()
-        except SMTPException:
+        except smtplib.__all__:
             logging.log(logging.FATAL, 'error')
+            return False
+        return True
+
+    def __send(self, subject):
+        try:
+            smtpobj = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
+            smtpobj.ehlo()
+            smtpobj.starttls()
+            smtpobj.ehlo()
+            smtpobj.login(FROM_ADDR, PASSWORD)
+            self.to_sender_mail(subject, smtpobj)
+            self.to_recipient_mail(subject, smtpobj)
+            smtpobj.close()
+        except smtplib.__all__:
             return False
         return True
 
     def send(self):
         if self.mail_address and self.first_name:
-            self.to_sender_mail('お問い合わせ')
-            self.to_recipient_mail('お問い合わせ')
+            self.__send('お問い合わせ')
         return {'message': '送信完了'}
