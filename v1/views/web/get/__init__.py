@@ -6,6 +6,7 @@ from v1.api.twitter_api import TwitterApi
 from v1.utils.status_codes import OK
 from v1.utils.http import has_get_type
 from v1.views.session.web.payer_transient_info import SessionPayerTransientInfo
+from v1.models.performance_video_list import PerformanceVideoList
 
 
 def home_page(request, response):
@@ -55,6 +56,10 @@ def get_has_video_ticket_session(request, response):
         response.data = {'bought_ticket': True, 'url': '', 'video_exits': True}
     return response
 
+def get_performance_video_list(response):
+    response.data = PerformanceVideoList().read_all()
+    return response
+
 
 def main(request, response: Response):
     if has_get_type(request, 'video_ticket'):
@@ -64,6 +69,8 @@ def main(request, response: Response):
         response = get_paypal_pay_out(request, response)
     elif has_get_type(request, 'video_id'):
         response = get_has_video_ticket_session(request, response)
+    elif has_get_type(request, 'get_performance_video_list'):
+        response = get_performance_video_list(response)
     else:
         response = home_page(request, response)
     return response

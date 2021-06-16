@@ -1,8 +1,12 @@
+import datetime
+
+from django.utils import dateformat
 from django.test import TestCase
 from rest_framework.response import Response
 from rest_framework.test import APITestCase, APIClient
 
 from v1.models.user import UserData
+from v1.config import ENDPOINT
 
 
 class APITestLogin(APITestCase, TestCase):
@@ -11,8 +15,8 @@ class APITestLogin(APITestCase, TestCase):
                                introduction='int', profile_image='https://test.com', contract='test@test.com')
 
     def test_login(self):
-        client = APIClient()
-        res: Response = client.post('/api/app/', {
+        self.client = APIClient()
+        res: Response = self.client.post('/api/v1/app/', {
             'type': 'login',
             'send_data': {
                 'username': 'reoto_kawaguchi',
@@ -22,6 +26,21 @@ class APITestLogin(APITestCase, TestCase):
         self.assertIsNotNone(res)
 
         print(res.data)
+        res = self.client.get('/api/v1/app/?type=get_user_data&url=test.com')
+        print(res.data)
 
-        res = client.get('/api/app/?type=get_user_data&url=test.com')
+    def test_create_sale(self):
+        res: Response = self.client.post(f'{ENDPOINT}app/', {
+            'type': 'create_sale',
+            'send_data': {
+                'performance_num': 4,
+                'item_name': 'ゲキダン！〜テクノロジーの惑星から愛の使者がやってきた〜',
+                'top_image': 'https://test/com',
+                'release_date': '2021-06-07',
+                'price': '1500',
+                'payment_methods': ['paypal', '振り込み'],
+                'synopsis': 'texttexttexttexttexttexttext',
+                'images': [{"url": "test.com", "title": "text"}, {"url": "test.com", "title": "text"}],
+            }
+        }, format='json')
         print(res.data)

@@ -1,8 +1,10 @@
 from rest_framework.response import Response
 
-from v1.models.performance import Peformance, Schedule
+from v1.models.performance import Peformance
+from v1.models.performance import Schedule
 from v1.models.performance import PerformanceSchedule
 from v1.models.performance import Budget
+from v1.models.performance_video_list import PerformanceVideoList
 
 
 def post_performance(request, response: Response, data: dict):
@@ -32,6 +34,15 @@ def post_budget(request, response: Response, data: dict):
         budget.item = data['item']
         budget.price = data['price']
     budget.create(performance_id=performance_id, full_budget=full_budget, username=username)
+    return response
+
+def post_sale(request, response: Response, data: dict):
+    data = data['send_data']
+    video_list = PerformanceVideoList().create(data)
+    response.data = {
+        'status': 200,
+        'data': video_list.dict()
+    }
     return response
 
 

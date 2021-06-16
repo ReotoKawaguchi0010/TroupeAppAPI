@@ -4,7 +4,8 @@ from django.http.request import HttpRequest
 from rest_framework.response import Response
 
 from v1.views.app.post import post_performance
-from v1.views.app.post import post, post_file
+from v1.views.app.post import post
+from v1.views.app.post import post_file
 from v1.utils.util import has_request_type
 
 
@@ -46,4 +47,6 @@ def main(request: HttpRequest, response: Response):
         response = post_performance.post_budget(request, response, request_data)
     elif has_request_type(request_data, 'video_ticket_permit'):
         response = post.video_ticket_permit(request, response, request_data)
+    elif has_request_type(request_data, 'create_sale'):
+        response = post_performance.post_sale(request, response, request_data)
     return response

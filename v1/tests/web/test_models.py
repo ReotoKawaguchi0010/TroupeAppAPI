@@ -64,4 +64,6 @@ class VideoTicketModelTests(TestCase):
         video_ticket = VideoTicket.objects.get(id=1)
         video_ticket.print()
 
-
+    def test_get_performance_video_list(self):
+        all = PerformanceVideoList().read_all()
+        print(all)
