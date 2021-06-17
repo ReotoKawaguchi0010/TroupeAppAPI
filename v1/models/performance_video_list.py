@@ -56,8 +56,8 @@ class PerformanceVideoList(models.Model):
             self.images = data['images']
             self.save()
         else:
-            raise ValueError('data has not PerformanceVideoList')
-        return self
+            return False, 'bad data is insufficient'
+        return True, 'success'
 
     def dict(self):
         return {

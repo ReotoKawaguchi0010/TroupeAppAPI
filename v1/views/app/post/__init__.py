@@ -9,11 +9,6 @@ from v1.views.app.post import post_file
 from v1.utils.util import has_request_type
 
 
-def post_word_file(request, response):
-
-    return response
-
-
 def has_post_key(request, key):
     post_keys = dict(request.POST).keys()
     for post_key in post_keys:
@@ -38,15 +33,15 @@ def main(request: HttpRequest, response: Response):
     elif has_request_type(request_data, 'logout'):
         response = post.logout(request, response, request_data)
     elif has_request_type(request_data, 'crete_performance'):
-        response = post_performance.post_performance(request, response, request_data)
+        response = post_performance.post_performance(response, request_data)
     elif has_request_type(request_data, 'create_schedule'):
-        response = post_performance.post_schedule(request, response, request_data)
+        response = post_performance.post_schedule(response, request_data)
     elif has_request_type(request_data, 'upload_script'):
-        response = post_file.main(request, response, request_data)
+        response = post_file.main(response, request_data)
     elif has_request_type(request_data, 'create_budget'):
-        response = post_performance.post_budget(request, response, request_data)
+        response = post_performance.post_budget(response, request_data)
     elif has_request_type(request_data, 'video_ticket_permit'):
         response = post.video_ticket_permit(request, response, request_data)
     elif has_request_type(request_data, 'create_sale'):
-        response = post_performance.post_sale(request, response, request_data)
+        response = post_performance.post_sale(response, request_data)
     return response

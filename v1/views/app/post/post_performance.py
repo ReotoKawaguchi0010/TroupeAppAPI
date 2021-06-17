@@ -7,13 +7,14 @@ from v1.models.performance import Budget
 from v1.models.performance_video_list import PerformanceVideoList
 
 
-def post_performance(request, response: Response, data: dict):
+def post_performance(response: Response, data: dict):
     if bool(data['title']):
         performance = Peformance(title=data['title'])
         performance.save()
     return response
 
-def post_schedule(request, response: Response, data: dict):
+
+def post_schedule(response: Response, data: dict):
     performance_id = data['performanceId']
     performance = Peformance.objects.filter(id=performance_id)
     if bool(performance):
@@ -25,7 +26,8 @@ def post_schedule(request, response: Response, data: dict):
         performance_schedule.save()
     return response
 
-def post_budget(request, response: Response, data: dict):
+
+def post_budget(response: Response, data: dict):
     performance_id = data['performanceId']
     full_budget = data['fullBudget']
     username = data['username']
@@ -36,16 +38,15 @@ def post_budget(request, response: Response, data: dict):
     budget.create(performance_id=performance_id, full_budget=full_budget, username=username)
     return response
 
-def post_sale(request, response: Response, data: dict):
+
+def post_sale(response: Response, data: dict):
     data = data['send_data']
-    video_list = PerformanceVideoList().create(data)
-    response.data = {
-        'status': 200,
-        'data': video_list.dict()
-    }
-    return response
-
-
-
-def upload_file(request, response: Response, data: dict):
+    performance_list = PerformanceVideoList()
+    is_created, message = performance_list.create(data)
+    if is_created:
+        response.data['status'] = 200
+    else:
+        response.data['status'] = 500
+    response.data['data'] = performance_list.read_all()
+    response.data['message'] = message
     return response
