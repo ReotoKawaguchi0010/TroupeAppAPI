@@ -15,6 +15,7 @@ def login(request, response: Response, data: dict):
             response = session.create_session()
     return response
 
+
 def logout(request, response: Response, data: dict):
     if not request.session.is_empty():
         request.session.delete('user')
@@ -42,10 +43,10 @@ def idea(request, response: Response, data: dict):
         idea_contents.create(title=title, author=author, values=in_idea_contents_data)
     return response
 
+
 def video_ticket_permit(request, response: Response, data: dict):
     session = SessionUserAdminWebApp(request=request, response=response)
     if session.is_superuser() and 'send_data' in data:
         VideoTicket().permit_change(data['send_data'])
         response.data = {'status': '200', 'change_permit': 'success'}
     return response
-
