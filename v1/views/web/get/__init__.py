@@ -24,7 +24,6 @@ def home_page(request, response):
 
 
 def get_has_video_ticket(request, response):
-    print(request)
     pay_client = PayPAlClient()
     pay_url = pay_client.get_payment_url()
     data = {'video_ticket': True, 'url': pay_url}

@@ -29,9 +29,9 @@ def main(request: HttpRequest, response: Response):
     if has_request_type(request_data, 'login'):
         response = post.login(request, response, request_data)
     elif has_request_type(request_data, 'idea'):
-        response = post.idea(request, response, request_data)
+        response = post.idea(response, request_data)
     elif has_request_type(request_data, 'logout'):
-        response = post.logout(request, response, request_data)
+        response = post.logout(request, response)
     elif has_request_type(request_data, 'crete_performance'):
         response = post_performance.post_performance(response, request_data)
     elif has_request_type(request_data, 'create_schedule'):

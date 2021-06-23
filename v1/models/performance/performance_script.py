@@ -26,12 +26,9 @@ class PerformanceScript(models.Model):
         return False
 
     def read(self, performance_id):
-        performance = Peformance.objects.filter(id=performance_id)
-        if performance.exists():
-            performance = Peformance.objects.get(id=performance_id)
-            performance_script = self.__class__.objects.filter(performance=performance)
-            if performance_script.exists():
-                return performance_script
+        performance_script = self.__class__.objects.filter(performance_id=performance_id)
+        if performance_script.exists():
+            return performance_script
         return None
 
     def delete(self, using=None, keep_parents=False):
@@ -42,15 +39,18 @@ class PerformanceScript(models.Model):
         return False
 
     def json_read(self, performance_id, script_num, version):
-        performance_script = self.read(performance_id)[version]
-        performance = performance_script.performance
-        word_data = post_word_file(performance_script.script)
-        total_page_num = math.ceil(len(word_data.text_list) / self.BUFFER_SIZE)
-        script_page_num = script_num * self.BUFFER_SIZE - self.BUFFER_SIZE
-        script = {
-            'title': performance.title,
-            'total_page_num': total_page_num,
-            'page_num': script_num,
-            'scripts': word_data.text_list[script_page_num: script_page_num + self.BUFFER_SIZE]
-        }
-        return script
+        performance_script = self.read(performance_id)
+        if performance_script is not None:
+            performance_script = performance_script[version]
+            performance = performance_script.performance
+            word_data = post_word_file(performance_script.script)
+            total_page_num = math.ceil(len(word_data.text_list) / self.BUFFER_SIZE)
+            script_page_num = script_num * self.BUFFER_SIZE - self.BUFFER_SIZE
+            script = {
+                'title': performance.title,
+                'total_page_num': total_page_num,
+                'page_num': script_num,
+                'scripts': word_data.text_list[script_page_num: script_page_num + self.BUFFER_SIZE]
+            }
+            return script
+        return {}

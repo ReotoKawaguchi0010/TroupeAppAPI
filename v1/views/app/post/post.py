@@ -16,7 +16,7 @@ def login(request, response: Response, data: dict):
     return response
 
 
-def logout(request, response: Response, data: dict):
+def logout(request, response: Response):
     if not request.session.is_empty():
         request.session.delete('user')
         request.session.delete('username')
@@ -29,7 +29,7 @@ def logout(request, response: Response, data: dict):
     return response
 
 
-def idea(request, response: Response, data: dict):
+def idea(response: Response, data: dict):
     if data['author'] != '':
         title = ''
         author = data['author']

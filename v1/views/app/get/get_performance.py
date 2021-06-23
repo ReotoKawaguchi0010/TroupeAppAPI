@@ -29,7 +29,7 @@ def get_performance(request, response: Response, data: dict):
     return response
 
 
-def get_schedule(request, response: Response, data: dict):
+def get_schedule(response: Response, data: dict):
     performance_id = int(data['performanceId'])
     performance = Peformance.objects.filter(id=performance_id)
     response_data = []

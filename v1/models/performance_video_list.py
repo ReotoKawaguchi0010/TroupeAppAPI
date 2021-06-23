@@ -73,3 +73,10 @@ class PerformanceVideoList(models.Model):
 
     def read_all(self):
         return [item.dict() for item in self.__class__.objects.all()]
+
+    def read(self, performance_num):
+        data = self.__class__.objects.filter(performance_num=performance_num)
+        if data.exists():
+            item: PerformanceVideoList = data[0]
+            return item.dict()
+        return None

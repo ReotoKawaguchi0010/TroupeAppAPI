@@ -1,4 +1,5 @@
-from v1.views.app.get import get, get_performance
+from v1.views.app.get import get
+from v1.views.app.get import get_performance
 from v1.utils.util import has_request_type
 
 
@@ -11,7 +12,7 @@ def main(request, response):
     elif has_request_type(request_data, 'get_performance'):
         response = get_performance.get_performance(request, response, request_data)
     elif has_request_type(request_data, 'get_schedule'):
-        response = get_performance.get_schedule(request, response, request_data)
+        response = get_performance.get_schedule(response, request_data)
     elif has_request_type(request_data, 'get_script'):
         response = get_performance.get_script(request, response, request_data)
     elif has_request_type(request_data, 'get_budget'):
@@ -20,4 +21,6 @@ def main(request, response):
         response = get_performance.get_users(request, response, request_data)
     elif has_request_type(request_data, 'get_purchased_video_ticket_user'):
         response = get.get_purchased_video_ticket_user(request, response, request_data)
+    elif has_request_type(request_data, 'get_sale'):
+        response = get.get_sale(response, request_data)
     return response
