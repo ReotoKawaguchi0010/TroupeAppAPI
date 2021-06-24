@@ -28,7 +28,7 @@ def xor_bin(bin1, bin2):
     return result
 
 def my_cipher_encode(m: str):
-    from v1.config.config import CIPHER_KEY
+    from v1.config import CIPHER_KEY
     hash_ms = encode_sha256(m)
     hash_keys = encode_sha256(CIPHER_KEY)
     c_list = []
@@ -41,7 +41,7 @@ def my_cipher_encode(m: str):
     return ''.join(c_list)
 
 def my_cipher_decode(c: str):
-    from v1.config.config import CIPHER_KEY
+    from v1.config import CIPHER_KEY
     hash_keys = encode_sha256(CIPHER_KEY)
     m_list = []
     for i in range(64):

@@ -34,13 +34,14 @@ def idea(response: Response, data: dict):
         title = ''
         author = data['author']
         in_idea_contents_data = {}
-        for i in range(len(data['itemValues'])):
-            if data['itemValues'][i]['name'] == 'タイトル':
-                title = data['itemValues'][i]['value']
+        for i in range(len(data['item_values'])):
+            if data['item_values'][i]['name'] == 'タイトル':
+                title = data['item_values'][i]['value']
             else:
-                in_idea_contents_data = {i: data['itemValues'][i]}
+                in_idea_contents_data = {i: data['item_values'][i]}
         idea_contents = IdeaContents()
         idea_contents.create(title=title, author=author, values=in_idea_contents_data)
+        response.data = idea_contents.dict()
     return response
 
 

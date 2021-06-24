@@ -16,3 +16,11 @@ class Peformance(models.Model):
             performance = self.__class__.objects.filter(id=self.id)
             return performance
         return None
+
+    def delete_from_title(self, title):
+        p = self.__class__.objects.filter(title=title)
+        if p.exists():
+            performance: Peformance = p[0]
+            performance.delete()
+            return True
+        return False

@@ -1,5 +1,3 @@
-import json
-
 from django.test import TestCase
 from rest_framework.response import Response
 from rest_framework.test import APITestCase
@@ -7,7 +5,6 @@ from rest_framework.test import APIClient
 
 from v1.models.user import UserData
 from v1.config import ENDPOINT
-from v1.models.performance_video_list import PerformanceVideoList
 
 
 class APITestLogin(APITestCase, TestCase):

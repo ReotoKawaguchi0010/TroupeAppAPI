@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 
 
@@ -53,9 +55,18 @@ class IdeaContents(models.Model):
         if not idea.exist():
             idea.create()
         self.idea_id = idea.read()
-        print(values)
+        print(self.idea_id.title)
         for _, v in values.items():
             self.name = v['name']
             self.value = v['value']
             self.save()
         return None
+
+    def dict(self):
+        data = self.__class__.objects.filter(idea_id=self.idea_id)
+        data = [{'name': v.name, 'value': v.value} for v in data]
+        return {
+            'title': self.idea_id.title,
+            'author': self.idea_id.author,
+            'item_values': data,
+        }
