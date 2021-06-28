@@ -51,3 +51,10 @@ def video_ticket_permit(request, response: Response, data: dict):
         VideoTicket().permit_change(data['send_data'])
         response.data = {'status': '200', 'change_permit': 'success'}
     return response
+
+
+def create_user(response: Response, data: dict):
+    user = UserData()
+    if 'send_data' in data:
+        response.data = user.trial(data['send_data'])
+    return response

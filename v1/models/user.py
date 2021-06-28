@@ -1,6 +1,7 @@
 import json
 
 from django.db import models
+from django.db.utils import DatabaseErrorWrapper
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
@@ -10,6 +11,39 @@ class UserData(models.Model):
     introduction = models.TextField()
     profile_image = models.TextField()
     contract = models.TextField()
+
+    @staticmethod
+    def has_data(data: dict):
+        return data.keys() >= {
+            'username',
+            'email',
+            'password',
+            'introduction',
+            'profile_image',
+            'contract',
+            'is_superuser',
+        }
+
+    @staticmethod
+    def fail(message):
+        return {
+            'message': message,
+            'bool': False,
+        }
+
+    def success(self):
+        return {
+            'message': 'success',
+            'bool': True,
+            'user_data': {
+                'username': self.user.username,
+                'email': self.user.email,
+                'first_name': self.user.first_name,
+                'last_name': self.user.last_name,
+                'introduction': self.introduction,
+                'is_superuser': self.user.is_superuser,
+            },
+        }
 
     def create_user(self, username, email=None, password=None,
                     introduction='', profile_image='', contract='', **extra_fields):
@@ -60,3 +94,24 @@ class UserData(models.Model):
             print('*' * 50)
             print(f'* {k} = {v}')
         print('*' * 50)
+
+    def trial(self, data: dict):
+        if self.has_data(data):
+            username = data['username']
+            email = data['email']
+            password = data['password']
+            introduction = data['introduction']
+            profile_image = data['profile_image']
+            contract = data['contract']
+            is_superuser = data['is_superuser']
+            try:
+                self.create_user(username=username,
+                                 email=email,
+                                 password=password,
+                                 introduction=introduction,
+                                 profile_image=profile_image,
+                                 contract=contract,
+                                 is_superuser=is_superuser)
+            except DatabaseErrorWrapper:
+                return self.fail('fail')
+        return self.success()

@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from v1.views.app.post import post_performance
 from v1.views.app.post import post
 from v1.views.app.post import post_file
+from v1.views.session.app.user import SessionUserAdminWebApp
 from v1.utils.util import has_request_type
 
 
@@ -32,4 +33,11 @@ def main(request: HttpRequest, response: Response):
         response = post.video_ticket_permit(request, response, request_data)
     elif has_request_type(request_data, 'create_sale'):
         response = post_performance.post_sale(response, request_data)
+    elif has_request_type(request_data, 'create_user'):
+        is_superuser = SessionUserAdminWebApp(request, response).is_superuser()
+        if is_superuser:
+            print(request_data)
+            response = post.create_user(response, request_data)
+        else:
+            response.data = {'bool': False, 'message': 'permission error'}
     return response
