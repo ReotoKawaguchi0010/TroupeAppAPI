@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 
 from v1.models.models import IdeaContents
-from v1.models.user import UserData
+from v1.models.user import User
 from v1.models.video_ticket import VideoTicket
 from v1.views.session.app.user import SessionUserAdminWebApp
 
@@ -10,7 +10,7 @@ def login(request, response: Response, data: dict):
     if 'send_data' in data:
         data = data['send_data']
         if 'username' in data and 'password' in data:
-            user_data = UserData().login(data['username'], data['password'])
+            user_data = User().login(data['username'], data['password'])
             session = SessionUserAdminWebApp(request=request, response=response, user_data=user_data)
             response = session.create_session()
     return response
@@ -54,7 +54,7 @@ def video_ticket_permit(request, response: Response, data: dict):
 
 
 def create_user(response: Response, data: dict):
-    user = UserData()
+    user = User()
     if 'send_data' in data:
         response.data = user.trial(data['send_data'])
     return response

@@ -1,19 +1,19 @@
 from django.db import models
 
 from v1.models.performance.full_budget import FullBudget
-from v1.models.user import UserData, User
+from v1.models.user import User
 
 
 class Budget(models.Model):
     item = models.TextField()
     price = models.IntegerField()
-    user = models.ForeignKey(UserData, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     full_budget = models.ForeignKey(FullBudget, on_delete=models.CASCADE)
 
     def get_user(self, username):
         user = User.objects.filter(username=username)
         if user.exists():
-            self.user = UserData.objects.get(user_id=user.get().id)
+            self.user = User.objects.get(user_id=user.get().id)
         return None
 
     def create(self, performance_id, full_budget, username):

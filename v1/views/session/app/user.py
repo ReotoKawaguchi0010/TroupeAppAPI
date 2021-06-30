@@ -4,14 +4,14 @@ from django.http.request import HttpRequest
 from rest_framework.response import Response
 
 from futsu100_api.config.config import CUSTOM_SESSION_COOKIE_NAME
-from v1.models.user import UserData
+from v1.models.user import User
 from v1.views.session import SessionAdminWebPage
 
 
 class SessionUserAdminWebApp(SessionAdminWebPage):
     name = 'user_data'
 
-    def __init__(self, request: HttpRequest, response: Response, user_data: UserData = None):
+    def __init__(self, request: HttpRequest, response: Response, user_data: User = None):
         super().__init__(request, response)
         self.user_data = user_data
         self.request.session.set_expiry(60*60)
@@ -47,14 +47,14 @@ class SessionUserAdminWebApp(SessionAdminWebPage):
                 'status': 200, 'bool': True, 'login': 'success',
                 'run': True, 'to': '/app',
                 'user': {
-                    'username': self.user_data.user.username,
-                    'first_name': self.user_data.user.first_name,
-                    'last_name': self.user_data.user.last_name,
-                    'email': self.user_data.user.email,
+                    'username': self.user_data.username,
+                    'first_name': self.user_data.first_name,
+                    'last_name': self.user_data.last_name,
+                    'email': self.user_data.email,
                     'introduction': self.user_data.introduction,
                     'profile_image': self.user_data.profile_image,
                     'contract': self.user_data.contract,
-                    'is_superuser': self.user_data.user.is_superuser
+                    'is_superuser': self.user_data.is_superuser
                 }
             }
         return self.response
@@ -75,7 +75,7 @@ class SessionUserAdminWebApp(SessionAdminWebPage):
         if self.is_login():
             self.session_data = self.request.session.get(self.name)
             data = self.json_unserializer()
-            user_data = UserData.objects.get(user__username=data['username'])
+            user_data = User.objects.get(username=data['username'])
             return user_data.is_admin_user()
         return False
 

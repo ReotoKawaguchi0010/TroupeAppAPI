@@ -8,9 +8,10 @@ from v1.models.performance_video_list import PerformanceVideoList
 
 
 def post_performance(response: Response, data: dict):
-    if bool(data['title']):
+    if 'title' in data:
         performance = Peformance(title=data['title'])
         performance.save()
+        response.data = performance.title
     return response
 
 

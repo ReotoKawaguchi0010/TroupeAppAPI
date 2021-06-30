@@ -3,33 +3,38 @@ from rest_framework.response import Response
 from rest_framework.test import APITestCase
 from rest_framework.test import APIClient
 
-from v1.models.user import UserData
+from v1.models.user import User
 from v1.config import ENDPOINT
 
 
 class TestUserModel(TestCase):
 
     def setUp(self):
-        UserData().create_user(username='reoto_kawaguchi', email='test@test.com', password='reoto_pass',
-                               introduction='int', profile_image='https://test.com', contract='test@test.com')
+        User().create_user(username='reoto_kawaguchi', email='test@test.com', password='reoto_pass',
+                               introduction='int', profile_image='https://test.com', contract='test@test.com',
+                               is_superuser=True)
 
     def test_is_admin_user(self):
-        user_data = UserData().login('reoto_kawaguchi', 'reoto_pass')
+        user_data = User().login('reoto_kawaguchi', 'reoto_pass')
 
         if user_data is not None:
             user_data.pprint()
 
-        self.assertIsNotNone(user_data)
+            self.assertIsNotNone(user_data)
+
+    def test_create(self):
+        for i in User.objects.all():
+            print(i.is_superuser)
 
 
 class APIUserTest(APITestCase):
 
     def setUp(self):
-        UserData().create_user(username='reoto_kawaguchi', email='test@test.com', password='reoto_pass',
+        User().create_user(username='reoto_kawaguchi', email='test@test.com', password='reoto_pass',
                                introduction='int', profile_image='https://test.com', contract='test@test.com',
                                is_superuser=True)
         self.client = APIClient()
-        self.res = self.client.post(f'{ENDPOINT}app/', {
+        self.res: Response = self.client.post(f'{ENDPOINT}app/', {
             'type': 'login',
             'send_data': {
                 'username': 'reoto_kawaguchi',
@@ -56,6 +61,7 @@ class APIUserTest(APITestCase):
     def test_update_user(self):
         self.res: Response = self.client.put(f'{ENDPOINT}app/', {
             'type': 'update_user',
+            'username': 'reoto_kawaguchi',
             'prev_data': {
                 'username': 'reoto_kawaguchi',
             },
@@ -64,6 +70,6 @@ class APIUserTest(APITestCase):
             },
         }, format='json')
         print(self.res.data)
-        all_data = UserData.objects.all()
+        all_data = User.objects.all()
         for i in all_data:
-            print(i.user.username)
+            print(i.username)

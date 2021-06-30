@@ -1,12 +1,13 @@
 import json
 
 from django.db import models
+from django.contrib.auth.hashers import make_password
 from django.db.utils import DatabaseErrorWrapper
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 
-class UserData(User):
+class User(AbstractUser):
     introduction = models.TextField()
     profile_image = models.TextField()
     contract = models.TextField()
@@ -48,7 +49,7 @@ class UserData(User):
                     introduction='', profile_image='', contract='', is_superuser=False):
         self.username = username
         self.email = email
-        self.password = password
+        self.password = make_password(password)
         self.introduction = introduction
         self.profile_image = profile_image
         self.contract = contract
@@ -84,16 +85,12 @@ class UserData(User):
     def is_admin_user(self):
         return self.is_superuser
 
-    def check_password(self, password):
-        if self.check_password(password):
-            return self
-        return None
-
     def login(self, username, password):
         username = authenticate(username=username, password=password)
         if username is not None:
             user_data = self.__class__.objects.get(username=username)
-            return user_data.check_password(password)
+            if user_data.check_password(password):
+                return user_data
         return None
 
     def json_serializer(self):

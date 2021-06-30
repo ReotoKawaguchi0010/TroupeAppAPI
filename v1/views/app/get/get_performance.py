@@ -4,7 +4,7 @@ from v1.models.performance import PerformanceSchedule
 from v1.models.performance import Peformance
 from v1.models.performance import PerformanceScript
 from v1.models.performance import Budget, FullBudget
-from v1.models.user import UserData
+from v1.models.user import User
 
 
 def get_script(request, response: Response, data: dict):
@@ -55,7 +55,7 @@ def get_budget(request, response: Response, data: dict):
     return response
 
 def get_users(request, response: Response, data: dict):
-    users = UserData().read_all()
+    users = User().read_all()
     response.data = users
     return response
 

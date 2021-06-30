@@ -1,4 +1,4 @@
-from v1.models.user import UserData
+from v1.models.user import User
 from v1.models.video_ticket import VideoTicket
 from v1.models.models import Idea
 from v1.models.models import IdeaContents
