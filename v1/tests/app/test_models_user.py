@@ -52,3 +52,18 @@ class APIUserTest(APITestCase):
         }, format='json')
 
         print(self.res.data)
+
+    def test_update_user(self):
+        self.res: Response = self.client.put(f'{ENDPOINT}app/', {
+            'type': 'update_user',
+            'prev_data': {
+                'username': 'reoto_kawaguchi',
+            },
+            'update_data': {
+                'username': 'update_test',
+            },
+        }, format='json')
+        print(self.res.data)
+        all_data = UserData.objects.all()
+        for i in all_data:
+            print(i.user.username)
