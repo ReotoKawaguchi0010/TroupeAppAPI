@@ -65,8 +65,8 @@ class User(AbstractUser):
         for k, v in extra_fields.items():
             if k == 'username':
                 user_data.username = v
-            elif k == 'contract':
-                user_data.contract = v
+            elif k == 'email':
+                user_data.email = v
             elif k == 'first_name':
                 user_data.first_name = v
             elif k == 'last_name':

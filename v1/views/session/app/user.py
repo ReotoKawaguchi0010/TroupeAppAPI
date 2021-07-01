@@ -19,7 +19,6 @@ class SessionUserAdminWebApp(SessionAdminWebPage):
 
     @staticmethod
     def has_payer_transient_info(data):
-
         if 'payer' in data:
             return data['payer'].keys() >= {
                 'payment_method',

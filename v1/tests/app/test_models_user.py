@@ -11,8 +11,8 @@ class TestUserModel(TestCase):
 
     def setUp(self):
         User().create_user(username='reoto_kawaguchi', email='test@test.com', password='reoto_pass',
-                               introduction='int', profile_image='https://test.com', contract='test@test.com',
-                               is_superuser=True)
+                           introduction='int', profile_image='https://test.com', contract='test@test.com',
+                           is_superuser=True)
 
     def test_is_admin_user(self):
         user_data = User().login('reoto_kawaguchi', 'reoto_pass')
@@ -31,8 +31,8 @@ class APIUserTest(APITestCase):
 
     def setUp(self):
         User().create_user(username='reoto_kawaguchi', email='test@test.com', password='reoto_pass',
-                               introduction='int', profile_image='https://test.com', contract='test@test.com',
-                               is_superuser=True)
+                           introduction='int', profile_image='https://test.com', contract='test@test.com',
+                           is_superuser=True)
         self.client = APIClient()
         self.res: Response = self.client.post(f'{ENDPOINT}app/', {
             'type': 'login',
