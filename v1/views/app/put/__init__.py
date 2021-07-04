@@ -12,5 +12,5 @@ def main(request, response: Response):
         request_data = request.body.decode('utf-8')
         request_data = json.loads(request_data)
     if has_request_type(request_data, 'update_user'):
-        response = put.update_user(response, request_data)
+        response = put.update_user(request, response, request_data)
     return response

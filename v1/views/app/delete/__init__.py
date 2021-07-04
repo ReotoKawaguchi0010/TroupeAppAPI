@@ -4,7 +4,6 @@ from v1.utils.util import has_request_type
 
 def main(request, response):
     request_data = request.GET.dict()
-    print(request_data)
     if has_request_type(request_data, 'delete_idea'):
         response = delete_performance.delete_idea(response, request_data)
     elif has_request_type(request_data, 'delete_script'):

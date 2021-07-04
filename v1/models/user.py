@@ -76,7 +76,7 @@ class User(AbstractUser):
             elif k == 'profile_image':
                 user_data.profile_image = v
         user_data.save()
-        return {'status': '200', 'message': 'success'}
+        return user_data
 
     def read_all(self):
         return [{'username': i.username, 'first_name': i.first_name,
