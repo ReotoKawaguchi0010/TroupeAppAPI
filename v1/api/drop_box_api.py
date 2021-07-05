@@ -39,8 +39,11 @@ class DropboxApi(Dropbox):
     def upload(self, path, bytes_file) -> FileMetadata:
         path = self.uploads_dir + '/' + path
         bytes_file = bytes(bytes_file)
-        self.sharing_create_shared_link_with_settings(path)
-        return self.files_upload(bytes_file, path)
+        r = self.files_upload(bytes_file, path)
+        print(r)
+        if r.content_hash != '':
+            self.sharing_create_shared_link_with_settings(path)
+        return r
 
     def get(self, path) -> str:
         name = path
