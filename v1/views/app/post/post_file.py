@@ -1,10 +1,11 @@
-import datetime
+import json
 
 from django.utils.datastructures import MultiValueDict
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework.response import Response
 
 from v1.models.performance.performance_script import PerformanceScript
+from v1.models.performance_video_list import PerformanceVideoList
 from v1.utils.util import has_request_type
 from v1.utils.http import has_post_key
 from v1.api.drop_box_api import DropboxApi
@@ -19,20 +20,37 @@ def post_performance_script(response: Response, data: dict):
 
 
 def post_performance_video_list(response: Response, data: dict, files: dict):
-    path_name = datetime.datetime.now().timestamp()
-    dbx = DropboxApi()
-    top_image = files['top_image']
-    file: InMemoryUploadedFile
-    for file in top_image:
-        open = file.open('rb')
-        f = open.read()
-        dbx.upload(file.name, f)
-        print(type(f))
-        open.close()
+    performance_num = data['performance_num'][0]
+    item_name = data['item_name'][0]
+    release_date = data['release_date'][0]
+    price = data['price'][0]
+    payment_methods = data['payment_methods'][0]
+    synopsis = data['synopsis'][0]
+    top_image = ''
+    images_list = []
 
+    dir_name = f'performance_video_list/{performance_num}'
+    dbx = DropboxApi()
+    top_image_file = files['top_image']
+    file: InMemoryUploadedFile
+    for file in top_image_file:
+        with file.open('rb') as f:
+            f = f.read()
+            path = f'{dir_name}/{file.name}'
+            dbx.upload(path, f)
+            top_image = dbx.get(path)
     images = files['images']
     for file in images:
-        print(file.name)
+        with file.open('rb') as f:
+            f = f.read()
+            path = f'{dir_name}/{file.name}'
+            dbx.upload(path, f)
+            images_list.append(dbx.get(path))
+
+    pvl = PerformanceVideoList().create(performance_num=performance_num, item_name=item_name,
+                                        release_date=release_date, price=price, payment_methods=payment_methods,
+                                        synopsis=synopsis, top_image=top_image, images=json.dumps(images_list))
+    print(pvl)
     return response
 
 

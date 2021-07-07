@@ -40,8 +40,8 @@ class DropboxApi(Dropbox):
         path = self.uploads_dir + '/' + path
         bytes_file = bytes(bytes_file)
         r = self.files_upload(bytes_file, path)
-        print(r)
-        if r.content_hash != '':
+        prog = re.compile(self.uploads_dir + '/')
+        if self.get(re.sub(prog, '', path)) == '':
             self.sharing_create_shared_link_with_settings(path)
         return r
 
@@ -53,12 +53,13 @@ class DropboxApi(Dropbox):
         links = self.sharing_list_shared_links(path).links
         for link in links:
             if isinstance(link, FileLinkMetadata):
-                return self.get_file(link, name)
+                return self.rename_contact_url(link, name)
         return ''
 
     @staticmethod
-    def get_file(link: FileLinkMetadata, file_name: str):
-        if link.name == file_name:
+    def rename_contact_url(link: FileLinkMetadata, file_name: str):
+        prog = re.compile(link.name)
+        if re.search(prog, file_name):
             url = link.url
             url = re.sub(r'https?://(www.)?dropbox.com', 'https://dl.dropboxusercontent.com', url)
             url = re.sub(r'\?dl.*', '', url)

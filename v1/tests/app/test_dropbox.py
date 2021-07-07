@@ -19,9 +19,11 @@ class TestDropBox(TestCase):
     def test_upload(self):
         with open(f'{IMG_DIR}/test_img.jpg', 'rb') as i:
             img = i.read()
-            self.dbx.upload('test_img_1.jpg', img)
-            print(self.dbx.list('', share=True))
+            self.dbx.upload('test_img_2.jpg', img)
+            get = self.dbx.get('test_img_2.jpg')
+            print(get)
 
     def test_get_list(self):
-        get = self.dbx.get('test_img_1.jpg')
-        print(get)
+        print(self.dbx.get('test/100logo.png'))
+
+

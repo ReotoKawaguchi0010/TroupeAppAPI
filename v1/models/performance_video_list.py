@@ -44,20 +44,18 @@ class PerformanceVideoList(models.Model):
             return datetime.date(year=y, month=m, day=d)
         return None
 
-    def create(self, data: dict):
-        if self.has_performance_video_list(data):
-            self.performance_num = data['performance_num']
-            self.item_name = data['item_name']
-            self.top_image = data['top_image']
-            self.release_date = data['release_date'],
-            self.price = data['price']
-            self.payment_methods = data['payment_methods']
-            self.synopsis = data['synopsis']
-            self.images = data['images']
-            self.save()
-        else:
-            return False, 'bad data is insufficient'
-        return True, 'success'
+    def create(self, performance_num, item_name, top_image,
+               release_date, price, payment_methods, synopsis, images):
+        self.performance_num = performance_num
+        self.item_name = item_name
+        self.top_image = top_image
+        self.release_date = release_date
+        self.price = price
+        self.payment_methods = payment_methods
+        self.synopsis = synopsis
+        self.images = images
+        self.save()
+        return self
 
     def dict(self):
         return {
