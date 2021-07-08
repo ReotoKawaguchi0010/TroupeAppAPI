@@ -71,3 +71,12 @@ class APITestChangePermitVideoTicket(APITestCase):
             'type': 'get_purchased_video_ticket_user'
         })
         print(self.res.data)
+
+    def test_delete_performance_list(self):
+        p = PerformanceVideoList().delete_at_performance_num(4)
+        print(p)
+
+    def test_delete_performance_list_api(self):
+        params = '?type=delete_performance_list&performance_num=4'
+        self.res = self.client.delete(f'{ENDPOINT}app/{params}')
+        print(self.res.data)

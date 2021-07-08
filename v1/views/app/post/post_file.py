@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from v1.models.performance.performance_script import PerformanceScript
 from v1.models.performance_video_list import PerformanceVideoList
-from v1.utils.util import has_request_type
+from v1.utils import has_request_type
 from v1.utils.http import has_post_key
 from v1.api.drop_box_api import DropboxApi
 
@@ -61,8 +61,8 @@ def main(request, response: Response):
     if has_post_key(request, 'type') and has_post_key(request, 'performanceID'):
         request_data = {'type': request.POST['type'], 'files': request.FILES,
                         'performanceID': request.POST['performanceID']}
-    if has_request_type(data, 'upload_script'):
+    if has_request_type(data, ['upload_script']):
         response = post_performance_script(response, request_data)
-    elif has_request_type(data, 'create_performance_video_list'):
+    elif has_request_type(data, ['create_performance_video_list']):
         response = post_performance_video_list(response, data, files)
     return response

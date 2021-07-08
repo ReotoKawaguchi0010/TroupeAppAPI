@@ -1,5 +1,6 @@
 from v1.views.app.delete import delete_performance
-from v1.utils.util import has_request_type
+from v1.views.app.delete import delete
+from v1.utils import has_request_type
 
 
 def main(request, response):
@@ -10,4 +11,6 @@ def main(request, response):
         response = delete_performance.delete_script(response, request_data)
     elif has_request_type(request_data, 'delete_performance'):
         response = delete_performance.delete_performance(response, request_data)
+    elif has_request_type(request_data, 'delete_performance_list'):
+        response = delete.delete_performance_list(response, request_data)
     return response

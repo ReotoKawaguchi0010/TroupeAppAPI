@@ -3,7 +3,7 @@ import secrets
 
 from django.db import models
 
-from v1.utils.util import encode_sha256
+from v1.utils import encode_sha256
 from v1.models.performance_video_list import PerformanceVideoList
 
 

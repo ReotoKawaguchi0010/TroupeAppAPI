@@ -1,3 +1,4 @@
+import json
 import datetime
 import re
 
@@ -66,7 +67,7 @@ class PerformanceVideoList(models.Model):
             'price': self.price,
             'payment_methods': self.payment_methods,
             'synopsis': self.synopsis,
-            'images': self.images
+            'images': json.loads(self.images)
         }
 
     def read_all(self):
@@ -78,3 +79,10 @@ class PerformanceVideoList(models.Model):
             item: PerformanceVideoList = data[0]
             return item.dict()
         return None
+
+    def delete_at_performance_num(self, performance_num):
+        p = self.__class__.objects.filter(performance_num=performance_num)
+        if p.exists():
+            p.delete()
+            return True
+        return False

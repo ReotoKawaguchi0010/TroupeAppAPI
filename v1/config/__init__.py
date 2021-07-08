@@ -1,7 +1,7 @@
 import os
 import configparser
 
-from v1.utils.util import encode_sha256
+from v1.utils import encode_sha256
 conf = configparser.ConfigParser()
 
 READ_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/config/config.ini'

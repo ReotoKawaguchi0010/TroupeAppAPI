@@ -62,8 +62,7 @@ def get_sale(response: Response, data: dict):
         else:
             sale_list = PerformanceVideoList().read(performance_num=data['get'])
     if isinstance(sale_list, list):
-        if len(sale_list) > 0:
-            response.data = sale_list
+        response.data = sale_list
     else:
         response.data = sale_list
     return response

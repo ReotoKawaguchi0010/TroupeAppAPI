@@ -1,6 +1,6 @@
 from v1.views.app.get import get
 from v1.views.app.get import get_performance
-from v1.utils.util import has_request_type
+from v1.utils import has_request_type
 
 
 def main(request, response):

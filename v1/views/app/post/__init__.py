@@ -7,7 +7,7 @@ from v1.views.app.post import post_performance
 from v1.views.app.post import post
 from v1.views.app.post import post_file
 from v1.views.session.app.user import SessionUserAdminWebApp
-from v1.utils.util import has_request_type
+from v1.utils import has_request_type
 
 
 def main(request: HttpRequest, response: Response):

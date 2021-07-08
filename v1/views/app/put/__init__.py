@@ -3,7 +3,7 @@ import json
 from rest_framework.response import Response
 
 from v1.views.app.put import put
-from v1.utils.util import has_request_type
+from v1.utils import has_request_type
 
 
 def main(request, response: Response):
