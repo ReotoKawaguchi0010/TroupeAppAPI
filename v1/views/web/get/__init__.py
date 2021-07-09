@@ -57,7 +57,6 @@ def get_has_video_ticket_session(request, response):
 
 def get_performance_video_list(response):
     response.data = PerformanceVideoList().read_all()
-    print(response.data)
     return response
 
 

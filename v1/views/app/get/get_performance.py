@@ -19,7 +19,10 @@ def get_performance(request, response: Response, data: dict):
     if 'data' in data:
         if data['data'] == 'all':
             performances = Peformance.objects.all()
-            titles = [{'id': performance.id,'title': performance.title, 'performance_date': performance.performance_date} for performance in performances]
+            titles = [{'id': performance.id,
+                       'title': performance.title,
+                       'performance_date': performance.performance_date
+                       } for performance in performances]
             response.data = titles
         else:
             performance_id = int(data['data'])

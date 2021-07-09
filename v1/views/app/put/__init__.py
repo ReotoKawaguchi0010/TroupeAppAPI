@@ -13,4 +13,6 @@ def main(request, response: Response):
         request_data = json.loads(request_data)
     if has_request_type(request_data, 'update_user'):
         response = put.update_user(request, response, request_data)
+    elif has_request_type(request_data, 'update_performance_list'):
+        response = put.update_performance_list(response, request_data)
     return response

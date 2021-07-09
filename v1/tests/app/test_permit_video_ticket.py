@@ -20,7 +20,7 @@ class APITestChangePermitVideoTicket(APITestCase):
             'performance_num': 4,
             'item_name': 'ゲキダン！〜テクノロジーの惑星から愛の使者がやってきた〜',
             'top_image': 'https://test/com',
-            'release_date': datetime.datetime.now(),
+            'release_date': '2020-01-01',
             'price': '1500',
             'payment_methods': json.dumps(['paypal', '振り込み']),
             'synopsis': 'texttexttexttexttexttexttext',
@@ -79,4 +79,16 @@ class APITestChangePermitVideoTicket(APITestCase):
     def test_delete_performance_list_api(self):
         params = '?type=delete_performance_list&performance_num=4'
         self.res = self.client.delete(f'{ENDPOINT}app/{params}')
+        print(self.res.data)
+
+    def test_update_performance_list(self):
+        recipient_data = PerformanceVideoList().read(4)
+        update_data = recipient_data
+        update_data['price'] = 2000
+
+        self.res = self.client.put(f'{ENDPOINT}app/', {
+            'type': 'update_performance_list',
+            'performance_num': 4,
+            'update_data': update_data,
+        }, format='json')
         print(self.res.data)

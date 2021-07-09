@@ -65,7 +65,7 @@ class PerformanceVideoList(models.Model):
             'top_image': self.top_image,
             'release_date': self.date_loads(self.release_date),
             'price': self.price,
-            'payment_methods': self.payment_methods,
+            'payment_methods': json.loads(self.payment_methods),
             'synopsis': self.synopsis,
             'images': json.loads(self.images)
         }
@@ -86,3 +86,19 @@ class PerformanceVideoList(models.Model):
             p.delete()
             return True
         return False
+
+    def update(self, performance_num, item_name, top_image,
+               release_date, price, payment_methods, synopsis, images):
+        p = self.__class__.objects.filter(performance_num=performance_num)
+        if p.exists():
+            p = p.last()
+            p.item_name = item_name
+            p.top_image = top_image
+            p.release_date = release_date
+            p.price = price
+            p.payment_methods = payment_methods
+            p.synopsis = synopsis
+            p.images = images
+            p.save()
+            return {'update': 'success'}
+        return {}
