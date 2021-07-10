@@ -65,7 +65,7 @@ class PerformanceVideoList(models.Model):
             'top_image': self.top_image,
             'release_date': self.date_loads(self.release_date),
             'price': self.price,
-            'payment_methods': json.loads(self.payment_methods),
+            'payment_methods': self.payment_methods,
             'synopsis': self.synopsis,
             'images': json.loads(self.images)
         }

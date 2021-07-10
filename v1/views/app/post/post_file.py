@@ -31,21 +31,24 @@ def post_performance_video_list(response: Response, data: dict, files: dict):
 
     dir_name = f'performance_video_list/{performance_num}'
     dbx = DropboxApi()
-    top_image_file = files['top_image']
-    file: InMemoryUploadedFile
-    for file in top_image_file:
-        with file.open('rb') as f:
-            f = f.read()
-            path = f'{dir_name}/{file.name}'
-            dbx.upload(path, f)
-            top_image = dbx.get(path)
-    images = files['images']
-    for file in images:
-        with file.open('rb') as f:
-            f = f.read()
-            path = f'{dir_name}/{file.name}'
-            dbx.upload(path, f)
-            images_list.append(dbx.get(path))
+    if 'top_image' in files:
+        top_image_file = files['top_image']
+        file: InMemoryUploadedFile
+        for file in top_image_file:
+            with file.open('rb') as f:
+                f = f.read()
+                path = f'{dir_name}/{file.name}'
+                dbx.upload(path, f)
+                top_image = dbx.get(path)
+
+    if 'images' in files:
+        images = files['images']
+        for file in images:
+            with file.open('rb') as f:
+                f = f.read()
+                path = f'{dir_name}/{file.name}'
+                dbx.upload(path, f)
+                images_list.append(dbx.get(path))
 
     pvl = PerformanceVideoList().create(performance_num=performance_num, item_name=item_name,
                                         release_date=release_date, price=price, payment_methods=payment_methods,
