@@ -29,30 +29,31 @@ def xor_bin(bin1, bin2):
     return result
 
 
+def my_cipher_ec(keys, value, option):
+    to_xor = ''
+    to_xor_list = []
+    for i in range(64):
+        hash_key = bin(ord(keys[i]))
+        letter = bin(ord(value[i]))
+        if option == 'encode':
+            to_xor = xor_bin(hash_key, letter)
+        elif option == 'decode':
+            to_xor = xor_bin(letter, hash_key)
+        to_xor_list.append(to_xor)
+    return ''.join(to_xor_list)
+
+
 def my_cipher_encode(m: str):
     from v1.config import CIPHER_KEY
     hash_ms = encode_sha256(m)
     hash_keys = encode_sha256(CIPHER_KEY)
-    c_list = []
-    for i in range(64):
-        hash_m = bin(ord(hash_ms[i]))
-        hash_key = bin(ord(hash_keys[i]))
-        c = xor_bin(hash_key, hash_m)
-        c_list.append(chr(int(c, 2)))
-
-    return ''.join(c_list)
+    return my_cipher_ec(hash_keys, hash_ms, 'encode')
 
 
 def my_cipher_decode(c: str):
     from v1.config import CIPHER_KEY
     hash_keys = encode_sha256(CIPHER_KEY)
-    m_list = []
-    for i in range(64):
-        hash_key = bin(ord(hash_keys[i]))
-        bin_c = bin(ord(c[i]))
-        m = xor_bin(bin_c, hash_key)
-        m_list.append(chr(int(m, 2)))
-    return ''.join(m_list)
+    return my_cipher_ec(hash_keys, c, 'decode')
 
 
 def is_port_local_content_type(request):
@@ -62,8 +63,8 @@ def is_port_local_content_type(request):
 
 
 def time_subtraction(time: datetime.datetime):
-    time_subtraction = datetime.datetime.now() - time
-    return time_subtraction.seconds
+    _time_subtraction = datetime.datetime.now() - time
+    return _time_subtraction.seconds
 
 
 def has_request_type(request_data, has_data):

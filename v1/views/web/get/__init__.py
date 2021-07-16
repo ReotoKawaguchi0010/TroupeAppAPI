@@ -10,7 +10,6 @@ from v1.models.performance_video_list import PerformanceVideoList
 
 
 def home_page(request, response):
-    print(request)
     news_text = ''
     about_us_text = ''
     blog_text = ameba_api.get_ameba_content()
@@ -59,6 +58,11 @@ def get_performance_video_list(response):
     response.data = PerformanceVideoList().read_all()
     return response
 
+def get_consumer_data(request, response: Response):
+    session_admin = SessionPayerTransientInfo(request=request, response=response)
+    response.data = session_admin.get()
+    return response
+
 
 def main(request, response: Response):
     if has_get_type(request, 'video_ticket'):
@@ -70,6 +74,8 @@ def main(request, response: Response):
         response = get_has_video_ticket_session(request, response)
     elif has_get_type(request, 'get_performance_video_list'):
         response = get_performance_video_list(response)
+    elif has_get_type(request, 'get_consumer_data'):
+        response = get_consumer_data(request, response)
     else:
         response = home_page(request, response)
     return response
