@@ -38,3 +38,28 @@ class APITestSession(APITestCase):
 
         self.res: Response = self.client.get(f'{ENDPOINT}?get_consumer_data=true')
         print(self.res.data)
+
+    def test_empty_session(self):
+        test_client: APIClient = APIClient()
+        res: Response = test_client.get(f'{ENDPOINT}?get_consumer_data=true')
+        print(res.data)
+
+    def test_payment_method_session(self):
+        self.client: APIClient = APIClient()
+        self.res: Response = self.client.post(ENDPOINT, {
+            'type': 'post_consumer_data',
+            'consumer': {
+                'first_name': '怜和人',
+                'second_name': '河口',
+                'kana_first_name': 'レオト',
+                'kana_second_name': 'カワグチ',
+                'mail_address': 'test@i.softbank.jp',
+                'phone_number': '080-0000-0000',
+            },
+        }, format='json')
+
+        self.res: Response = self.client.post(ENDPOINT, {
+            'type': 'post_payment_method',
+            'payment_method': 'paypal',
+        }, format='json')
+        print(self.res.data)

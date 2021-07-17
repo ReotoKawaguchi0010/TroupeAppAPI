@@ -39,14 +39,21 @@ def post_consumer_data(request, response: Response, data: dict):
     return response
 
 
+def post_payment_method(request, response: Response, data: dict):
+    session_admin = SessionPayerTransientInfo(request=request, response=response)
+    response = session_admin.create_payment_method(data)
+    return response
+
 
 def main(request, response: Response):
     request_data = request.body.decode('utf-8')
     request_data = json.loads(request_data)
     if has_request_type(request_data, 'video'):
-        response =  video(request, response)
+        response = video(request, response)
     elif has_request_type(request_data, 'payer_transient_info'):
         response = SessionPayerTransientInfo(request, response).create_session()
     elif has_request_type(request_data, 'post_consumer_data'):
         response = post_consumer_data(request, response, request_data)
+    elif has_request_type(request_data, 'post_payment_method'):
+        response = post_payment_method(request, response, request_data)
     return response

@@ -9,7 +9,7 @@ class SessionPayerTransientInfo(SessionAdminWebPage):
 
     def __init__(self, request, response: Response):
         super().__init__(request, response)
-        self.request.session.set_expiry(60*60)
+        self.request.session.set_expiry(60 * 60)
         self.payment_method = ''
         self.first_name = ''
         self.second_name = ''
@@ -51,7 +51,7 @@ class SessionPayerTransientInfo(SessionAdminWebPage):
     def create_consumer(self, data):
         if 'consumer' in data:
             data = data['consumer']
-            self.request.session[self.name] = data
+            self.request.session[self.name] = {'consumer': data}
             self.request.session.create()
             self.response.set_cookie(CUSTOM_SESSION_COOKIE_NAME, self.request.session.session_key)
             self.response.data = {
@@ -60,6 +60,28 @@ class SessionPayerTransientInfo(SessionAdminWebPage):
             }
         return self.response
 
+    def create_payment_method(self, data):
+        print(data)
+        if 'payment_method' in data:
+            data = data['payment_method']
+            previous_session = self.request.session.get(self.name)
+            if previous_session is None:
+                return {'status': 400}
+            self.request.session[self.name]['payment_method'] = data
+            self.request.session.create()
+            self.response.data = {
+                'status': 200,
+                'payment_method': data
+            }
+            return self.response
+
     def get(self):
         session_data = self.request.session.get(self.name)
-        return session_data
+        if session_data is None:
+            return {
+                'status': 400
+            }
+        return {
+            'status': 200,
+            'consumer': session_data,
+        }
